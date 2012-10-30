@@ -1,0 +1,15 @@
+<?php $this->layout()->setLayout('page'); ?>
+
+<h3>Search Results</h3>
+<?php if(is_array($this->results) && count($this->results) > 0) { ?>
+<p>Your search for <strong><?php echo $this->keywords; ?></strong> returned
+<?php echo count($this->results); ?> result(s).</p>
+	<?php foreach($this->results as $result) { ?>
+	<h4><a href="/page/open/id/<?php echo $result->page_id; ?>/title/<?php echo $result->page_name; ?>">
+		<?php echo $result->page_headline; ?>
+	</a></h4>
+	<p><?php echo $result->page_description; ?></p>
+	<?php }} else { ?>
+	<p>Your search for <strong><?php echo $this->keywords; ?></strong> did not return any results</p>
+<?php } ?>
+

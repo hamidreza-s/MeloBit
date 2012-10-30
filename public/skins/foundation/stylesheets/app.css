@@ -1,0 +1,112 @@
+/* Artfully masterminded by ZURB  */
+
+/* -------------------------------------------------- 
+   Table of Contents
+-----------------------------------------------------
+:: Shared Styles
+:: Page Name 1
+:: Page Name 2
+*/
+
+
+/* -----------------------------------------
+   Foundation Icon
+----------------------------------------- */
+i.largIcon {
+	font-size: 70px;
+}
+
+i.medIcon {
+	font-size: 30px;
+}
+
+i.ligther {
+  /* First we need to help some browsers along for this to work.
+     Just because a vendor prefix is there, doesn't mean it will
+     work in a browser made by that vendor either, it's just for
+     future-proofing purposes I guess. */
+  -o-transition:1.5s;
+  -ms-transition:1.5s;
+  -moz-transition:1.5s;
+  -webkit-transition:1.5s;
+  /* ...and now for the proper property */
+  transition:1.5s;
+}
+
+i.ligther:hover { 
+	color:rgb(43, 166, 203); 
+}
+
+
+
+/* -----------------------------------------
+   Required fields and Errors
+----------------------------------------- */
+
+dt {
+	padding: 0 0 5px 0;
+}
+
+dd {
+	padding: 0 0 10px 10px;
+}
+
+dt label {
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+dt label.required:before {
+	content: "* ";
+	color: #ff0000;
+}
+
+ul.errors {
+	padding: 5px 0 5px 25px;
+	color: #ff0000;
+}
+
+
+/* -----------------------------------------
+   buttons
+----------------------------------------- */
+
+input[type="submit"] { width: auto; background: #2ba6cb; border: 1px solid #1e728c; -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset; -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset; color: white; cursor: pointer; display: inline-block; font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; font-size: 11px; font-weight: bold; line-height: 1; margin: 0; outline: none; padding: 7px 14px 8px; position: relative; text-align: center; text-decoration: none; -webkit-transition: background-color 0.15s ease-in-out; -moz-transition: background-color 0.15s ease-in-out; -o-transition: background-color 0.15s ease-in-out; transition: background-color 0.15s ease-in-out; -webkit-border-radius: 3px; -moz-border-radius: 3px; -ms-border-radius: 3px; -o-border-radius: 3px; border-radius: 3px;  /* Hovers */ /* Sizes */ /* Colors */ /* Radii */ /* Layout */ /* Disabled ---------- */ }
+input[type="submit"]:hover { color: white; background-color: #2284a1; }
+input[type="submit"]:active { -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset; -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset; box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset; }
+input[type="submit"]:focus { -webkit-box-shadow: 0 0 4px #2ba6cb, 0 1px 0 rgba(255, 255, 255, 0.5) inset; -moz-box-shadow: 0 0 4px #2ba6cb, 0 1px 0 rgba(255, 255, 255, 0.5) inset; box-shadow: 0 0 4px #2ba6cb, 0 1px 0 rgba(255, 255, 255, 0.5) inset; color: white; }
+
+/* -----------------------------------------
+   header
+----------------------------------------- */
+.politeNode {
+	margin: 20px 0 0 10px;
+}
+
+.centerThing {
+	margin: auto;
+}
+
+.siteBanner {
+	margin: 0 0 20px 0;
+}
+
+.siteDescription {
+	color: #6f6f6f; 
+	font-weight: 300; 
+	margin-bottom: 17px;
+}
+
+.inlineNode {
+	position: absolute; 
+	left: 180px; 
+	top: 20px;
+}
+
+/* -----------------------------------------
+   Ordered List
+----------------------------------------- */
+
+ol {
+	margin-left: 10px;
+}

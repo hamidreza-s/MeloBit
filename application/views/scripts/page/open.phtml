@@ -1,0 +1,13 @@
+<?php $this->layout()->setLayout('page'); ?>
+<?php $this->headTitle($this->page->headline, 'PREPEND'); ?>
+
+
+	<h3><?php echo $this->page->headline; ?></h3>
+	<blockquote><?php echo $this->page->description; ?></blockquote>
+	<?php if ($this->page->image) { ?>
+	<center><a class="th">
+		<img src="<?php echo $this->page->image; ?>" alt="<?php echo $this->headline; ?>" />
+	</a></center>
+	<?php } ?>
+	<p><?php echo $this->page->content; ?></p>
+

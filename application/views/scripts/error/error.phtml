@@ -1,0 +1,23 @@
+<?php $this->layout()->setLayout('page'); ?>
+<?php $this->headTitle($this->message); ?>
+
+<h3>An error occurred</h3>
+<h4><?php echo $this->message ?></h4>
+
+<?php if (isset($this->exception)): ?>
+
+<h4>Exception information:</h4>
+<p>
+  <b>Message:</b> <?php echo $this->exception->getMessage() ?>
+</p>
+
+<h4>Stack trace:</h4>
+<pre><?php echo $this->exception->getTraceAsString() ?>
+</pre>
+
+<h4>Request Parameters:</h4>
+<pre><?php echo $this->escape(var_export($this->request->getParams(), true)) ?>
+</pre>
+
+<?php endif ?>
+

@@ -1,0 +1,30 @@
+<?php $this->layout()->setLayout('page'); ?>
+
+<h3>Current Bugs:</h3>
+<?php echo $this->listToolsForm; ?>
+
+<p>
+<?php 
+	echo $this->paginationControl($this->paginator,
+		'Sliding',
+		'partials/pagination-control.phtml'); 
+?>
+</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>&nbsp;</th>
+			<th>ID</th>
+			<th>Date</th>
+			<th>Priority</th>
+			<th>Status</th>
+			<th>URL</th>
+			<th>Submitter</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php echo $this->partialLoop('bug/table-row.phtml', $this->paginator); ?>
+	</tbody>
+</table>

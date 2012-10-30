@@ -1,0 +1,20 @@
+
+		<div id="sidebar">
+			<div id="locale">
+				<?php echo $this->flags; ?>
+			</div>		
+			<div id="userForm">
+				<?php echo $this->userForm; ?>&nbsp;
+			</div>
+			<div id="subNav">
+				<h2><?php echo $this->translate('Search Site'); ?></h2>
+				<?php echo $this->searchForm; ?>&nbsp;
+			</div>
+			<div id="adminMenu">
+				<?php echo $this->adminMenu; ?>&nbsp;
+			</div>
+		</div>
+		<div id="main">
+			<?php echo $this->content; ?>&nbsp;
+		</div>
+

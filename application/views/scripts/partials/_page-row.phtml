@@ -1,0 +1,8 @@
+<tr>
+	<td class='links'>
+		<a href="/page/edit/id/<?php echo $this->id; ?>">Update</a> | 
+		<a href="/page/delete/id/<?php echo $this->id; ?>" 
+			onclick="return confirm('Are you sure to delete?')">Delete</a>
+	</td>
+	<td><a href="/page/open/id/<?php echo $this->id; ?>"><?php echo $this->name; ?></a></td>
+</tr>

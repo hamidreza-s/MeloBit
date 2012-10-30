@@ -1,0 +1,24 @@
+<?php $this->layout()->setLayout('page'); ?>
+
+<h3>Manage Menu Items</h3>
+<p>Current Menu: <?php echo $this->menu->name; ?></p>
+
+<?php if ($this->items != null) { ?>
+<table>
+	<thead>
+		<tr>
+			<th>Links</th>
+			<th>Label</th>
+			<th>Page</th>
+			<th>Link</th>
+		</tr>
+	<thead>
+	<tbody>
+		<?php echo $this->partialLoop('partials/_menu-item-row.phtml', $this->items); ?>
+	</tbody>
+</table>
+<?php } else { ?>
+<p>This menu does not have any items yet.</p>
+<?php } ?>
+
+<p><a href="/menu-item/add/menu/<?php echo $this->menu->id; ?>">Add a new item</a></p>

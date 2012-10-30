@@ -1,0 +1,22 @@
+<?php $this->layout()->setLayout('page'); ?>
+
+<h3>My Account</h3>
+<?php 
+	if ($this->identity == null)
+	{
+?>
+<p>To log in <a href="/user/login">click here</a></p>
+<?php
+	}
+	else
+	{
+?>
+<p>
+	Hello! <strong><?php echo $this->identity->first_name; ?></strong>,
+	<br/>
+	Your role is: <em><?php echo $this->identity->role; ?></em>
+</p>
+<p>To log out <a href="/user/logout">click here</a></p>
+<?php
+	}
+?>

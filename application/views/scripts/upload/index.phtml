@@ -1,0 +1,17 @@
+<?php $this->layout()->setLayout('page'); ?>
+
+<h3>Upload your file</h3>
+<p>Please select a file and then press the Upload botton</p>
+<?php 
+	echo $this->form;
+	if ($this->uploadedFile)
+	{
+		echo '<p>The file (' . $this->uploadedFileName . ') was successfully saved ;)</p>'; 
+	}
+	
+	$directories = scandir(APPLICATION_PATH . '/../public/temp');
+	foreach ($directories as $dir)
+	{
+		echo $dir . '<br/>';
+	}
+?>

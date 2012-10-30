@@ -1,0 +1,30 @@
+<?php $this->layout()->setLayout('page'); ?>
+
+<?php if ($this->identity == null) { ?>
+
+      <ul class="right">
+        <li><a href="/user/login">Sing in</a></li>
+      </ul>
+
+<?php }	else { ?>
+
+      <!-- Right Nav Section -->
+      <ul class="right">
+        <li class="has-dropdown">
+          <a href="#">Hi, <?php echo $this->identity->first_name; ?></a>
+          <ul class="dropdown">
+			<li><label><?php echo $this->identity->role; ?></label></li>
+            <li><a href="/user/update/id/<?php echo $this->identity->id; ?>">Profile</a></li>
+            <li><a href="/admin/">Setting</a></li>
+            <li><a href="#">Tasks</a></li>
+            <li class="divider"></li>
+            <li><a href="/user/logout">Sign out</a></li>
+          </ul>
+        </li>
+        <li class="divider"></li>
+        <li><a href="#"><i class="medIcon foundicon-smiley"></i></a></li>
+        <li class="divider"></li>
+      </ul>
+      
+<?php } ?>
+

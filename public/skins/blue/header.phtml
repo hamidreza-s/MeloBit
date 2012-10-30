@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<?php // echo $this->doctype() ?>
+
+<head>
+	<?php echo $this->headMeta(); ?>
+	<?php echo $this->headTitle(); ?>
+	<link href="/skins/blue/css/layout.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="/skins/blue/css/text.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="/skins/blue/css/form.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="/skins/blue/css/nav.css" media="screen" rel="stylesheet" type="text/css" />
+</head>
+
+
+<body>
+	<div id="pageWrapper">
+		<div id="header">
+			<h1><a href="/">MeloBit.com</a></h1>
+			<em>Code is a Melody of bits!</em>
+		</div>
+		<div id="nav">
+			<?php echo $this->render('nav.phtml'); ?>&nbsp;
+		</div>
+

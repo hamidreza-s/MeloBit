@@ -1,0 +1,29 @@
+<?php $this->layout()->setLayout('page'); ?>
+
+<h3>Current Pages</h3>
+<?php
+	if ($this->pages != null)
+	{
+?>
+<table>
+	<thead>
+		<tr>
+			<th>Links</th>
+			<th>Name</th>
+		<tr>
+	</thead>
+	<tbody>
+		<?php echo $this->partialLoop('partials/_page-row.phtml', $this->pages); ?>
+	</tbody>
+</table>
+<?php 
+	}
+	else
+	{
+?>
+<p>You do not have any pages yet.</p>
+<?php
+	}
+?>
+<p><a href="/page/create">Create a new page</a></p>
+

@@ -1,0 +1,29 @@
+<?php
+	$navigation = $this->layout()->nav;
+	if ($navigation)
+	{
+		echo "<ul class='navigation'>\n";
+		foreach ($navigation as $nav)
+		{
+			echo '<li>';
+			echo '<a href="' . $nav['uri'] . '">' . $nav['label'] . "</a>\n";
+			
+			$subNavs = $nav['pages'];
+			if ($subNavs)
+			{
+				echo "<ul>\n";
+				foreach ($subNavs as $subNav)
+				{
+
+					echo '<li><a href="' . $subNav['uri'] . '">' . $subNav['label'] . "</a></li>\n";
+				}
+				echo "</ul>\n";
+			}
+			
+			echo '</li>';
+		}
+		echo '</ul>';
+	}
+?>
+	
+	

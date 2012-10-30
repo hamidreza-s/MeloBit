@@ -1,0 +1,33 @@
+<h3>Welcome to Melobit Installation</h3>
+<hr />
+<h4>[Step 3]</h4>
+<?php
+ if ($this->error == null) 
+ {
+ 	echo '<p>Congradulation! Your tables successfully was created:</p>';
+ 	echo '<ul>';
+ 	foreach ($this->listTables as $table)
+ 	{
+ 		echo '<li>' . $table . '</li>';
+ 	}
+ 	echo '</ul>';
+ 	
+ 	echo '<p>To login as administrator use this information:</p>';
+ 	echo '<ul>';
+ 	echo '<li>Your User: <strong>admin</strong></li>';
+ 	echo '<li>Your Password: <strong>admin</strong></li>';
+ 	echo '</ul>';
+ 	echo '<p><strong>Important:</strong> Because of security reasons, change your password in next step.</p>';
+ 	echo '<p><a href="/admin/config">Final Step</a> (Site Configuration)';
+ 	
+ 	echo '<hr />';
+ 	echo '<p><strong>Note: </strong><em>Because of security reasons, InstallerController became hidden. So
+ 			if you want to install MeloBit again, you can rename it to be ready for installation.</em></p>';
+ }
+ else
+ {
+ 	echo '<p>An error has been occured:</p>';
+ 	echo $this->error;
+ }
+?>
+

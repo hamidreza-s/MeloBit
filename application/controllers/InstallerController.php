@@ -36,7 +36,8 @@ class InstallerController extends Zend_Controller_Action
 		// if db is connected go to next step
 		if ($this->_error == null)
 		{
-			$this->_dbName = $this->_dbAdapter->getConfig()['dbname'];
+			$dbConfig = $this->_dbAdapter->getConfig();
+			$this->_dbName = $dbConfig['dbname'];
 			$this->view->dbName = $this->_dbName;
 			
 		}

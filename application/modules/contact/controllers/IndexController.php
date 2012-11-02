@@ -24,10 +24,10 @@ class Contact_IndexController extends Zend_Controller_Action
 			// create SMTP connection Object
 			$configInfo = array(
 					'auth'     => 'login',
-						'ssl'      => 'tls',
+						'ssl'      => 'ssl',
 						'username' => $fromContactMail,
 						'password' => $appSpecificPassword,
-						'port'     => '587');
+						'port'     => '465');
 
 			// instantiate new Zend Mail Transport Smtp Object
 			$smtpHost = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $configInfo);

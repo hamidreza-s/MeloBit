@@ -19,15 +19,17 @@ class Contact_IndexController extends Zend_Controller_Action
 			$adminConfig = new Zend_Config_Ini($configResource['adminConfig']);
 			$toContactMail = $adminConfig->contact->contactEmailAddress;
 			$fromContactMail = $adminConfig->contact->fromEmailAddress;
+			$fromProtocol = $adminConfig->contact->fromProtocol;
+			$fromPort = $adminConfig->contact->fromPort;
 			$appSpecificPassword = $adminConfig->contact->appSpecificPassword;
 
 			// create SMTP connection Object
 			$configInfo = array(
 					'auth'     => 'login',
-						'ssl'      => 'ssl',
+						'ssl'      => $fromProtocol,
 						'username' => $fromContactMail,
 						'password' => $appSpecificPassword,
-						'port'     => '465');
+						'port'     => $fromPort);
 
 			// instantiate new Zend Mail Transport Smtp Object
 			$smtpHost = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $configInfo);

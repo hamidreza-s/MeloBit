@@ -32,6 +32,8 @@ class AdminController extends Zend_Controller_Action
 			$data['adminEmailAddress'] = $config->global->adminEmailAddress;
 			$data['contactEmailAddress'] = $config->contact->contactEmailAddress;
 			$data['fromContactEmail'] = $config->contact->fromEmailAddress;
+			$data['fromProtocol'] = $config->contact->fromProtocol;
+			$data['fromPort'] = $config->contact->fromPort;
 			$data['passwordSpecific'] = $config->contact->appSpecificPassword;
 			$data['headTitle'] = $config->global->headTitle;
 			$data['siteTitle'] = $config->global->siteTitle;
@@ -61,6 +63,8 @@ class AdminController extends Zend_Controller_Action
 					$config->global->adminEmailAddress = $values['adminEmailAddress'];
 					$config->contact->contactEmailAddress = $values['contactEmailAddress'];
 					$config->contact->fromEmailAddress = $values['fromContactEmail'];
+					$config->contact->fromProtocol = $values['fromProtocol'];
+					$config->contact->fromPort = $values['fromPort'];
 					$config->contact->appSpecificPassword = $values['passwordSpecific'];
 					$config->global->headTitle = $values['headTitle'];
 					$config->global->siteTitle = $values['siteTitle'];

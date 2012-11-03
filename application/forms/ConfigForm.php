@@ -60,15 +60,29 @@ class Form_ConfigForm extends Zend_Form
 
 		// create from contact input for contact email
 		$fromContact = new Zend_Form_Element_Text('fromContactEmail');
-		$fromContact->setLabel('Gmail username:')
+		$fromContact->setLabel('SMTP Transport Username:')
 			->setOptions(array('Size' => '30'))
 			->addValidator('EmailAddress')
 			->addFilter('HtmlEntities')
 			->addFilter('StringTrim');
 
+		// create from protocol input for contact email
+		$fromProtocol = new Zend_Form_Element_Text('fromProtocol');
+		$fromProtocol->setLabel('SMTP Transport Protocol:')
+			->setOptions(array('Size' => '30'))
+			->addFilter('HtmlEntities')
+			->addFilter('StringTrim');
+
+		// create from port input for contact email
+		$fromPort = new Zend_Form_Element_Text('fromPort');
+		$fromPort->setLabel('SMTP Transport port:')
+			->setOptions(array('Size' => '30'))
+			->addFilter('HtmlEntities')
+			->addFilter('StringTrim');
+
 		// create password specific input for contact email
 		$password = new Zend_Form_Element_Text('passwordSpecific');
-		$password->setLabel('Gmail Application Specific Password:')
+		$password->setLabel('SMTP Transport Password:')
 			->setOptions(array('Size' => '30'))
 			->addFilter('HtmlEntities')
 			->addFilter('StringTrim');
@@ -87,8 +101,23 @@ class Form_ConfigForm extends Zend_Form
 			->addElement($admin)
 			->addElement($contact)
 			->addElement($fromContact)
+			->addElement($fromProtocol)
+			->addElement($fromPort)
 			->addElement($password)
 			->addElement($submit);
+
+		// add display group
+		$this->addDisplayGroup(
+			array('headTitle', 'siteTitle', 'siteDescription', 'skins'), 'site-information');
+		$this->getDisplayGroup('site-information')->setLegend('Site Information');   
+		
+		$this->addDisplayGroup(
+			array('adminEmailAddress', 'contactEmailAddress'),'contact-information');
+		$this->getDisplayGroup('contact-information')->setLegend('Contact Information');
+		
+		$this->addDisplayGroup(
+			array('fromContactEmail', 'fromProtocol', 'fromPort', 'passwordSpecific'),'smtp-information');
+		$this->getDisplayGroup('smtp-information')->setLegend('SMTP Information');
 	}
 	
 	public function getSkin()

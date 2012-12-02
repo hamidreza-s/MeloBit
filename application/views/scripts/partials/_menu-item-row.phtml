@@ -1,4 +1,6 @@
 <?php
+	$confirmMessage = $this->translate('Are you sure to delete?');
+
 	if ($this->page_id > 0)
 	{
 		$page = new Melobit_Content_Item_Page($this->page_id);
@@ -11,11 +13,15 @@
 ?>
 <tr>
 	<td class="links">
-		<a href="/menu-item/update/id/<?php echo $this->id; ?>">Update</a> | 
-		<a href="/menu-item/move/direction/down/id/<?php echo $this->id; ?>">Move down</a> | 
-		<a href="/menu-item/move/direction/up/id/<?php echo $this->id; ?>">Move up</a> | 
-		<a href="/menu-item/delete/id/<?php echo $this->id; ?>" 
-			onclick="return confirm('Are you sure to delete?')">Delete</a>
+		<a href="<?php echo $this->translate('/en_US');?>/default/menu-item/update/id/<?php echo $this->id; ?>">
+			<?php echo $this->translate('Update'); ?></a> | 
+		<a href="<?php echo $this->translate('/en_US');?>/default/menu-item/move/direction/down/id/<?php echo $this->id; ?>">
+			<?php echo $this->translate('Move down'); ?></a> | 
+		<a href="<?php echo $this->translate('/en_US');?>/default/menu-item/move/direction/up/id/<?php echo $this->id; ?>">
+			<?php echo $this->translate('Move up'); ?></a> | 
+		<a href="<?php echo $this->translate('/en_US');?>/default/menu-item/delete/id/<?php echo $this->id; ?>" 
+			onclick="return confirm('<?php echo $confirmMessage; ?>')">
+				<?php echo $this->translate('Delete'); ?></a>
 	</td>
 	<td><?php echo $this->label; ?></td>
 	<td><?php echo $pageName; ?></td>

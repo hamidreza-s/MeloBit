@@ -2,12 +2,19 @@
 class AdminController extends Zend_Controller_Action
 {
 	protected $_adminConfigPath;
+	protected $_langConfigPath;
+	protected $_lang;
 	
 	public function init()
 	{
 		// retrieve path to admin config file
 		$configResources = $this->getInvokeArg('bootstrap')->getOption('configs');
 		$this->_adminConfigPath = $configResources['adminConfig'];
+		
+		// retrieve path to lang config file
+		$registry = Zend_Registry::getInstance();
+		$this->_lang = $registry->get('Zend_Locale');
+		$this->_langConfigPath = APPLICATION_PATH . '/configs/lang/config.' . $this->_lang . '.ini';
 	}
 	
 	public function indexAction()
@@ -27,19 +34,23 @@ class AdminController extends Zend_Controller_Action
 		// pre-populate form with values
 		if (file_exists($this->_adminConfigPath))
 		{
-			$config = new Zend_Config_Ini($this->_adminConfigPath);
-			
+			// admin config
+			$config = new Zend_Config_Ini($this->_adminConfigPath);		
 			$data['adminEmailAddress'] = $config->global->adminEmailAddress;
 			$data['contactEmailAddress'] = $config->contact->contactEmailAddress;
 			$data['fromContactEmail'] = $config->contact->fromEmailAddress;
 			$data['fromProtocol'] = $config->contact->fromProtocol;
 			$data['fromPort'] = $config->contact->fromPort;
 			$data['passwordSpecific'] = $config->contact->appSpecificPassword;
-			$data['headTitle'] = $config->global->headTitle;
-			$data['siteTitle'] = $config->global->siteTitle;
-			$data['siteDescription'] = $config->global->siteDescription;
 			$data['skins'] = $config->global->skin;
 
+			// language config
+			$langConfig = new Zend_Config_Ini($this->_langConfigPath);
+			$data['headTitle'] = $langConfig->global->headTitle;
+			$data['siteTitle'] = $langConfig->global->siteTitle;
+			$data['siteDescription'] = $langConfig->global->siteDescription;
+			
+			// populate admin and language configs
 			$form->populate($data);
 		}
 		
@@ -55,26 +66,31 @@ class AdminController extends Zend_Controller_Action
 			{
 				$values = $form->getValues();
 				
-				$config = new Zend_Config(array(), true);
-				
+				// write admin config
+				$config = new Zend_Config(array(), true);				
 				$config->global = array();
-				$config->contact = array();
-				
+				$config->contact = array();				
 					$config->global->adminEmailAddress = $values['adminEmailAddress'];
 					$config->contact->contactEmailAddress = $values['contactEmailAddress'];
 					$config->contact->fromEmailAddress = $values['fromContactEmail'];
 					$config->contact->fromProtocol = $values['fromProtocol'];
 					$config->contact->fromPort = $values['fromPort'];
 					$config->contact->appSpecificPassword = $values['passwordSpecific'];
-					$config->global->headTitle = $values['headTitle'];
-					$config->global->siteTitle = $values['siteTitle'];
-					$config->global->siteDescription = $values['siteDescription'];
-					$config->global->skin = $values['skins'];
-				
+					$config->global->skin = $values['skins'];			
 				$writer = new Zend_Config_Writer_Ini();
 				$writer->write($this->_adminConfigPath, $config);
+	
+				// write lang config
+				$langConfig = new Zend_Config(array(), true);				
+				$langConfig->global = array();		
+					$langConfig->global->headTitle = $values['headTitle'];
+					$langConfig->global->siteTitle = $values['siteTitle'];
+					$langConfig->global->siteDescription = $values['siteDescription'];	
+				$writer = new Zend_Config_Writer_Ini();
+				$writer->write($this->_langConfigPath, $langConfig);
 				
-				$this->_redirect('admin/index');  
+				// redirect to admin controller, index action			
+				$this->_redirect($this->_lang . '/default/admin/index');  
 			}
 		}
 	}

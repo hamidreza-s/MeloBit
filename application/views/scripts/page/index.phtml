@@ -1,13 +1,13 @@
 <?php $this->layout()->setLayout('page'); ?>
 
-<h3>Featured Content</h3>
+<h3><?php echo $this->translate('Last Content'); ?></h3>
 <?php
 if ($this->featuredItems)
 {
 	foreach ($this->featuredItems as $page)
 	{
 		?>
-		<h4><a href="/page/open/id/<?php echo $page->id; ?>">
+		<h4><a href="<?php echo $this->translate('/en_US'); ?>/pages/<?php echo $page->id; ?>">
 			<?php echo $page->headline; ?>
 		</a></h4>
 		<img src="<?php echo $page->image; ?>" alt="<?php echo $page->headline; ?>" />
@@ -18,10 +18,10 @@ if ($this->featuredItems)
 }
 
 if ($this->recentPages) { ?>
-	<h4>More Pages</h4>
+	<h4><?php echo $this->translate('More Pages'); ?></h4>
 	<ul>
 	<?php foreach ($this->recentPages as $page) { ?>
-	<li><a href="/page/open/id/<?php echo $page->id; ?>">
+	<li><a href="<?php echo $this->translate('/en_US'); ?>/pages/<?php echo $page->id; ?>">
 		<?php echo $page->headline; ?>
 	</a></li>
 	<?php } ?>

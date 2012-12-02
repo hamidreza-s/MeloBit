@@ -40,10 +40,10 @@ class SearchController extends Zend_Controller_Action
 				
 				// you use a "text" field for content fields beacuse you want the them
 				// to be included in the search result and searchable
-				$doc->addField(Zend_Search_Lucene_Field::text('page_name', $page->name));
-				$doc->addField(Zend_Search_Lucene_Field::text('page_headline', $page->headline));
-				$doc->addField(Zend_Search_Lucene_Field::text('page_description', $page->description));
-				$doc->addField(Zend_Search_Lucene_Field::text('page_content', $page->content));
+				$doc->addField(Zend_Search_Lucene_Field::text('page_name', $page->name, 'UTF-8'));
+				$doc->addField(Zend_Search_Lucene_Field::text('page_headline', $page->headline, 'UTF-8'));
+				$doc->addField(Zend_Search_Lucene_Field::text('page_description', $page->description, 'UTF-8'));
+				$doc->addField(Zend_Search_Lucene_Field::text('page_content', $page->content, 'UTF-8'));
 				
 				// add the document to the index
 				$index->addDocument($doc);

@@ -14,10 +14,10 @@
 	<!-- Previous page link -->
 	<?php if (isset($this->previous)) { ?>
 		<a href="<?php echo $this->url(array_merge($params, array('page' => $this->previous))); ?>">
-		&lt; Previous
+		&lt; <?php echo $this->translate('Previous'); ?>
 		</a> |
 		<?php } else { ?>
-		<span class="disabled">&lt; Previous</span> |
+		<span class="disabled">&lt; <?php echo $this->translate('Previous'); ?></span> |
 	<?php } ?>
 	
 	<!-- Numbered page link -->
@@ -33,9 +33,9 @@
 	<!-- Next page link -->
 	<?php if (isset($this->next)) { ?>
 		<a href="<?php echo $this->url(array_merge($params, array('page' => $this->next))); ?>">
-		Next &gt;
+		<?php echo $this->translate('Next'); ?> &gt;
 		</a>
 		<?php } else { ?>
-		<span class="disabled">Next &gt;</span>
+		<span class="disabled"><?php echo $this->translate('Next'); ?> &gt;</span>
 	<?php } ?>
 </div>

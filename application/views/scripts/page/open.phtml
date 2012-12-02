@@ -1,13 +1,20 @@
 <?php $this->layout()->setLayout('page'); ?>
 <?php $this->headTitle($this->page->headline, 'PREPEND'); ?>
+<?php 
+	// determine language for display content
+	$lang = substr($this->lang, 0, 2); 
+	$headline = 'headline_' . $lang;
+	$description = 'description_' . $lang;
+	$content = 'content_' . $lang;
+?>
 
 
-	<h3><?php echo $this->page->headline; ?></h3>
-	<blockquote><?php echo $this->page->description; ?></blockquote>
+	<h3><?php echo $this->page->$headline; ?></h3>
+	<blockquote><?php echo $this->page->$description; ?></blockquote>
 	<?php if ($this->page->image) { ?>
 	<center><a class="th">
 		<img src="<?php echo $this->page->image; ?>" alt="<?php echo $this->headline; ?>" />
 	</a></center>
 	<?php } ?>
-	<p><?php echo $this->page->content; ?></p>
+	<p><?php echo $this->page->$content; ?></p>
 

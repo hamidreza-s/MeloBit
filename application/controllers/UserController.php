@@ -34,7 +34,6 @@ class UserController extends Zend_Controller_Action
 				return $this->_forward('list');
 			}
 		}
-		$userForm->setAction('/user/create');
 		$this->view->form = $userForm;
 	}
 	
@@ -54,7 +53,6 @@ class UserController extends Zend_Controller_Action
 	public function updateAction()
 	{
 		$userForm = new Form_UserForm();
-		$userForm->setAction('/user/update');
 		$userForm->removeElement('password');		
 
 		
@@ -82,7 +80,6 @@ class UserController extends Zend_Controller_Action
 	public function passwordAction()
 	{
 		$passwordForm = new Form_UserForm();
-		$passwordForm->setAction('/user/password');
 		$passwordForm->removeElement('first_name');
 		$passwordForm->removeElement('last_name');
 		$passwordForm->removeElement('username');
@@ -119,7 +116,6 @@ class UserController extends Zend_Controller_Action
 	public function loginAction()
 	{
 		$userForm = new Form_UserForm();
-		$userForm->setAction('/user/login');
 		$userForm->removeElement('first_name');
 		$userForm->removeElement('last_name');
 		$userForm->removeElement('role');

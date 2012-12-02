@@ -3,7 +3,8 @@
 <?php if ($this->identity == null) { ?>
 
       <ul class="right">
-        <li><a href="/user/login">Sing in</a></li>
+        <li><a href="<?php echo $this->translate('/en_US');?>/default/user/login">
+        	<?php echo $this->translate('Sing in'); ?></a></li>
       </ul>
 
 <?php }	else { ?>
@@ -11,14 +12,18 @@
       <!-- Right Nav Section -->
       <ul class="right">
         <li class="has-dropdown">
-          <a href="#">Hi, <?php echo $this->identity->first_name; ?></a>
+          <a href="#"><?php echo $this->translate('Hi,') . ' ' . $this->identity->first_name; ?></a>
           <ul class="dropdown">
-			<li><label><?php echo $this->identity->role; ?></label></li>
-            <li><a href="/user/update/id/<?php echo $this->identity->id; ?>">Profile</a></li>
-            <li><a href="/admin/">Setting</a></li>
-            <li><a href="#">Tasks</a></li>
+						<li><label><?php echo $this->translate($this->identity->role); ?></label></li>
+            <li><a href="<?php echo $this->translate('/en_US');?>/default/user/update/id/
+            	<?php echo $this->identity->id; ?>">
+            		<?php echo $this->translate('Profile');?></a></li>
+            <li><a href="<?php echo $this->translate('/en_US');?>/default/admin/">
+            	<?php echo $this->translate('Setting');?></a></li>
+            <li><a href="#"><?php echo $this->translate('Tasks');?></a></li>
             <li class="divider"></li>
-            <li><a href="/user/logout">Sign out</a></li>
+            <li><a href="<?php echo $this->translate('/en_US');?>/default/user/logout">
+            	<?php echo $this->translate('Sign out');?></a></li>
           </ul>
         </li>
         <li class="divider"></li>

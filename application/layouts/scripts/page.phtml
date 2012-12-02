@@ -5,11 +5,14 @@
 	$this->userNav = $this->action('nav', 'user');
 	$this->searchForm = new Form_SearchForm();
 	$this->flags = $this->partial('layout-partials/locale-flags.phtml');
-
+	
 	// set db profiler
 	$this->addScriptPath(APPLICATION_PATH . '/views/scripts');
 	$this->profiler = $this->render('util/profiler.phtml');
-
+	
+	// fetch current language
+	$this->currentLang = $this->translate('/en_US');
+	
 	/*	
 	// add a link to the site style sheet
 	// "skin" is initialized in bootstap
@@ -25,6 +28,6 @@
 	// render layout body from skin folder
 	// "skin" is initialized in bootstrap
 	// "loadBody()" is custom view helper
-	$this->loadBody($this->skin, basename(__FILE__));
+	$this->loadBody($this->skin, basename(__FILE__), $this->currentLang);
 ?>
 

@@ -34,6 +34,7 @@ class PageController extends Zend_Controller_Action
 	public function openAction()
 	{
 		$id = $this->_request->getParam('id');
+		$lang = $this->_request->getParam('lang');
 		
 		// confirm the page exists
 		$pageModel = new Model_PageModel();
@@ -62,13 +63,13 @@ class PageController extends Zend_Controller_Action
 			$cache->save($page, $cacheKey, $tags);
 		}
 		$this->view->page = $page;
+		$this->view->lang = $lang;
 		$this->_helper->layout->setLayout('page');
 	}
 
 	public function createAction()
 	{
 		$pageForm = new Form_PageForm;
-		$pageForm->setAction('/page/create');
 		
 		// if form is posted back
 		if ($this->getRequest()->isPost())
@@ -78,10 +79,18 @@ class PageController extends Zend_Controller_Action
 				// 1, create a new page item
 				$itemPage = new Melobit_Content_Item_Page();
 				$itemPage->name = $pageForm->getValue('name');
-				$itemPage->headline = $pageForm->getValue('headline');
-				$itemPage->description = $pageForm->getValue('description');
-				$itemPage->content = $pageForm->getValue('content');
 				$itemPage->parent_id = $pageForm->getValue('parentId');
+				
+					//1.1, English Language
+					$itemPage->headline_en = $pageForm->getValue('headline_en');
+					$itemPage->description_en = $pageForm->getValue('description_en');
+					$itemPage->content_en = $pageForm->getValue('content_en');
+
+					//1.2, Persian Language
+					$itemPage->headline_fa = $pageForm->getValue('headline_fa');
+					$itemPage->description_fa = $pageForm->getValue('description_fa');
+					$itemPage->content_fa = $pageForm->getValue('content_fa');
+					
 				// 2, rename and upload the image
 				if ($pageForm->image->isUploaded())
 				{
@@ -128,7 +137,6 @@ class PageController extends Zend_Controller_Action
 		$id = $this->_request->getParam('id');
 		$itemPage = new Melobit_Content_Item_Page($id);
 		$pageForm = new Form_PageForm();
-		$pageForm->setAction('/page/edit');
 
 		// if form is posted back
 		if ($this->_request->isPost())
@@ -137,9 +145,17 @@ class PageController extends Zend_Controller_Action
 			{
 				// 1, edit the page item
 				$itemPage->name = $pageForm->getValue('name');
-				$itemPage->headline = $pageForm->getValue('headline');
-				$itemPage->description = $pageForm->getValue('description');
-				$itemPage->content = $pageForm->getValue('content'); 
+
+					//1.1, English Language
+					$itemPage->headline_en = $pageForm->getValue('headline_en');
+					$itemPage->description_en = $pageForm->getValue('description_en');
+					$itemPage->content_en = $pageForm->getValue('content_en');
+
+					//1.2, Persian Language
+					$itemPage->headline_fa = $pageForm->getValue('headline_fa');
+					$itemPage->description_fa = $pageForm->getValue('description_fa');
+					$itemPage->content_fa = $pageForm->getValue('content_fa');
+
 				// 2, upload the image
 				if ($pageForm->image->isUploaded())
 				{

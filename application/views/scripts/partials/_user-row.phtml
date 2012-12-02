@@ -1,8 +1,14 @@
+<?php
+	$confirmMessage = $this->translate('Are you sure to delete?');
+?>
+
 <tr>
 	<td class="links">
-		<a href="/user/update/id/<?php echo $this->id; ?>">Update</a> | 
-		<a href="/user/delete/id/<?php echo $this->id; ?>" 
-		onclick="return confirm('Are you sure to delete?')">Delete</a>
+		<a href="<?php echo $this->translate('/en_US');?>/default/user/update/id/<?php echo $this->id; ?>">
+			<?php echo $this->translate('Update'); ?></a> | 
+		<a href="<?php echo $this->translate('/en_US');?>/default/user/delete/id/<?php echo $this->id; ?>" 
+		onclick="return confirm('<?php echo $confirmMessage; ?>')">
+			<?php echo $this->translate('Delete'); ?></a>
 	</td>
 	<td><?php echo $this->last_name; ?></td>
 	<td><?php echo $this->first_name; ?></td>

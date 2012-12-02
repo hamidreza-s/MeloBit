@@ -39,7 +39,6 @@ class MenuController extends Zend_Controller_Action
 		
 		// populate the form
 		$formMenu->populate($currentMenu->toArray());
-		$formMenu->setAction('/menu/edit');
 		$this->view->form = $formMenu;
 	}
 	
@@ -57,12 +56,11 @@ class MenuController extends Zend_Controller_Action
 					$data['name'], $data['page_id'], $data['link'], $data['access_level']);
 				if ($result)
 				{
-					$this->_redirect('/menu/index');
+					$this->_forward('/index');
 				}
 			}
 		}
 		
-		$formMenu->setAction('/menu/create');
 		$this->view->form = $formMenu;
 	}
 	
@@ -119,7 +117,7 @@ class MenuController extends Zend_Controller_Action
 						$page = new Melobit_Content_Item_Page($menu->page_id);
 						if ($page) 
 						{
-							$MenuUri = '/page/open/id/' . $menu->page_id . '/title/' . $page->name;
+							$MenuUri = '/pages/' . $menu->page_id . '/' . $page->name;
 						}
 						else
 						{
@@ -146,7 +144,7 @@ class MenuController extends Zend_Controller_Action
 								$page = new Melobit_Content_Item_Page($menuItem->page_id);
 								if ($page)
 								{
-									$MenuItemUri = '/page/open/id/' . $menuItem->page_id . '/title/' . $page->name;
+									$MenuItemUri = '/pages/' . $menuItem->page_id . '/' . $page->name;
 								}
 								else
 								{

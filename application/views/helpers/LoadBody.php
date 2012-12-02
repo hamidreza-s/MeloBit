@@ -7,16 +7,16 @@
  */
 class Zend_View_Helper_LoadBody extends Zend_View_Helper_Abstract
 {
-	// this function calls in /application/layouts/scripts/layoutFile.phtml
+		// this function calls in /application/layouts/scripts/layoutFile.phtml
     // then according to layout scripts, reads counterpart files in
     // /pubic/skins/skinName/layoutFile.phtml
-    public function loadBody($skin, $whichFile)
+    public function loadBody($skin, $whichFile, $whichLang)
     {
         // read layout files from skin folder
         // then render it
-        $this->view->addScriptPath(APPLICATION_PATH . '/../public/skins/' . $skin . '/');
+        $this->view->addScriptPath(APPLICATION_PATH . '/../public/skins/' . $skin . '/' . $whichLang . '/');
         echo $this->view->render('header.phtml');
-		echo $this->view->render($whichFile);
-		echo $this->view->render('footer.phtml');
+				echo $this->view->render($whichFile);
+				echo $this->view->render('footer.phtml');
     }
 }

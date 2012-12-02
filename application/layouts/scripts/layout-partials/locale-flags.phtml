@@ -1,14 +1,9 @@
-<a href="
-	  	<?php echo $this->url(array(
-		'module' => 'default',
-		'controller' => 'locale',
-		'action' => 'index',
-		'locale' => 'en_US'), 'default', true); ?>
-"><img src="/images/locale/en_US.png" /></a>
-<a href="
-	  	<?php echo $this->url(array(
-		'module' => 'default',
-		'controller' => 'locale',
-		'action' => 'index',
-		'locale' => 'fa_IR'), 'default', true); ?>
-"><img src="/images/locale/fa_IR.png" /></a>
+  <ul class="right">
+    <li class="has-dropdown">
+      <a href="#"><?php echo $this->translate('Languages');?></a>
+      <ul class="dropdown">
+        <li><a href="/fa_IR/default/locale"><?php echo $this->translate('Persian');?></a></li>
+        <li><a href="/en_US/default/locale"><?php echo $this->translate('English');?></a></li>
+      </ul>
+    </li>
+  </ul>

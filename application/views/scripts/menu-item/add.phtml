@@ -1,6 +1,6 @@
 <?php $this->layout()->setLayout('page'); ?>
 
-<h3>Add Menu Item</h3>
-<p>Current Menu: <?php echo $this->menu->name; ?></p>
-<p>To add a menu item fill out the form below and click submit ... </p>
+<h3><?php echo $this->translate('Add Menu Item'); ?></h3>
+<p><?php echo $this->translate('Current Menu:'); ?><?php echo ' ' . $this->menu->name; ?></p>
+<p><?php echo $this->translate('To add a menu item fill out the form below and click submit.'); ?></p>
 <?php echo $this->form; ?>

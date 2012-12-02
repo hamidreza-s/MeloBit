@@ -1,6 +1,6 @@
 <?php $this->layout()->setLayout('page'); ?>
 
-<h3>Current Pages</h3>
+<h3><?php echo $this->translate('Current Pages'); ?></h3>
 <?php
 	if ($this->pages != null)
 	{
@@ -8,8 +8,8 @@
 <table>
 	<thead>
 		<tr>
-			<th>Links</th>
-			<th>Name</th>
+			<th><?php echo $this->translate('Links'); ?></th>
+			<th><?php echo $this->translate('Name'); ?></th>
 		<tr>
 	</thead>
 	<tbody>
@@ -21,9 +21,10 @@
 	else
 	{
 ?>
-<p>You do not have any pages yet.</p>
+<p><?php echo $this->translate('You do not have any pages yet.'); ?></p>
 <?php
 	}
 ?>
-<p><a href="/page/create">Create a new page</a></p>
+<p><a href="<?php echo $this->translate('/en_US'); ?>/default/page/create">
+	<?php echo $this->translate('Create a new page'); ?></a></p>
 

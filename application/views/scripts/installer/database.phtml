@@ -5,7 +5,9 @@
  if ($this->error == null) 
  {
  	echo '<p>Your database was successfully installed with this name: <strong>' . $this->dbName . '</strong></p>';
- 	echo '<p><a href="/installer/tables">Next Step</a> (create tables)</p>';
+ 	echo '<p><a href="'; 
+ 	echo $this->translate('/en_US');
+ 	echo '/default/installer/tables">Next Step</a> (create tables)</p>';
  }
  else
  {

@@ -1,11 +1,17 @@
 <?php $this->layout()->setLayout('page'); ?>
 
-<h3>Admin Panel</h3>
+<h3><?php echo $this->translate('Admin Panel'); ?></h3>
 <ul>
-	<li><a href="/admin/config">Manage Pages</a></li>
-	<li><a href="/admin/config">Manage Menus</a></li>
-	<li><a href="/admin/config">Manage Users</a></li>
-	<li><a href="/admin/config">Manage Bugs</a></li>
-	<li><a href="/admin/config">Build Search Index</a></li>
-	<li><a href="/admin/config">Site Configuration</a></li>
+	<li><a href="<?php echo $this->translate('/en_US'); ?>/default/page/list">
+		<?php echo $this->translate('Manage Pages'); ?></a></li>
+	<li><a href="<?php echo $this->translate('/en_US'); ?>/default/menu">
+		<?php echo $this->translate('Manage Menus'); ?></a></li>
+	<li><a href="<?php echo $this->translate('/en_US'); ?>/default/user/list">
+		<?php echo $this->translate('Manage Users'); ?></a></li>
+	<li><a href="<?php echo $this->translate('/en_US'); ?>/default/bug/list">
+		<?php echo $this->translate('Manage Bugs'); ?></a></li>
+	<li><a href="<?php echo $this->translate('/en_US'); ?>/default/search/build">
+		<?php echo $this->translate('Build Search Index'); ?></a></li>
+	<li><a href="<?php echo $this->translate('/en_US'); ?>/default/admin/config">
+		<?php echo $this->translate('Site Configuration'); ?></a></li>
 </ul>

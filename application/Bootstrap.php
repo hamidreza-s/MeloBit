@@ -2,6 +2,26 @@
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
+	public $uri;
+	public $lang;
+	
+	protected function _initGetUri()
+	{
+			// retrieve uri and store in $this->uri
+		  $this->uri = ltrim($_SERVER["REQUEST_URI"], '/');
+		  
+		  // retrive lang and store in $this->lang
+		  if($this->uri)
+			{
+		  	$this->lang = substr($this->uri, 0, 5);
+			}
+			// if not set, en_US is default
+			else
+			{
+				$this->lang = 'en_US';
+			}
+	}
+	
 	protected function _initDb()
 	{
 		try
@@ -26,12 +46,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	protected function _initView()
 	{
 		// load configuration from adminConfig.ini
-		$configResource = $this->getOption('configs'); 
+		$configResource = $this->getOption('configs');
 		$adminConfig = new Zend_Config_Ini($configResource['adminConfig']);	
-		$headTitle = $adminConfig->global->headTitle;
-		$siteTitle = $adminConfig->global->siteTitle;
-		$siteDescription = $adminConfig->global->siteDescription;
 		$skin = $adminConfig->global->skin;
+		
+		// load language specific configuration from config.lang.ini
+		$langConfig = new Zend_Config_Ini(APPLICATION_PATH . '/configs/lang/config.' . $this->lang . '.ini');
+		$headTitle = $langConfig->global->headTitle;
+		$siteTitle = $langConfig->global->siteTitle;
+		$siteDescription = $langConfig->global->siteDescription;
 
 		// Initialize view
 		$view = new Zend_View();
@@ -47,15 +70,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		*/
 		
 		// Set HTML properties
-        $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
-        $view->setEncoding('UTF-8');
-        $view->doctype('XHTML1_STRICT');
+    $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+    $view->setEncoding('UTF-8');
+    $view->doctype('XHTML1_STRICT');
 		$view->headTitle($headTitle)->setSeparator(' - ');
 		$view->siteTitle = $siteTitle;
 		$view->siteDescription = $siteDescription;
 		$view->skin = $skin;
-
-
 		
 		// Add it to the ViewRenderer
 		$viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper(
@@ -91,30 +112,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		return $autoLoader;
 	}
 
-  protected function _initLocale()
-  {               
-    $session = new Zend_Session_Namespace('Melobit.l10n');
-    if ($session->locale) 
-    {
-      $locale = new Zend_Locale($session->locale);                 
-    } 
-    else
-    {
-      try 
-      {
-        $locale = new Zend_Locale('browser'); 
-      } 
-      catch (Zend_Locale_Exception $e) 
-      {
-        $locale = new Zend_Locale('en_US');               
-      } 
-    }
-
-    $registry = Zend_Registry::getInstance();
-    $registry->set('Zend_Locale', $locale); 
-  }
-
-
   protected function _initTranslate()
   {                         
     $translate = new Zend_Translate('csv', APPLICATION_PATH . '/lang/', 
@@ -122,6 +119,65 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     $registry = Zend_Registry::getInstance();
     $registry->set('Zend_Translate', $translate);
   }
+  
+	public function _initRoutes()
+		  {
+		      $this->bootstrap('FrontController');
+		      $this->_frontController = $this->getResource('FrontController');
+		      $router = $this->_frontController->getRouter();
+		   		
+		   		// note: default language is set here. now is en_US
+		      $langRoute = new Zend_Controller_Router_Route(
+		          ':lang/',
+		          array(
+		              'lang' => 'en_US',
+		          )
+		      );
+					$moduleRoute = new Zend_Controller_Router_Route(
+						':module/:controller/:action/*',
+						array(
+							'module'=>':module',
+							'controller'=>'index',
+							'action'=>'index'
+						)
+					);
+			    $moduleRoute = $langRoute->chain($moduleRoute);
+			    $router->addRoute('langRoute', $langRoute);
+			    $router->addRoute('moduleRoute', $moduleRoute);
+					$router->addRoute('pages',
+							new Zend_Controller_Router_Route(':lang/pages/:id/:title',
+										                           array('controller' => 'page',
+										                                 'action' => 'open',
+										                                 'title' => null))
+					);
+		  }
+
+			protected function _initLanguage()
+			{
+			  $front = Zend_Controller_Front::getInstance();
+			  $langPlugin = new Melobit_Controller_Plugin_Language();
+			  $front->registerPlugin($langPlugin);
+			}
+			
+			protected function _initSearch()
+			{
+				// set default encoding to bootstrap utf-8 languages (e.g. persian)
+				Zend_Search_Lucene_Search_QueryParser::setDefaultEncoding('utf-8');
+				Zend_Search_Lucene_Analysis_Analyzer::setDefault(
+		  		new Zend_Search_Lucene_Analysis_Analyzer_Common_Utf8_CaseInsensitive ()
+				);
+			}
+			
+			protected function _initTimeZone()
+			{
+				// if php.ini doesn't set time zone
+				// we set it to UTC (Coordinated Universal Time)
+				if (!ini_get('date.timezone')) 
+				{
+						date_default_timezone_set('UTC'); 
+				}
+			}
+
 }
 
 

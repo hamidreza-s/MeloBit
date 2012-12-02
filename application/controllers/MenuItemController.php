@@ -105,7 +105,6 @@ class MenuItemController extends Zend_Controller_Action
 		
 		// create and populate the form
 		$formMenuItem = new Form_MenuItemForm();
-		$formMenuItem->setAction('/menu-item/update');
 		$formMenuItem->populate($currentMenuItem->toArray());
 		$this->view->form = $formMenuItem;
 				

@@ -18,7 +18,9 @@
  	echo '<li>Your Password: <strong>admin</strong></li>';
  	echo '</ul>';
  	echo '<p><strong>Important:</strong> Because of security reasons, change your password in next step.</p>';
- 	echo '<p><a href="/admin/config">Final Step</a> (Site Configuration)';
+ 	echo '<p><a href="';
+ 	echo $this->translate('/en_US');
+ 	echo '/default/admin/config">Final Step</a> (Site Configuration)';
  	
  	echo '<hr />';
  	echo '<p><strong>Note: </strong><em>Because of security reasons, InstallerController became hidden. So

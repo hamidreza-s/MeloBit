@@ -1,15 +1,15 @@
 <?php $this->layout()->setLayout('page'); ?>
 
-<h2>Current Menus</h2>
+<h3><?php echo $this->translate('Current Menus'); ?></h3>
 <?php if ($this->menus != null) { ?>
 <table>
 	<thead>
 		<tr>
-			<th>Links</th>
-			<th>Menu Name</th>
-			<th>Page Name</th>
-			<th>Link</th>
-			<th>Access</th>
+			<th><?php echo $this->translate('Links'); ?></th>
+			<th><?php echo $this->translate('Menu Name'); ?></th>
+			<th><?php echo $this->translate('Page Name'); ?></th>
+			<th><?php echo $this->translate('Link'); ?></th>
+			<th><?php echo $this->translate('Access'); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -17,6 +17,7 @@
 	</tbody>
 </table>
 <?php } else { ?>
-<p>You do not have any menus yet.</p>
+<p><?php echo $this->translate('You do not have any menus yet.'); ?></p>
 <?php } ?>
-<p><a href="/menu/create">Create a new menu</a></p>
+<p><a href="<?php echo $this->translate('/en_US');?>/default/menu/create">
+	<?php echo $this->translate('Create a new menu'); ?></a></p>

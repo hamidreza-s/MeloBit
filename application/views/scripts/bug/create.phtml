@@ -1,9 +1,7 @@
 <?php $this->layout()->setLayout('page'); ?>
 
-<h3>Submit a bug report</h3>
-<p>MeloBit is in beta version, so we will be happy if you report us the bugs. <br />To submit a new bug report please fill out this form completely:</p>
+<h3><?php echo $this->translate('Submit a bug report'); ?></h3>
+<p><?php echo $this->translate('MeloBit is in beta version, so we will be happy if you report us the bugs. <br />To submit a new bug report please fill out this form completely:');?></p>
 <?php
 	echo $this->form; // echo $this->form->render(); does the same
-	echo '<br/>';
-	if ($this->dump) Zend_Debug::dump($this->dump);
 ?>

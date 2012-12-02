@@ -16,7 +16,6 @@ class BugController extends Zend_Controller_Action
     public function createAction()
     {
         $bugReportForm = new Form_BugReportForm();
-        $bugReportForm->setAction('/bug/create');
         $bugReportForm->setMethod('post');
         
         if ($this->getRequest()->isPost())
@@ -40,7 +39,7 @@ class BugController extends Zend_Controller_Action
         		// then the bug was successfully created
         		if ($result)
         		{
-        			$this->_forward('confirm');
+        			$this->_forward('success');
         		}
         	}
         }
@@ -95,7 +94,6 @@ class BugController extends Zend_Controller_Action
     {
 		// instanciate bug form
     	$bugReportForm = new Form_BugReportForm();
-    	$bugReportForm->setAction('/bug/edit');
     	$bugReportForm->setMethod('post');
     	
     	if ($this->getRequest()->isPost())
@@ -150,7 +148,7 @@ class BugController extends Zend_Controller_Action
     	$bugModel = new Model_BugModel();
     	$id = $this->_request->getParam('id');
     	$bugModel->deleteBug($id);
-    	$this->_forward('success');
+    	$this->_forward('list');
     }
     
     public function confirmAction()

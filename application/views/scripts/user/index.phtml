@@ -1,22 +1,24 @@
 <?php $this->layout()->setLayout('page'); ?>
 
-<h3>My Account</h3>
+<h3><?php echo $this->translate('My Account'); ?></h3>
 <?php 
 	if ($this->identity == null)
 	{
 ?>
-<p>To log in <a href="/user/login">click here</a></p>
+<p><?php echo $this->translate('To log in'); ?> <a href="/user/login">
+	<?php echo $this->translate('click here'); ?></a></p>
 <?php
 	}
 	else
 	{
 ?>
 <p>
-	Hello! <strong><?php echo $this->identity->first_name; ?></strong>,
+	<?php echo $this->translate('Hello!'); ?> <strong><?php echo $this->identity->first_name; ?></strong>,
 	<br/>
-	Your role is: <em><?php echo $this->identity->role; ?></em>
+	<?php echo $this->translate('Your role is:'); ?> <em><?php echo $this->identity->role; ?></em>
 </p>
-<p>To log out <a href="/user/logout">click here</a></p>
+<p><?php echo $this->translate('To log out'); ?> <a href="/user/logout">
+	<?php echo $this->translate('click here'); ?></a></p>
 <?php
 	}
 ?>

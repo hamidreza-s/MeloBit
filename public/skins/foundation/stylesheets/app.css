@@ -128,6 +128,8 @@ input[type=search] {
 	-webkit-transition: all .5s;
 	-moz-transition: all .5s;
 	transition: all .5s;
+	
+	text-align: left;
 }
 input[type=search]:focus {
 	background: #ededed url(/images/misc/search-icon.png) no-repeat 9px center;

@@ -58,18 +58,23 @@ class Melobit_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 		{
 			$role = 'guest';
 		}
-
+		
+		// fetch request action and controller
 		$controller = $request->controller;
 		$action = $request->action;
-
-
-
-		if (!$acl->isAllowed($role, $controller, $action))
+		
+		// check if userController and loginAction are NOT requested
+		// we store session to user in redirection in userController loginAction
+		if ($controller !== 'user' && $action !== 'login')
 		{
 			// store requested uri in session
 			$session = new Zend_Session_Namespace('Melobit.auth');
 			$session->requestUri = $this->getRequest()->getRequestUri();
-
+		}
+		
+		
+		if (!$acl->isAllowed($role, $controller, $action))
+		{
 			if ($role == 'guest')
 			{
 				$request->setControllerName('user');

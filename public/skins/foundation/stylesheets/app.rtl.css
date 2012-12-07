@@ -9,7 +9,7 @@ font-weight: normal;
 font-style: normal;
 }
 
-body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, p, blockquote, th, td, h1, h2, h3, h4, h5, h6, input[type="search"], input[type="text"], input[type="submit"] {
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, form, p, blockquote, th, td, h1, h2, h3, h4, h5, h6, input[type="search"], input[type="text"], input[type="submit"] {
 	font-family: "BKoodak", "Tahome", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 	text-align: right;
 }
@@ -24,4 +24,12 @@ blockquote {
 	padding: 9px 20px 0 19px; 
 	border-left: 0; 
 	border-right: 1px solid #ddd;
+}
+
+/* -----------------------------------------
+		for Figlet Captcha
+----------------------------------------- */
+
+pre {
+	direction: ltr;
 }

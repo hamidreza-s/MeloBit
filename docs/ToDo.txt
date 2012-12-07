@@ -1,6 +1,6 @@
 1. modify search controller and view to be compliant with languages (Done)
-2. add language translation for contact module
-3. correct verification direcrection for farsi language
+2. add language translation for contact module (Done)
+3. correct verification direcrection for farsi language (Done)
 4. add site map for whole site
 5. complete index controller and view
 

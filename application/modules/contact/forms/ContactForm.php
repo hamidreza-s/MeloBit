@@ -76,7 +76,7 @@ class Contact_Form_ContactForm extends Zend_Form
 		));
 		$captcha->setLabel('Verification:'); 
 		$captcha->setAttrib('class', 'validate[required]');
-    	$this->addElement($captcha);	
+   	$this->addElement($captcha);	
 
 					
 		

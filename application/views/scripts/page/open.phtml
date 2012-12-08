@@ -1,5 +1,4 @@
 <?php $this->layout()->setLayout('page'); ?>
-<?php $this->headTitle($this->page->headline, 'PREPEND'); ?>
 <?php 
 	// determine language for display content
 	$lang = substr($this->lang, 0, 2); 
@@ -7,7 +6,7 @@
 	$description = 'description_' . $lang;
 	$content = 'content_' . $lang;
 ?>
-
+<?php $this->headTitle($this->page->$headline, 'PREPEND'); ?>
 
 	<h3><?php echo $this->page->$headline; ?></h3>
 	<blockquote><?php echo $this->page->$description; ?></blockquote>

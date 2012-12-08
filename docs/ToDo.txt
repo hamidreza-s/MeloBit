@@ -2,5 +2,6 @@
 2. add language translation for contact module (Done)
 3. correct verification direcrection for farsi language (Done)
 4. add site map for whole site
+4.1. add meta tag for site description and keywords
 5. complete index controller and view
 

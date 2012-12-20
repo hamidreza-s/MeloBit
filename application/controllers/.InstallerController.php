@@ -57,7 +57,7 @@ class InstallerController extends Zend_Controller_Action
 		// the schema file.
 		try 
 		{
-			$schemaSql = file_get_contents(APPLICATION_PATH . '/../docs/database/melobit_0.4.0.sql');
+			$schemaSql = file_get_contents(APPLICATION_PATH . '/../docs/database/melobit_0.5.0.sql');
 			// use the connection directly to load sql in batches
 			$this->_dbAdapter->getConnection()->exec($schemaSql);
 		}

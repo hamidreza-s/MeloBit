@@ -136,7 +136,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 					$moduleRoute = new Zend_Controller_Router_Route(
 						':module/:controller/:action/*',
 						array(
-							'module'=>':module',
+							'module'=>'default',
 							'controller'=>'index',
 							'action'=>'index'
 						)
@@ -146,9 +146,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			    $router->addRoute('moduleRoute', $moduleRoute);
 					$router->addRoute('pages',
 							new Zend_Controller_Router_Route(':lang/pages/:id/:title',
-										                           array('controller' => 'page',
-										                                 'action' => 'open',
-										                                 'title' => null))
+										                           array(
+																		'module' => 'default',
+																		'controller' => 'page',
+										                                'action' => 'open',
+										                                'title' => null))
 					);
 		  }
 

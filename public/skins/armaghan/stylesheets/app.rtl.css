@@ -1,0 +1,44 @@
+/* -----------------------------------------
+		RTL Languages
+----------------------------------------- */
+
+@font-face {
+font-family: 'BKoodak';
+src: url('/skins/foundation/fonts/BKoodkBd.ttf');
+font-weight: normal;
+font-style: normal;
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, form, p, blockquote, th, td, h1, h2, h3, h4, h5, h6, input[type="search"], input[type="text"], input[type="submit"] {
+	font-family: "BKoodak", "Tahome", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+	text-align: right;
+}
+table thead tr th, table tfoot tr th, table tbody tr td, table tr td, table tfoot tr td { 
+	font-size: 14px; 
+	line-height: 18px; 
+	text-align: right; 
+}
+
+blockquote { 
+	margin: 0 0 17px; 
+	padding: 9px 20px 0 19px; 
+	border-left: 0; 
+	border-right: 1px solid #ddd;
+}
+
+/* -----------------------------------------
+		RTL Search Form
+----------------------------------------- */
+
+input[type=search] {
+
+	text-align: right;
+}
+
+/* -----------------------------------------
+		for Figlet Captcha
+----------------------------------------- */
+
+pre {
+	direction: ltr;
+}

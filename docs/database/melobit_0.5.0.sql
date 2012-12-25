@@ -28,10 +28,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `bugs` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `author` varchar(250) DEFAULT NULL,
-  `email` varchar(250) DEFAULT NULL,
+  `author` varchar(50) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
   `date` int(11) DEFAULT NULL,
-  `url` varchar(250) DEFAULT NULL,
+  `url` varchar(100) DEFAULT NULL,
   `description` text,
   `priority` varchar(50) DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
@@ -48,18 +48,18 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   `page_id` int(11) DEFAULT NULL,
-  `link` varchar(250) DEFAULT NULL,
+  `link` varchar(100) DEFAULT NULL,
   `position` int(11) DEFAULT NULL,
   `access_level` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `menus`
 --
 
 INSERT INTO `menus` (`id`, `name`, `page_id`, `link`, `position`, `access_level`) VALUES
-(5, 'Contact', 0, '/contact', 3, 'public');
+(1, 'Contact', 0, '/contact', 3, 'public');
 
 -- --------------------------------------------------------
 
@@ -70,12 +70,12 @@ INSERT INTO `menus` (`id`, `name`, `page_id`, `link`, `position`, `access_level`
 CREATE TABLE IF NOT EXISTS `menu_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `menu_id` int(11) DEFAULT NULL,
-  `label` varchar(250) DEFAULT NULL,
+  `label` varchar(50) DEFAULT NULL,
   `page_id` int(11) DEFAULT NULL,
-  `link` varchar(250) DEFAULT NULL,
+  `link` varchar(100) DEFAULT NULL,
   `position` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `nodes` (
   `node` varchar(50) DEFAULT NULL,
   `content` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=33 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `name` varchar(100) DEFAULT NULL,
   `date_created` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -114,10 +114,10 @@ CREATE TABLE IF NOT EXISTS `pages` (
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) DEFAULT NULL,
-  `password` varchar(250) DEFAULT NULL,
-  `first_name` varchar(250) DEFAULT NULL,
-  `last_name` varchar(250) DEFAULT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(250) NOT NULL,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
   `role` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;

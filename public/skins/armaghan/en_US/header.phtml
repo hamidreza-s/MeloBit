@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+
+	<?php echo $this->headMeta(); ?>
+	<?php echo $this->headTitle(); ?>  
+	
+  <!-- Included CSS Files (Uncompressed) -->
+  <!--
+  <link rel="stylesheet" href="/skins/armaghan/stylesheets/foundation.css">
+  -->
+  
+  <!-- Included CSS Files (Compressed) -->
+  <link rel="stylesheet" href="/skins/armaghan/stylesheets/foundation.min.css">
+  <link rel="stylesheet" href="/skins/armaghan/stylesheets/app.css">
+  
+  <!-- Included CSS Files (Enclosed Icons) -->
+  <link rel="stylesheet" href="/skins/armaghan/icons/enclosed/stylesheets/general_enclosed_foundicons.css">
+  <!--[if lt IE 8]>
+	<link rel="stylesheet" href="/skins/armaghan/icons/enclosed/stylesheets/general_enclosed_foundicons_ie7.css">
+  <![endif]-->
+
+  <script src="/skins/armaghan/javascripts/modernizr.foundation.js"></script>
+
+  <!-- IE Fix for HTML5 Tags -->
+  <!--[if lt IE 9]>
+    <script src="/skins/armaghan/http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+</head>
+<body style="direction: ltr;">
+
+
+  <!-- Header and Nav -->
+
+  <nav class="top-bar">
+    <ul>
+      <!-- Title Area -->
+      <li class="name">
+        <h1>
+          <a href="<?php echo $this->translate('/en_US'); ?>">
+            <i class="medIcon foundicon-home"></i>
+          </a>
+        </h1>
+      </li>
+      <li class="toggle-topbar"><a href="#"></a></li>
+    </ul>
+
+    <section>
+      <!-- Left Nav Section -->
+		  <?php echo $this->render('nav.phtml'); ?>
+		
+      <!-- Right Nav Section -->
+		  <?php echo $this->userNav; ?>
+
+		  <!-- Languages -->
+		  <?php echo $this->flags; ?>
+    </section>
+  </nav>
+
+  <div class="row">
+    <div class="nine columns">
+      <img class="left" src="/skins/armaghan/images/misc/logo_en.jpg" />
+      <blockquote class="left politeNode"><?php echo $this->siteDescription; ?></blockquote>
+    </div>
+    <div class="three columns" dir="rtl"><p>
+			<form action="<?php echo $this->translate('/en_US'); ?>/default/search" method="get">
+				<input type="search" name="query" placeholder="Search">
+			</form>
+    </div>
+    <hr />
+  </div>
+
+  <!-- End Header and Nav -->
+

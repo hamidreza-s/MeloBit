@@ -1,0 +1,31 @@
+<?php
+	$navigation = $this->layout()->nav;
+	if ($navigation)
+	{
+		echo "<ul class='left'>\n";
+		foreach ($navigation as $nav)
+		{
+			$subNavs = $nav['pages'];
+				
+			if ($subNavs) {echo "<li class='has-dropdown'>\n";} else {echo "<li>\n";}
+			echo '<a href="' . $this->translate('/en_US') . $nav['uri'] . '">' . $this->translate($nav['label']) . "</a>\n";
+			
+			if ($subNavs)
+			{
+				echo "<ul class='dropdown'>\n";
+				foreach ($subNavs as $subNav)
+				{
+
+					echo '<li>
+						<a href="' . $this->translate('/en_US') . $subNav['uri'] . '">' . $this->translate($subNav['label']) . "</a>
+						</li>\n";
+				}
+				echo "</ul>\n";
+			}
+			
+			echo '</li>';
+			echo "<li class='divider'></li>\n";				
+		}
+		echo '</ul>';
+	}
+?>

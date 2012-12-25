@@ -84,7 +84,6 @@ class Contact_IndexController extends Zend_Controller_Action
 				$this->view->sendError = true;
 			}
 		}
-		$formContact->setAction('/contact');
 		$this->view->form = $formContact;
 	}
 }

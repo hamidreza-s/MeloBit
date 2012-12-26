@@ -62,10 +62,9 @@ class Sms_Form_CompanyForm extends Zend_Form
 	
 	public function getCompanyFields()
 	{
-		$fields[] = 'Field 1';
-		$fields[] = 'Field 2';
-		$fields[] = 'Field 3';
-		$fields[] = 'Field 4';
+		$fields[] = 'N/A';
+		$fields[] = 'N/A';
+		$fields[] = 'N/A';
 		return $fields;
 	}
 }

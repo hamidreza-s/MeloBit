@@ -1,15 +1,19 @@
 <?php $this->layout()->setLayout('page'); ?>
 
+<?php
+	$confirmMessage = $this->translate('Are you sure to delete?');
+?>
+
 <table>
 	<thead>
 		<tr>
-			<th>Id</th>
-			<th>Name</th>
-			<th>Field</th>
-			<th>Contact No. #1</th>
-			<th>Contact No. #2</th>
-			<th>Address</th>
-			<th>Links</th>
+			<th><?php echo $this->translate('ID') ?></th>
+			<th><?php echo $this->translate('Name') ?></th>
+			<th><?php echo $this->translate('Field') ?></th>
+			<th><?php echo $this->translate('Contact No. #1') ?></th>
+			<th><?php echo $this->translate('Contact No. #2') ?></th>
+			<th><?php echo $this->translate('Address') ?></th>
+			<th><?php echo $this->translate('Links') ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -34,9 +38,11 @@
 				<?php echo $company['address']; ?>
 			</td>
 			<td>
-				<a href="<?php echo $this->translate('/en_US');?>/sms/company/delete/id/<?php echo $company['id']; ?>" onclick="return confirm('Sure?')">Delete</a>
+				<a href="<?php echo $this->translate('/en_US');?>/sms/company/delete/id/<?php echo $company['id']; ?>" 
+					onclick="return confirm('<?php echo $confirmMessage; ?>')"><?php echo $this->translate('Delete') ?></a>
 				<br/>
-				<a href="<?php echo $this->translate('/en_US');?>/sms/company/update/id/<?php echo $company['id']; ?>">Update</a>
+				<a href="<?php echo $this->translate('/en_US');?>/sms/company/update/id/<?php echo $company['id']; ?>">
+					<?php echo $this->translate('Update') ?></a>
 			</td>
 		</tr>
 <?php endforeach; ?>

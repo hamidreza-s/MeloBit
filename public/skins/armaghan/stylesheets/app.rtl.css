@@ -9,12 +9,12 @@ font-weight: normal;
 font-style: normal;
 }
 
-body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, form, p, blockquote, th, td, h1, h2, h3, h4, h5, h6, input[type="search"], input[type="text"], input[type="submit"] {
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, form, p, blockquote, th, td, h1, h2, h3, h4, h5, h6, textarea, select, input[type="search"], input[type="text"], input[type="submit"] {
 	font-family: "BKoodak", "Tahome", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 	text-align: right;
 }
 table thead tr th, table tfoot tr th, table tbody tr td, table tr td, table tfoot tr td { 
-	font-size: 12px; 
+	font-size: 13px; 
 	line-height: 18px; 
 	text-align: center; 
 }

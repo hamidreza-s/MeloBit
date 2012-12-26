@@ -1,5 +1,5 @@
 <?php
-class Sms_Form_CompanyForm extends Zend_Form
+class Sms_Form_CustomerForm extends Zend_Form
 {
 	public function init()
 	{
@@ -9,26 +9,34 @@ class Sms_Form_CompanyForm extends Zend_Form
 		// create hidden id
 		$id = $this->createElement('hidden', 'id');
 		$id->setDecorators(array('ViewHelper'));
-		$this->addElement($id);	
+		$this->addElement($id);
 		
-		// create name
-		$name = $this->createElement('text', 'name')
-			->setLabel('Company name:')
+		// create company_id
+		$company_id = $this->createElement('select', 'company_id')
+			->setLabel('Select company:')
+			->setRequired(true);
+		foreach ($this->getCompanies() as $key => $value)
+		{
+			$company_id->addMultiOption($key, $value);
+		}
+		$this->addElement($company_id);
+		
+		// create first_name
+		$first_name = $this->createElement('text', 'first_name')
+			->setLabel('First name:')
 			->setRequired(true)
 			->setAttrib('size', 30)
 			->setAttrib('class', 'validate[required]');
-		$this->addElement($name);
-		
-		// create field
-		$field = $this->createElement('select', 'field')
-			->setLabel('Select company field:')
-			->setRequired(true);
-		foreach ($this->getCompanyFields() as $c)
-		{
-			$field->addMultiOption($c, $c);
-		}
-		$this->addElement($field);
-		
+		$this->addElement($first_name);
+
+		// create last_name
+		$last_name = $this->createElement('text', 'last_name')
+			->setLabel('Last name:')
+			->setRequired(true)
+			->setAttrib('size', 30)
+			->setAttrib('class', 'validate[required]');
+		$this->addElement($last_name);
+	
 		// create contact_number_1
 		$contact_number_1 = $this->createElement('text', 'contact_number_1')
 			->setLabel('Contact Number (1):')
@@ -60,13 +68,16 @@ class Sms_Form_CompanyForm extends Zend_Form
 		$this->addElement($submit);
 	}
 	
-	public function getCompanyFields()
+	public function getCompanies()
 	{
-		$fields[] = 'Field 1';
-		$fields[] = 'Field 2';
-		$fields[] = 'Field 3';
-		$fields[] = 'Field 4';
-		return $fields;
+		$companyModel = Sms_Model_CompanyModel::listCompany()->toArray();
+
+		foreach ($companyModel as $company)
+		{
+			$companies[$company['id']] = $company['name']; 
+		}
+		
+		return $companies;
 	}
 }
 

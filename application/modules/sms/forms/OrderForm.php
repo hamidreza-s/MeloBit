@@ -41,7 +41,7 @@ class Sms_Form_OrderForm extends Zend_Form
 
 		// create submit
 		$submit = $this->createElement('submit', 'submit');
-		$submit->setLabel('Send Message');
+		$submit->setLabel('Submit Form');
 		$this->addElement($submit);
 	}
 	

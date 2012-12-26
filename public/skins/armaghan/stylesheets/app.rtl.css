@@ -14,9 +14,9 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, form, p, blockquote, 
 	text-align: right;
 }
 table thead tr th, table tfoot tr th, table tbody tr td, table tr td, table tfoot tr td { 
-	font-size: 14px; 
+	font-size: 12px; 
 	line-height: 18px; 
-	text-align: right; 
+	text-align: center; 
 }
 
 blockquote { 

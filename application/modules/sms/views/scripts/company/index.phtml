@@ -1,10 +1,47 @@
 <?php $this->layout()->setLayout('page'); ?>
 
-Sms Module -> Company Controller -> Index Action
+<table>
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Field</th>
+			<th>Contact No. #1</th>
+			<th>Contact No. #2</th>
+			<th>Address</th>
+			<th>Links</th>
+		</tr>
+	</thead>
+	<tbody>
+<?php foreach ($this->companies as $company): ?>
+		<tr>
+			<td>
+				<?php echo $company['id']; ?>
+			</td>
+			<td>
+				<?php echo $company['name']; ?>
+			</td>
+			<td>
+				<?php echo $company['field']; ?>
+			</td>
+			<td>
+				<?php echo $company['contact_number_1']; ?>
+			</td>
+			<td>
+				<?php echo $company['contact_number_2']; ?>
+			</td>
+			<td>
+				<?php echo $company['address']; ?>
+			</td>
+			<td>
+				<a href="<?php echo $this->translate('/en_US');?>/sms/company/delete/id/<?php echo $company['id']; ?>" onclick="return confirm('Sure?')">Delete</a>
+				<br/>
+				<a href="<?php echo $this->translate('/en_US');?>/sms/company/update/id/<?php echo $company['id']; ?>">Update</a>
+			</td>
+		</tr>
+<?php endforeach; ?>
+	</tbody>
+</table>
 
-<?php
-	if ($this->companies)
-	{
-		Zend_Debug::dump($this->companies);
-	}
-?>
+<p><a href="<?php echo $this->translate('/en_US'); ?>
+	/sms/company/create"><?php echo $this->translate('Create a new company'); ?></a></p>

@@ -9,7 +9,7 @@ class Melobit_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 		// add roles
 		$acl->addRole(new Zend_Acl_Role('guest'));
 		$acl->addRole(new Zend_Acl_Role('user'), 'guest');
-		$acl->addRole(new Zend_Acl_Role('administrator', 'user'));
+		$acl->addRole(new Zend_Acl_Role('administrator'), 'user');
 		
 		// add resources "module>controller"
 		$acl->addResource(new Zend_Acl_Resource('default>index'));
@@ -46,7 +46,6 @@ class Melobit_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 		$acl->allow('guest', 'default>feed');
 		$acl->allow('guest', 'contact>index', array('index'));
 		$acl->allow('guest', 'sms>index', array('index'));
-		$acl->allow('guest', 'sms>order', array('index'));
 		
 		// MeloBit user can also work with content
 		$acl->allow('user', 'default>page', array('list', 'create', 'edit', 'delete'));
@@ -83,16 +82,17 @@ class Melobit_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 			$session->requestUri = $this->getRequest()->getRequestUri();
 		}
 		
-		
 		if (!$acl->isAllowed($role, $resource, $action))
 		{
 			if ($role == 'guest')
 			{
+				$request->setModuleName('default');
 				$request->setControllerName('user');
 				$request->setActionName('login');
 			}
 			else
 			{
+				$request->setModuleName('default');
 				$request->setControllerName('error');
 				$request->setActionName('noauth');
 			}

@@ -1,3 +1,52 @@
 <?php $this->layout()->setLayout('page'); ?>
 
-Sms Module -> Admin Customer -> Index Action
+<table>
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Company Name</th>
+			<th>Contact No. #1</th>
+			<th>Contact No. #2</th>
+			<th>Address</th>
+			<th>Links</th>
+		</tr>
+	</thead>
+	<tbody>
+<?php foreach ($this->customers as $customers): ?>
+		<tr>
+			<td>
+				<?php echo $customers['id']; ?>
+			</td>
+			<td>
+				<?php echo $customers['first_name']; ?>
+			</td>
+			<td>
+				<?php echo $customers['last_name']; ?>
+			</td>
+			<td>
+				<?php $companyName = Sms_Model_CompanyModel::listCompany($customers['company_id']); ?>
+				<?php echo $companyName['name']; ?>
+			</td>
+			<td>
+				<?php echo $customers['contact_number_1']; ?>
+			</td>
+			<td>
+				<?php echo $customers['contact_number_2']; ?>
+			</td>
+			<td>
+				<?php echo $customers['address']; ?>
+			</td>
+			<td>
+				<a href="<?php echo $this->translate('/en_US');?>/sms/customer/delete/id/<?php echo $customers['id']; ?>" onclick="return confirm('Sure?')">Delete</a>
+				<br/>
+				<a href="<?php echo $this->translate('/en_US');?>/sms/customer/update/id/<?php echo $customers['id']; ?>">Update</a>
+			</td>
+		</tr>
+<?php endforeach; ?>
+	</tbody>
+</table>
+
+<p><a href="<?php echo $this->translate('/en_US'); ?>
+	/sms/customer/create"><?php echo $this->translate('Create a new customer'); ?></a></p>

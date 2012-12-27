@@ -17,10 +17,13 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 		$rowDestination = $this->createRow();
 		if ($rowDestination)
 		{
+			// date object
+			$dateObject = new Zend_Date($dispatch_date);
+
 			$rowDestination->order_id = $order_id;
 			$rowDestination->destination_type = $destination_type;
 			$rowDestination->destination_value = $destination_value;
-			$rowDestination->dispatch_date = $dispatch_date;
+			$rowDestination->dispatch_date = $dateObject->get(Zend_Date::TIMESTAMP);
 			$rowDestination->destinations_quantity 	 = $destinations_quantity 	;
 			return $rowDestination->save();
 		}
@@ -57,6 +60,21 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 		}			
 	}
 	
-	public function deleteDestination() {}
+	public function deleteDestination($id) 
+	{
+		$rowDestination = $this->find($id)->current();
+		if ($rowDestination)
+		{
+			$returnValue = array(
+				'order_id' => $rowDestination->order_id,
+				'destination_id' => $rowDestination->delete()
+			);
+			return $returnValue;
+		}
+		else
+		{
+			throw new Zend_Exception("Could not delete the customer!");
+		}			
+	}
 	
 }

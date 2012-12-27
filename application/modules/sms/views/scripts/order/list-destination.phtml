@@ -36,7 +36,7 @@
 				<?php echo $destinations['destination_value']; ?>
 			</td>
 			<td>
-				<?php echo $destinations['dispatch_date']; ?>
+				<?php echo date('m/d/y', $destinations['dispatch_date']); ?>
 			</td>
 			<td>
 				<?php echo $destinations['destinations_quantity']; ?>
@@ -53,8 +53,8 @@
 	</tbody>
 </table>
 
+<?php endif; ?>
+
 <p><a href="<?php echo $this->translate('/en_US'); ?>
 	/sms/order/create-destination/id/<?php echo $this->order_id; ?>">
 	<?php echo $this->translate('Create a new destination'); ?></a></p>
-	
-<?php endif; ?>

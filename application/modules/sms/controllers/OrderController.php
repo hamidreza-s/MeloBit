@@ -120,7 +120,6 @@ class Sms_OrderController extends Zend_Controller_Action
 		$this->view->form = $form;			
 	}
 	
-	// forward value has to be modify (!!)
 	public function updateDestinationAction() 
 	{
 		$form = new Sms_Form_OrderDestinationForm;
@@ -140,7 +139,8 @@ class Sms_OrderController extends Zend_Controller_Action
 					'N/A'					
 				);
 				
-				return $this->_forward('index');
+				// return $this->_forward($action, $controller = null, $module = null, array($params = null))
+				return $this->_forward('list-destination', null, null, array('id' => $data['order_id']));
 			}
 		}
 		else
@@ -148,13 +148,28 @@ class Sms_OrderController extends Zend_Controller_Action
 			$requestedId = $this->_request->getParam('id');
 			$requestedDestination = $destinationModel->find($requestedId)->current();
 			$form->populate($requestedDestination->toArray());
+			
+			// meanwhile; format the date field
+			$timeStampDate = $form->getValue('dispatch_date');
+			$form->getElement('dispatch_date')->setValue(date('m-d-Y', $timeStampDate));
 		}
 		$this->view->form = $form;		
 	}
 	
-	public function deleteDestinationAction() {}
+	public function deleteDestinationAction() 
+	{
+		$requestedId = $this->_request->getParam('id');
+		$destinationModel = new Sms_Model_DestinationModel;
+		$returnedValue = $destinationModel->deleteDestination($requestedId);
+		$id = $returnedValue['destination_id'];
+		$order_id = $returnedValue['order_id'];
+		
+		return $this->_forward('list-destination', null, null, array('id' => $order_id));
+	}
 	
-	public function reviewOrderAction() {}
+	public function reviewOrderAction() 
+	{
+	}
 
 }
 

@@ -1,11 +1,16 @@
 <?php
-class Sms_Form_OrderForm extends Zend_Form
+class Sms_Form_OrderCreateForm extends Zend_Form
 {
 	public function init()
 	{
 		$this->setMethod('post');
 		$this->setAttrib('id', 'jQueryValidation');
 
+		// create hidden id
+		$id = $this->createElement('hidden', 'id');
+		$id->setDecorators(array('ViewHelper'));
+		$this->addElement($id);
+		
 		// create customer_id
 		$customer_id = $this->createElement('select', 'customer_id')
 			->setLabel('Select a customer:')
@@ -32,12 +37,6 @@ class Sms_Form_OrderForm extends Zend_Form
 			->setAttrib('size', 30)
 			->setAttrib('class', 'validate[required]');
 		$this->addElement($test_phone);
-		
-		// create order_status
-		$order_status = $this->createElement('checkbox', 'order_status')
-			->setLabel('Order Status')
-			->setCheckedValue(1)
-			->setUncheckedValue(2);
 
 		// create submit
 		$submit = $this->createElement('submit', 'submit');
@@ -47,8 +46,14 @@ class Sms_Form_OrderForm extends Zend_Form
 	
 	public function getCustomers()
 	{
-		$customers['1'] = 'c1';
-		$customers['2'] = 'c2';
+		$customerModel = Sms_Model_CustomerModel::listCustomer()->toArray();
+		
+		$customers[] = '';
+		foreach ($customerModel as $customer)
+		{
+			$customers[$customer['id']] = $customer['first_name'] . ' ' . $customer['last_name']; 
+		}
+		
 		return $customers;
 	}
 }

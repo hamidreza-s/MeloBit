@@ -78,8 +78,18 @@ class Sms_Model_CustomerModel extends Zend_Db_Table_Abstract
 		}
 	}
 	
-	public static function listCustomer()
+	public static function listCustomer($id = null)
 	{
-	
+		$customerModel = new self();
+		$select = $customerModel->select(array('id', 'first_name', 'last_name'));   
+
+		if (is_null($id))
+		{
+			return $customerModel->fetchAll($select);
+		}
+		else
+		{
+			return $customerModel->find($id)->current();
+		}	
 	}
 }

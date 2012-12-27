@@ -1,5 +1,9 @@
 <?php $this->layout()->setLayout('page'); ?>
 
+<?php if (!$this->customers): ?>
+<p>There is no customer!</p>
+<?php else: ?>
+
 <?php
 	$confirmMessage = $this->translate('Are you sure to delete?');
 ?>
@@ -56,3 +60,5 @@
 
 <p><a href="<?php echo $this->translate('/en_US'); ?>
 	/sms/customer/create"><?php echo $this->translate('Create a new customer'); ?></a></p>
+	
+<?php endif; ?>

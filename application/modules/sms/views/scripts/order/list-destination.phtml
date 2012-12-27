@@ -1,0 +1,60 @@
+<?php $this->layout()->setLayout('page'); ?>
+
+<?php if (!$this->destinations): ?>
+<p>There is no destination!</p>
+<?php else: ?>
+
+<?php
+	$confirmMessage = $this->translate('Are you sure to delete?');
+?>
+
+<table>
+	<thead>
+		<tr>
+			<th><?php echo $this->translate('ID') ?></th>
+			<th><?php echo $this->translate('Order ID') ?></th>
+			<th><?php echo $this->translate('Destination Type') ?></th>
+			<th><?php echo $this->translate('Destination Value') ?></th>
+			<th><?php echo $this->translate('Dispatch Date') ?></th>
+			<th><?php echo $this->translate('Quantity') ?></th>
+			<th><?php echo $this->translate('Links') ?></th>
+		</tr>
+	</thead>
+	<tbody>
+<?php foreach ($this->destinations as $destinations): ?>
+		<tr>
+			<td>
+				<?php echo $destinations['id']; ?>
+			</td>
+			<td>
+				<?php echo $destinations['order_id']; ?>
+			</td>
+			<td>
+				<?php echo $destinations['destination_type']; ?>
+			</td>
+			<td>
+				<?php echo $destinations['destination_value']; ?>
+			</td>
+			<td>
+				<?php echo $destinations['dispatch_date']; ?>
+			</td>
+			<td>
+				<?php echo $destinations['destinations_quantity']; ?>
+			</td>
+			<td>
+				<a href="<?php echo $this->translate('/en_US');?>/sms/order/update-destination/id/<?php echo $destinations['id']; ?>">
+					<?php echo $this->translate('Update') ?></a>
+				<br/>
+				<a href="<?php echo $this->translate('/en_US');?>/sms/order/delete-destination/id/<?php echo $destinations['id']; ?>" 
+					onclick="return confirm('<?php echo $confirmMessage; ?>')"><?php echo $this->translate('Delete') ?></a>
+			</td>
+		</tr>
+<?php endforeach; ?>
+	</tbody>
+</table>
+
+<p><a href="<?php echo $this->translate('/en_US'); ?>
+	/sms/order/create-destination/id/<?php echo $this->order_id; ?>">
+	<?php echo $this->translate('Create a new destination'); ?></a></p>
+	
+<?php endif; ?>

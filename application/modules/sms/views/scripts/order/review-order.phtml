@@ -18,7 +18,7 @@
 			<?php echo $customerName['first_name'] . ' ' .  $customerName['last_name']; ?>
 			<br/>
 		<span class="subheader"><?php echo $this->translate('Order Date:'); ?></span>
-			<?php echo date('m/d/y', $this->order['order_date']); ?>
+			<?php echo date('m - d - Y', $this->order['order_date']); ?>
 			<br/>
 		<span class="subheader"><?php echo $this->translate('Test Phone:'); ?></span>
 			<?php echo $this->order['test_phone']; ?>
@@ -110,7 +110,3 @@
 </table>
 
 <?php endif; ?>
-
-<p><a href="<?php echo $this->translate('/en_US'); ?>
-	/sms/order/create-destination/id/<?php echo $this->order_id; ?>">
-	<?php echo $this->translate('Create a new destination'); ?></a></p>

@@ -47,11 +47,14 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 		$rowDestination = $this->find($id)->current();
 		if ($rowDestination)
 		{
+			// date object
+			$dateObject = new Zend_Date($dispatch_date);
+			
 			$rowDestination->order_id = $order_id;
 			$rowDestination->destination_type = $destination_type;
 			$rowDestination->destination_value = $destination_value;
-			$rowDestination->dispatch_date = $dispatch_date;
-			$rowDestination->destinations_quantity 	 = $destinations_quantity 	;
+			$rowDestination->dispatch_date = $dateObject->get(Zend_Date::TIMESTAMP);
+			$rowDestination->destinations_quantity 	 = $destinations_quantity;
 			return $rowDestination->save();
 		}
 		else

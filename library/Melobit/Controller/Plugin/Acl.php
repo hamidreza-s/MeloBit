@@ -66,9 +66,9 @@ class Melobit_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 		{
 			$role = 'guest';
 		}
-		
+
 		// fetch request module, action and controller
-		$module = $request->getModuleName() ;
+		$module = $request->module;
 		$controller = $request->controller;
 		$action = $request->action;
 		$resource = "{$module}>{$controller}";

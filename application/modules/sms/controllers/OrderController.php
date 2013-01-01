@@ -169,6 +169,29 @@ class Sms_OrderController extends Zend_Controller_Action
 	
 	public function reviewOrderAction() 
 	{
+		$requestedId = $this->_request->getParam('id');
+		$orderModel = new Sms_Model_OrderModel;
+		$destinationModel = new Sms_Model_DestinationModel;
+		$this->view->order = $orderModel::retrieveOrder($requestedId);
+		$this->view->destinations = $destinationModel::retrieveDestination($requestedId);
+	}
+	
+	public function confirmOrderAction()
+	{
+		$requestedId = $this->_request->getParam('id');
+		$orderModel = new Sms_Model_OrderModel;	
+		$id = $orderModel->confirmOrder($requestedId);
+		
+		return $this->_forward('review-order', null, null, array('id' =>$requestedId));
+	}
+	
+	public function suspendOrderAction() 
+	{
+		$requestedId = $this->_request->getParam('id');
+		$orderModel = new Sms_Model_OrderModel;	
+		$id = $orderModel->suspendOrder($requestedId);
+		
+		return $this->_forward('review-order', null, null, array('id' =>$requestedId));
 	}
 
 }

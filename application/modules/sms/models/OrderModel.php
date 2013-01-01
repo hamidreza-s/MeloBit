@@ -73,6 +73,32 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 		}	
 	}
 		
-	public function confirmOrder() {}
+	public function confirmOrder($id) 
+	{
+		$rowOrder = $this->find($id)->current();
+		if ($rowOrder)
+		{
+			$rowOrder->order_status = 1;
+			return $rowOrder->save();
+		}
+		else
+		{
+			throw new Zend_Exception("Could not update the order!");
+		}		
+	}
+	
+	public function suspendOrder($id)	
+	{
+		$rowOrder = $this->find($id)->current();
+		if ($rowOrder)
+		{
+			$rowOrder->order_status = 0;
+			return $rowOrder->save();
+		}
+		else
+		{
+			throw new Zend_Exception("Could not update the order!");
+		}			
+	}
 	
 }

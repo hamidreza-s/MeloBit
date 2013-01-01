@@ -84,3 +84,14 @@ class Sms_Model_CompanyModel extends Zend_Db_Table_Abstract
 
 	}
 }
+
+
+
+
+
+
+
+
+
+
+

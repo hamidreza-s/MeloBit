@@ -92,4 +92,13 @@ class Sms_Model_CustomerModel extends Zend_Db_Table_Abstract
 			return $customerModel->find($id)->current();
 		}	
 	}
+	
+	public static function getCompanyNameByCustomerId($id)
+	{
+		$customerModel = new self();
+		$rowCustomer = $customerModel->find($id)->current();
+
+		$companyName = Sms_Model_CompanyModel::listCompany($rowCustomer['company_id']);
+		return $companyName;
+	}
 }

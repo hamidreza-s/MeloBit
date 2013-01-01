@@ -12,8 +12,11 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 		$rowOrder = $this->createRow();
 		if ($rowOrder)
 		{
+			$date = new DateTime();
+
 			$rowOrder->customer_id = $customer_id;
 			$rowOrder->sms_content = $sms_content;
+			$rowOrder->order_date = $date->getTimestamp();
 			$rowOrder->test_phone = $test_phone;
 			return $rowOrder->save();
 		}
@@ -43,8 +46,11 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 		$rowOrder = $this->find($id)->current();
 		if ($rowOrder)
 		{
+			$date = new DateTime();
+			
 			$rowOrder->customer_id = $customer_id;
 			$rowOrder->sms_content = $sms_content;
+			$rowOrder->order_date = $date->getTimestamp();
 			$rowOrder->test_phone = $test_phone;
 			return $rowOrder->save();
 		}

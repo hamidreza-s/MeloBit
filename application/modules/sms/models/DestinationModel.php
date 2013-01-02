@@ -7,7 +7,7 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 			'columns'		=>	array('order_id'),
 			'refTableClass'	=>	'Sms_Model_OrderModel',
 			'refColumns'	=>	array('id'),
-			'onDelete'		=>	self::RESTRICT,
+			'onDelete'		=>	self::CASCADE,
 			'onUpdate'		=>	self::RESTRICT
 		)
 	);

@@ -7,7 +7,7 @@ class Sms_Model_CustomerModel extends Zend_Db_Table_Abstract
 			'columns'		=>	array('company_id'),
 			'refTableClass'	=>	'Sms_Model_CompanyModel',
 			'refColumns'	=>	array('id'),
-			'onDelete'		=>	self::RESTRICT,
+			'onDelete'		=>	self::CASCADE,
 			'onUpdate'		=>	self::RESTRICT
 		)
 	);

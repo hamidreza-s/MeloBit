@@ -11,7 +11,7 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 			'columns'		=>	array('user_id'),
 			'refTableClass'	=>	'Model_UserModel',
 			'refColumns'	=>	array('id'),
-			'onDelete'		=>	self::RESTRICT,
+			'onDelete'		=>	self::CASCADE,
 			'onUpdate'		=>	self::RESTRICT
 		)
 	);

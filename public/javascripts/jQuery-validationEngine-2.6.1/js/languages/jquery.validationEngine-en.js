@@ -185,6 +185,13 @@
                     "alertText2": "Expected Format: ",
                     "alertText3": "mm/dd/yyyy hh:mm:ss AM|PM or ", 
                     "alertText4": "yyyy-mm-dd hh:mm:ss AM|PM"
+	            },
+                //tls warning:homegrown not fielded 
+				"dateTime24": {
+	                "regex": /^(\d{2}|\d{4})(?:\-)?([0]{1}\d{1}|[1]{1}[0-2]{1})(?:\-)?([0-2]{1}\d{1}|[3]{1}[0-1]{1})(?:\s)?([0-1]{1}\d{1}|[2]{1}[0-3]{1})(?::)?([0-5]{1}\d{1})(?::)?([0-5]{1}\d{1})$/,
+                    "alertText": "* Invalid Date or Date Format",
+                    "alertText2": "Expected Format: ",
+                    "alertText3": "yyyy-mm-dd hh:mm:ss"
 	            }
             };
             

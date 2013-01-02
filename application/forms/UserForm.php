@@ -42,6 +42,9 @@ class Form_UserForm extends Zend_Form
 		$role = $this->createElement('select', 'role');
 		$role->setLabel('Select a role:');
 		$role->addMultiOption('user', 'User');
+		$role->addMultiOption('orderer', 'Orderer');
+		$role->addMultiOption('controller', 'Controller');
+		$role->addMultiOption('dispatcher', 'Dispatcher');
 		$role->addMultiOption('administrator', 'Administrator');
 		$this->addElement($role);
 	

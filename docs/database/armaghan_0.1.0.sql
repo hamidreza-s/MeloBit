@@ -132,6 +132,7 @@ INSERT INTO `users` (`id`, `username`, `password`, `first_name`, `last_name`, `r
 CREATE TABLE IF NOT EXISTS `orders` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`customer_id` int(11) NOT NULL,
+	`user_id` int(11) NOT NULL,
 	`sms_content` varchar(200) NOT NULL,
 	`order_date` int(11) NOT NULL,
 	`test_phone`  varchar(25) DEFAULT NULL,

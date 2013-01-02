@@ -1,9 +1,21 @@
 <?php
 class Sms_OrderController extends Zend_Controller_Action
 {
+	private $_authentication;
+	private $_userIdentity;
+	private $_userId;
+	
+	public function init()
+	{
+		// fetch the current user
+		$this->_authentication = Zend_Auth::getInstance();
+		$this->_userIdentity = $this->_authentication->getIdentity();
+		$this->_userId = $this->_userIdentity->id;		
+	}
+
 	public function indexAction() 
 	{
-		$orders = Sms_Model_OrderModel::retrieveOrder();
+		$orders = Sms_Model_OrderModel::retrieveOrderByUserId($this->_userId);
 		if ($orders->count() > 0)
 		{
 			$this->view->orders = $orders->toArray();
@@ -26,6 +38,7 @@ class Sms_OrderController extends Zend_Controller_Action
 				$orderModel = new Sms_Model_OrderModel;
 				$id = $orderModel->createOrder(
 					$data['customer_id'],
+					$this->_userId,
 					$data['sms_content'],
 					$data['test_phone']
 				);
@@ -61,6 +74,14 @@ class Sms_OrderController extends Zend_Controller_Action
 		{
 			$requestedId = $this->_request->getParam('id');
 			$requestedOrder = $orderModel->find($requestedId)->current();
+			
+			// If "current user" is not the same as "orderer user", go to error controller
+			if ($requestedOrder->user_id !== $this->_userId) 
+			{
+				// return $this->_forward($action, $controller = null, $module = null, array($params = null))
+				return $this->_forward('noauth', 'error', 'default', null);
+			}
+			
 			$form->populate($requestedOrder->toArray());
 		}
 		$this->view->form = $form;		
@@ -70,6 +91,15 @@ class Sms_OrderController extends Zend_Controller_Action
 	{
 		$requestedId = $this->_request->getParam('id');
 		$orderModel = new Sms_Model_OrderModel;
+		$requestedOrder = $orderModel->find($requestedId)->current();
+		
+		// If "current user" is not the same as "orderer user", go to error controller
+		if ($requestedOrder->user_id !== $this->_userId) 
+		{
+			// return $this->_forward($action, $controller = null, $module = null, array($params = null))
+			return $this->_forward('noauth', 'error', 'default', null);
+		}
+		
 		$id = $orderModel->deleteOrder($requestedId);
 		
 		return $this->_forward('index');	
@@ -151,7 +181,7 @@ class Sms_OrderController extends Zend_Controller_Action
 			
 			// meanwhile; format the date field
 			$timeStampDate = $form->getValue('dispatch_date');
-			$form->getElement('dispatch_date')->setValue(date('m-d-Y', $timeStampDate));
+			$form->getElement('dispatch_date')->setValue(date('Y-m-d H:i:s', $timeStampDate));
 		}
 		$this->view->form = $form;		
 	}

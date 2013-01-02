@@ -160,7 +160,7 @@ class UserController extends Zend_Controller_Action
 			}
 			else
 			{
-				$this->view->loginMessage = "Sorry, your username or passwordd was incorrect";
+				$this->view->loginFail = true;
 			}
 		}
 		$this->view->form = $userForm;

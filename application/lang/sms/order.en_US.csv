@@ -29,3 +29,8 @@
 "List of Destinations";"List of Destinations"
 "Destination Type:";"Destination Type:"
 "Destination Value:";"Destination Value:"
+"Orderer Username";"Orderer Username"
+"orderer";"Orderer"
+"controller";"Controller"
+"dispatcher";"Dispatcher"
+"Date the issue occurred (yyyy-mm-dd hh:mm:ss):";"Date the issue occurred (yyyy-mm-dd hh:mm:ss):"

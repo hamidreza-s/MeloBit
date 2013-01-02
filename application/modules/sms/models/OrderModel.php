@@ -6,8 +6,17 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 		'Sms_Model_DestinationModel',
 		'Sms_Model_TransactionModel'
 	);
+	protected $_referenceMap = array(
+		'Users'	=>	array(
+			'columns'		=>	array('user_id'),
+			'refTableClass'	=>	'Model_UserModel',
+			'refColumns'	=>	array('id'),
+			'onDelete'		=>	self::RESTRICT,
+			'onUpdate'		=>	self::RESTRICT
+		)
+	);
 	
-	public function createOrder($customer_id, $sms_content, $test_phone)	
+	public function createOrder($customer_id, $user_id, $sms_content, $test_phone)	
 	{
 		$rowOrder = $this->createRow();
 		if ($rowOrder)
@@ -15,6 +24,7 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 			$date = new DateTime();
 
 			$rowOrder->customer_id = $customer_id;
+			$rowOrder->user_id = $user_id;
 			$rowOrder->sms_content = $sms_content;
 			$rowOrder->order_date = $date->getTimestamp();
 			$rowOrder->test_phone = $test_phone;
@@ -29,16 +39,24 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 	public static function retrieveOrder($id = null)
 	{
 		$orderModel = new self();
-		$select = $orderModel->select();
 		
 		if (is_null($id))
 		{
+			$select = $orderModel->select();
 			return $orderModel->fetchAll($select);
 		}
 		else
 		{
 			return $orderModel->find($id)->current();
 		}
+	}
+	
+	public static function retrieveOrderByUserId($id)
+	{
+		$orderModel = new self();
+		$select = $orderModel->select()
+			->where('user_id = ?', $id);
+		return $orderModel->fetchAll($select);
 	}
 	
 	public function updateOrder($id, $customer_id, $sms_content, $test_phone) 

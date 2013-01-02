@@ -2,6 +2,7 @@
 class Model_UserModel extends Zend_Db_Table_Abstract
 {
 	protected $_name = 'users';
+	protected $_dependentTables	= array('Sms_Model_OrderModel');
 	
 	public function createUser($username, $password, $firstname, $lastname, $role)
 	{
@@ -21,12 +22,20 @@ class Model_UserModel extends Zend_Db_Table_Abstract
 		}
 	}
 	
-	public static function getUsers()
+	public static function getUsers($id = null)
 	{
-		$userModel = new self();
-		$select = $userModel->select();
-		$select->order(array('last_name', 'first_name'));
-		return $userModel->fetchAll($select);
+		if (is_null($id))
+		{
+			$userModel = new self();
+			$select = $userModel->select();
+			$select->order(array('last_name', 'first_name'));
+			return $userModel->fetchAll($select);
+		}
+		else
+		{
+			$userModel = new self();
+			return $userModel->find($id)->current();
+		}
 	}
 	
 	public function updateUser($id, $username, $firstname, $lastname, $role)

@@ -3,10 +3,10 @@
 <h3><?php echo $this->translate('User Login'); ?></h3>
 <p><?php echo $this->translate('To login to your account please enter your username and password below.'); ?></p>
 <?php
-	if ($this->loginMessage)
+	if ($this->loginFail)
 	{
 ?>
-<p><?php echo $this->loginMessage; ?></p>
+<p><?php echo $this->translate('Sorry, your username or passwordd was incorrect.'); ?></p>
 <?php
 	}
 	echo $this->form;

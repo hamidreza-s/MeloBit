@@ -62,12 +62,12 @@
 
 .formError .formErrorArrow {
 	width: 15px;
-	margin: -2px 0 0 13px;
+	margin: -2px 120px 0 13px;
 	position:relative;
 }
 body[dir='rtl'] .formError .formErrorArrow,
 body.rtl .formError .formErrorArrow {
-	margin: -2px 13px 0 0;
+	margin: -2px 120px 0 0;
 }
 
 .formError .formErrorArrowBottom {

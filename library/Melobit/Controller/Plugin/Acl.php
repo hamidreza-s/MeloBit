@@ -11,6 +11,11 @@ class Melobit_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 		$acl->addRole(new Zend_Acl_Role('user'), 'guest');
 		$acl->addRole(new Zend_Acl_Role('administrator'), 'user');
 		
+		// add roule for sms module
+		$acl->addRole(new Zend_Acl_Role('orderer'), 'user');
+		$acl->addRole(new Zend_Acl_Role('controller'), 'orderer');
+		$acl->addRole(new Zend_Acl_Role('dispatcher'), 'controller');
+		
 		// add resources "module>controller"
 		$acl->addResource(new Zend_Acl_Resource('default>index'));
 		$acl->addResource(new Zend_Acl_Resource('default>error'));
@@ -31,6 +36,8 @@ class Melobit_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 		$acl->addResource(new Zend_Acl_Resource('sms>company'));		
 		$acl->addResource(new Zend_Acl_Resource('sms>customer'));		
 		$acl->addResource(new Zend_Acl_Resource('sms>order'));
+		$acl->addResource(new Zend_Acl_Resource('sms>control'));
+		$acl->addResource(new Zend_Acl_Resource('sms>dispatch'));
 		
 		// set up the access rules
 		// note: $acl->allow(WHO, WHICH CONTROLLER, WHICH ACTIONS)
@@ -51,7 +58,12 @@ class Melobit_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 		$acl->allow('user', 'default>page', array('list', 'create', 'edit', 'delete'));
 		$acl->allow('user', 'default>user', array('logout'));
 		$acl->allow('user', 'default>bug', array('index', 'create', 'success'));
-		
+	
+		// access for sms module roles
+		$acl->allow('orderer', array('sms>order', 'sms>company', 'sms>customer'), null);
+		$acl->allow('controller', 'sms>control', null);
+		$acl->allow('dispatcher', 'sms>dispatch', null);
+	
 		// admin can do anything
 		$acl->allow('administrator', null);
 		

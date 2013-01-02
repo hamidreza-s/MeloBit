@@ -29,3 +29,8 @@
 "List of Destinations";"لیست مقاصد"
 "Destination Type:";"نوع مقصد:"
 "Destination Value:";"مقدار مقصد:"
+"Orderer Username";"نام کاربری سفارش دهنده"
+"orderer";"مسئول سفارش"
+"controller";"مسئول کنترل"
+"dispatcher";"مسئول ارسال"
+"Date the issue occurred (yyyy-mm-dd hh:mm:ss):";"تاریخ (سال-ماه-روز ساعت:دقیقه:ثانیه)"

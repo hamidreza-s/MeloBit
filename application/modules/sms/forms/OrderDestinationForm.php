@@ -37,11 +37,18 @@ class Sms_Form_OrderDestinationForm extends Zend_Form
 		
 		// create dispatch_date
 		$dispatch_date = $this->createElement('text', 'dispatch_date')
-			->setLabel('Date the issue occurred (mm-dd-yyyy):')
+			->setLabel('Date the issue occurred (yyyy-mm-dd hh:mm:ss):')
 			->setRequired(true)
-			->addValidator(new Zend_Validate_Date('MM-DD-YYYY'))
+			->addValidator('regex', false, array(
+				'pattern' => '/^(\d{2}|\d{4})(?:\-)?([0]{1}\d{1}|[1]{1}[0-2]{1})(?:\-)?([0-2]{1}\d{1}|[3]{1}[0-1]{1})(?:\s)?([0-1]{1}\d{1}|[2]{1}[0-3]{1})(?::)?([0-5]{1}\d{1})(?::)?([0-5]{1}\d{1})$/',
+				'messages' => array(
+					'regexInvalid'   => "Invalid type given, value should be yyyy-mm-dd hh:mm:ss",
+					'regexNotMatch' => "'%value%' does not match against pattern '%pattern%'",
+					'regexErrorous'  => "There was an internal error while using the pattern '%pattern%'"
+				)
+			))
 			->setAttrib('size', 30)
-			->setAttrib('class', 'validate[required,custom[date-mmddyyyy]]');
+			->setAttrib('class', 'validate[required,custom[dateTime24]]');
 		$this->addElement($dispatch_date);
 		
 		// create submit

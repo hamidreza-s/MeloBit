@@ -5,30 +5,19 @@
 	ini_set('max_input_time', '-1');
 	
 	// set importaint variables;
-	$db = new PDO('mysql:host=localhost;dbname=test;charset=UTF-8', '__dbusername__', '__dbpassword__');
-	$directoryPattern = "C:/Users/h.soleimani/Desktop/Postal Code/test/*";
-	$filesPatterns = "C:/Users/h.soleimani/Desktop/Postal Code/test/*/*.csv";
-
-	// get directory names to create database names
-	$directories = glob($directoryPattern);
-	foreach ($directories as $directory)
-	{
-		$directoryArray[] = basename($directory);
-	}
-
-	/*	
-	$cityNameListFile = 'C:/Users/h.soleimani/Desktop/Postal Code/cityList.csv';
-	$fileHandle = fopen($cityNameListFile, 'r');
-	$cityCsv = fread($fileHandle, filesize($cityNameListFile));
-	fclose($fileHandle);
-	$cityArray = preg_split('/\n|\r\n?/', $cityCsv);
-	array_pop($cityArray); // remove last index
-	*/
+	$db = new PDO('mysql:host=localhost;dbname=__dbname__;charset=UTF-8', '__dbusername__', '__dbpassword__');
+	$filesPatterns = "path/to/your/csv/files/root/{*,*/*, */*/*}/*.csv";
+	
+	// glob csv files
+	$cityArray = glob($filesPatterns, GLOB_BRACE);
 	
 	// create tables
 	$sql = null;
-	foreach ($directoryArray as $cityName)
+	foreach ($cityArray as $cityName)
 	{
+		// get city name
+		$cityName = basename($cityName , '.csv');
+	
 		// execute
 		$sql = "
 			CREATE TABLE IF NOT EXISTS `post_$cityName` (
@@ -47,12 +36,6 @@
 
 	// save memory
 	$sql = null;
-
-	// glob csv files
-	$cityArray = glob($filesPatterns);
-	
-	// set counter
-	$i = 0;
 	
 	// populate tables
 	foreach ($cityArray as $numberListFile)
@@ -62,8 +45,10 @@
 		fclose($fileHandle);
 		$numberArray = preg_split('/\n|\r\n?/', $numberCsv);
 		
-		
+		// save memory
 		$finalNumberArray = null;
+		
+		// build phone_no => postal_code array
 		foreach ($numberArray as $array)
 		{
 			$each = explode(',', $array);
@@ -75,9 +60,9 @@
 		$numberArray = null;
 		
 		// get city name
-		$cityName = $directoryArray[$i];
-		$i++;
+		$cityName = basename($numberListFile , '.csv');
 		
+		// fire sql
 		foreach ($finalNumberArray as $phoneNumber => $postalCode)
 		{
 			$sql = "INSERT INTO `post_$cityName` (`phone_no`, `postal_code`) VALUES (?, ?)";

@@ -12,7 +12,8 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 		)
 	);
 	
-	public function createDestination($order_id, $destination_type, $destination_value, $dispatch_date, $destinations_quantity)	
+	public function createDestination($order_id, $destination_type, $destination_value, $destination_order,
+		$destination_start, $destination_end, $dispatch_date, $destinations_quantity)	
 	{
 		$rowDestination = $this->createRow();
 		if ($rowDestination)
@@ -23,6 +24,9 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 			$rowDestination->order_id = $order_id;
 			$rowDestination->destination_type = $destination_type;
 			$rowDestination->destination_value = $destination_value;
+			$rowDestination->destination_order = $destination_order;
+			$rowDestination->destination_start = $destination_start;
+			$rowDestination->destination_end = $destination_end;
 			$rowDestination->dispatch_date = $dateObject->get(Zend_Date::TIMESTAMP);
 			$rowDestination->destinations_quantity 	 = $destinations_quantity 	;
 			return $rowDestination->save();
@@ -42,7 +46,8 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 		return $destinationModel->fetchAll($select);
 	}
 	
-	public function updateDestination($id, $order_id, $destination_type, $destination_value, $dispatch_date, $destinations_quantity) 
+	public function updateDestination($id, $order_id, $destination_type, $destination_value, $destination_order,
+		$destination_start, $destination_end, $dispatch_date, $destinations_quantity) 
 	{
 		$rowDestination = $this->find($id)->current();
 		if ($rowDestination)
@@ -53,6 +58,9 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 			$rowDestination->order_id = $order_id;
 			$rowDestination->destination_type = $destination_type;
 			$rowDestination->destination_value = $destination_value;
+			$rowDestination->destination_order = $destination_order;
+			$rowDestination->destination_start = $destination_start;
+			$rowDestination->destination_end = $destination_end;
 			$rowDestination->dispatch_date = $dateObject->get(Zend_Date::TIMESTAMP);
 			$rowDestination->destinations_quantity 	 = $destinations_quantity;
 			return $rowDestination->save();

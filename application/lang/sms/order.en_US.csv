@@ -34,3 +34,6 @@
 "controller";"Controller"
 "dispatcher";"Dispatcher"
 "Date the issue occurred (yyyy-mm-dd hh:mm:ss):";"Date the issue occurred (yyyy-mm-dd hh:mm:ss):"
+"Destination Order:";"Destination Order:"
+"Destination Start:";"Destination Start:"
+"Destination End:";"Destination End:"

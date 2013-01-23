@@ -156,7 +156,8 @@ CREATE TABLE IF NOT EXISTS `menu_items` (
 
 INSERT INTO `menu_items` (`id`, `menu_id`, `label`, `page_id`, `link`, `position`) VALUES
 (1, 2, 'List of Companies', 0, '/sms/company', 1),
-(2, 2, 'List of Customers', 0, '/sms/customer', 2);
+(2, 2, 'List of Customers', 0, '/sms/customer', 2),
+(3, 2, 'List of Orders', 0, '/sms/order', 3);
 
 -- --------------------------------------------------------
 

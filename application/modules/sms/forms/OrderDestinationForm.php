@@ -27,14 +27,37 @@ class Sms_Form_OrderDestinationForm extends Zend_Form
 		$this->addElement($destination_type);
 		
 		// create destination_value
-		$destination_value = $this->createElement('textarea', 'destination_value')
+		$destination_value = $this->createElement('text', 'destination_value')
 			->setLabel('Destination Value:')
 			->setRequired(true)
 			->setAttrib('class', 'validate[required]')
-			->setAttrib('cols', 43)
-			->setAttrib('rows', 4);
-		$this->addElement($destination_value);		
+			->setAttrib('size', 30);
+		$this->addElement($destination_value);	
+				
+		// create destination_order
+		$destination_order = $this->createElement('select', 'destination_order')
+			->setLabel('Destination Order:')
+			->setRequired(true)
+			->addMultiOption('By Order', 'By Order')
+			->addMultiOption('Random', 'Random');
+		$this->addElement($destination_order);
 		
+		// create destination_start
+		$destination_start = $this->createElement('text', 'destination_start')
+			->setLabel('Destination Start:')
+			->setRequired(true)
+			->setAttrib('class', 'validate[required]')
+			->setAttrib('size', 30);
+		$this->addElement($destination_start);	
+			
+		// create destination_end
+		$destination_end = $this->createElement('text', 'destination_end')
+			->setLabel('Destination End:')
+			->setRequired(true)
+			->setAttrib('class', 'validate[required]')
+			->setAttrib('size', 30);
+		$this->addElement($destination_end);
+	
 		// create dispatch_date
 		$dispatch_date = $this->createElement('text', 'dispatch_date')
 			->setLabel('Date the issue occurred (yyyy-mm-dd hh:mm:ss):')
@@ -59,11 +82,7 @@ class Sms_Form_OrderDestinationForm extends Zend_Form
 	
 	public function getDestinationTypes()
 	{
-		$types[] = '';
-		$types[] = 'Type 1';
-		$types[] = 'Type 2';
-		$types[] = 'Type 3';
-		$types[] = 'Type 4';
+		$types['Postal Code'] = 'Postal Code';
 		
 		return $types;
 	}

@@ -135,12 +135,16 @@ class Sms_OrderController extends Zend_Controller_Action
 				$data = $form->getValues();
 				$destinationModel = new Sms_Model_DestinationModel;
 				$requestedId = $this->_request->getParam('id');
+				$countPostal = Sms_Model_PostalCodeAllModel::countPostal($data['destination_value']);	
 				$id = $destinationModel->createDestination(
 					$requestedId,
 					$data['destination_type'],
 					$data['destination_value'],
+					$data['destination_order'],
+					$data['destination_start'],
+					$data['destination_end'],
 					$data['dispatch_date'],
-					'N/A'
+					$countPostal
 				);
 				
 				return $this->_forward('list-destination');
@@ -160,13 +164,17 @@ class Sms_OrderController extends Zend_Controller_Action
 			if ($form->isValid($_POST))
 			{
 				$data = $form->getValues();
+				$countPostal = Sms_Model_PostalCodeAllModel::countPostal($data['destination_value']);
 				$id = $destinationModel->updateDestination(
 					$data['id'],
 					$data['order_id'],
 					$data['destination_type'],
 					$data['destination_value'],
+					$data['destination_order'],
+					$data['destination_start'],
+					$data['destination_end'],
 					$data['dispatch_date'],
-					'N/A'					
+					$countPostal				
 				);
 				
 				// return $this->_forward($action, $controller = null, $module = null, array($params = null))

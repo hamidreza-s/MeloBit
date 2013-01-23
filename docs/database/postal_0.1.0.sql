@@ -6,7 +6,7 @@ PRIMARY KEY (`id`),
 INDEX name (`phone_no`, `postal_code`)
 ) ENGINE=MyISAM  DEFAULT CHARSET = ascii COLLATE = ascii_general_ci; 
 
-load data local infile 'C:/Users/h.soleimani/Desktop/Postal Code/All/tehran.csv' into table `postal_code_tehran` 
+load data local infile '/home/hamidrezas/Desktop/SMS_Postal/tehran.csv' into table `postal_code_tehran` 
 fields 
 terminated by ','
 lines terminated by '\n'
@@ -20,7 +20,7 @@ PRIMARY KEY (`id`),
 INDEX name (`phone_no`, `postal_code`)
 ) ENGINE=MyISAM  DEFAULT CHARSET = ascii COLLATE = ascii_general_ci; 
 
-load data local infile 'C:/Users/h.soleimani/Desktop/Postal Code/All/iran.csv' into table `postal_code_iran` 
+load data local infile '/home/hamidrezas/Desktop/SMS_Postal/iran.csv' into table `postal_code_iran` 
 fields 
 terminated by ','
 lines terminated by '\n'

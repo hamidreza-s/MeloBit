@@ -73,6 +73,7 @@
 			<th><?php echo $this->translate('Destination Value') ?></th>
 			<th><?php echo $this->translate('Dispatch Date') ?></th>
 			<th><?php echo $this->translate('Quantity') ?></th>
+			<th><?php echo $this->translate('Requested') ?></th>
 			<th><?php echo $this->translate('Links') ?></th>
 		</tr>
 	</thead>
@@ -98,6 +99,9 @@
 			</td>
 			<td>
 				<?php echo $destinations['destinations_quantity']; ?>
+			</td>
+			<td>
+				<?php echo $destinations['destination_end'] - $destinations['destination_start']; ?>
 			</td>
 			<td>
 				<a href="<?php echo $this->translate('/en_US');?>/sms/order/update-destination/id/<?php echo $destinations['id']; ?>">

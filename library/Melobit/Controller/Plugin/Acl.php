@@ -13,8 +13,8 @@ class Melobit_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 		
 		// add roule for sms module
 		$acl->addRole(new Zend_Acl_Role('orderer'), 'user');
-		$acl->addRole(new Zend_Acl_Role('controller'), 'orderer');
-		$acl->addRole(new Zend_Acl_Role('dispatcher'), 'controller');
+		$acl->addRole(new Zend_Acl_Role('controller'), 'user');
+		$acl->addRole(new Zend_Acl_Role('dispatcher'), 'user');
 		
 		// add resources "module>controller"
 		$acl->addResource(new Zend_Acl_Resource('default>index'));

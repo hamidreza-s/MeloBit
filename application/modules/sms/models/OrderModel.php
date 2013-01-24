@@ -54,9 +54,19 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 	public static function retrieveOrderByUserId($id)
 	{
 		$orderModel = new self();
-		$select = $orderModel->select()
-			->where('user_id = ?', $id);
-		return $orderModel->fetchAll($select);
+		
+		// if user is admin
+		if ($id = 1)
+		{
+			$select = $orderModel->select();
+			return $orderModel->fetchAll($select);
+		}
+		else
+		{	
+			$select = $orderModel->select()
+				->where('user_id = ?', $id);
+			return $orderModel->fetchAll($select);
+		}
 	}
 	
 	public function updateOrder($id, $customer_id, $sms_content, $test_phone) 

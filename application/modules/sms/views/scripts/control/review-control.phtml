@@ -1,0 +1,118 @@
+<?php $this->layout()->setLayout('page'); ?>
+
+<div class="six columns">
+	<div class="panel" style="height:250px">
+		<h4 class="hide-for-small"><?php echo $this->translate('SMS Content'); ?><hr></h4>
+		<h5 class="subheader"><?php echo $this->order['sms_content'] ?></h5>
+	</div>
+</div>
+<div class="six columns">
+	<div class="panel" style="height:250px">
+		<h4 class="hide-for-small"><?php echo $this->translate('Order Details'); ?><hr></h4>
+		<span class="subheader"><?php echo $this->translate('Sender Company:'); ?></span>
+			<?php $companyName = Sms_Model_CustomerModel::getCompanyNameByCustomerId($this->order['customer_id']);?>
+			<?php echo $companyName['name']; ?>
+			<br/>
+		<span class="subheader"><?php echo $this->translate('Sender Customer:'); ?></span>
+			<?php $customerName = Sms_Model_CustomerModel::listCustomer($this->order['customer_id']);?>
+			<?php echo $customerName['first_name'] . ' ' .  $customerName['last_name']; ?>
+			<br/>
+		<span class="subheader"><?php echo $this->translate('Order Date:'); ?></span>
+			<?php echo date('m - d - Y', $this->order['order_date']); ?>
+			<br/>
+		<span class="subheader"><?php echo $this->translate('Test Phone:'); ?></span>
+			<?php echo $this->order['test_phone']; ?>
+			<br/>
+			
+			<?php if ($this->order['control_status']) : ?>
+			
+				<span class="subheader">
+					<?php echo $this->translate('Control Status:'); ?>
+				</span>
+					<?php echo $this->translate('Confirmed!'); ?><br/>
+				<a class="radius button alert <?php echo $this->translate('right'); ?>" 
+					href="<?php echo $this->translate('/en_US'); ?>
+					/sms/control/suspend-control/id/<?php echo $this->order['id']; ?>"><?php echo $this->translate('Suspend'); ?></a>			
+					
+			<?php else: ?>
+			
+				<span class="subheader">
+					<?php echo $this->translate('Order Status:'); ?>
+				</span>
+					<?php echo $this->translate('Ready to confirm!'); ?><br/>
+				<a class="radius button success <?php echo $this->translate('right'); ?>" 
+					href="<?php echo $this->translate('/en_US'); ?>
+					/sms/control/confirm-control/id/<?php echo $this->order['id']; ?>"><?php echo $this->translate('Confirm'); ?></a>
+					
+			<?php endif; ?>
+
+			
+	</div>
+</div>
+
+
+
+
+
+
+
+<?php if (!$this->destinations): ?>
+<p>There is no destination!</p>
+<?php else: ?>
+
+<?php
+	$confirmMessage = $this->translate('Are you sure to delete?');
+?>
+
+<table>
+	<thead>
+		<tr>
+			<th><?php echo $this->translate('ID') ?></th>
+			<th><?php echo $this->translate('Order ID') ?></th>
+			<th><?php echo $this->translate('Destination Type') ?></th>
+			<th><?php echo $this->translate('Destination Value') ?></th>
+			<th><?php echo $this->translate('Dispatch Date') ?></th>
+			<th><?php echo $this->translate('Quantity') ?></th>
+			<th><?php echo $this->translate('Requested') ?></th>
+			<th><?php echo $this->translate('Links') ?></th>
+		</tr>
+	</thead>
+	<tbody>
+<?php foreach ($this->destinations as $destinations): ?>
+		<tr>
+			<td>
+				<?php echo $destinations['id']; ?>
+			</td>
+			<td>
+				<?php echo $destinations['order_id']; ?>
+			</td>
+			<td>
+				<?php echo $destinations['destination_type']; ?>
+			</td>
+			<td>
+				<?php echo $destinations['destination_value']; ?>
+			</td>
+			<td>	
+				<?php echo date('m - d - Y', $destinations['dispatch_date']); ?>
+				<br />
+				<?php echo date('H:i:s', $destinations['dispatch_date']); ?>
+			</td>
+			<td>
+				<?php echo $destinations['destinations_quantity']; ?>
+			</td>
+			<td>
+				<?php echo $destinations['destination_end'] - $destinations['destination_start']; ?>
+			</td>
+			<td>
+				<a href="<?php echo $this->translate('/en_US');?>/sms/order/update-destination/id/<?php echo $destinations['id']; ?>">
+					<?php echo $this->translate('Update') ?></a>
+				<br/>
+				<a href="<?php echo $this->translate('/en_US');?>/sms/order/delete-destination/id/<?php echo $destinations['id']; ?>" 
+					onclick="return confirm('<?php echo $confirmMessage; ?>')"><?php echo $this->translate('Delete') ?></a>
+			</td>
+		</tr>
+<?php endforeach; ?>
+	</tbody>
+</table>
+
+<?php endif; ?>

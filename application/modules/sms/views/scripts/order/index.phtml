@@ -16,9 +16,10 @@
 			<th><?php echo $this->translate('ID') ?></th>
 			<th><?php echo $this->translate('Customer Name') ?></th>
 			<th><?php echo $this->translate('Orderer Username') ?></th>
+			<th><?php echo $this->translate('SMS Quantity') ?></th>
 			<th><?php echo $this->translate('Order Date') ?></th>
 			<!--<th><?php // echo $this->translate('SMS Content') ?></th>-->
-			<th><?php echo $this->translate('Test Phone') ?></th>
+			<!-- <th><?php // echo $this->translate('Test Phone') ?></th> -->
 			<th><?php echo $this->translate('Order Status') ?></th>
 			<th><?php echo $this->translate('Control Status') ?></th>
 			<th><?php echo $this->translate('Dispatch Status') ?></th>
@@ -40,6 +41,9 @@
 				<?php echo $ordererUsername['username']; ?>
 			</td>
 			<td>
+				<?php echo $order['sms_quantity']; ?>
+			</td>
+			<td>
 				<?php echo date('m - d - Y', $order['order_date']); ?>
 				<br />
 				<?php echo date('H:i:s', $order['order_date']); ?>
@@ -48,10 +52,10 @@
 			<td>
 				<?php // echo $order['sms_content']; ?>
 			</td>
-			-->
 			<td>
-				<?php echo $order['test_phone']; ?>
+				<?php // echo $order['test_phone']; ?>
 			</td>
+			-->
 			<td>
 				<?php echo $order['order_status']; ?>
 			</td>

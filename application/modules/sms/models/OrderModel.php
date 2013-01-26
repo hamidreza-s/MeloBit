@@ -16,7 +16,7 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 		)
 	);
 	
-	public function createOrder($customer_id, $user_id, $sms_content, $test_phone)	
+	public function createOrder($customer_id, $user_id, $sms_content, $sms_quantity, $test_phone)	
 	{
 		$rowOrder = $this->createRow();
 		if ($rowOrder)
@@ -26,6 +26,7 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 			$rowOrder->customer_id = $customer_id;
 			$rowOrder->user_id = $user_id;
 			$rowOrder->sms_content = $sms_content;
+			$rowOrder->sms_quantity = $sms_quantity;
 			$rowOrder->order_date = $date->getTimestamp();
 			$rowOrder->test_phone = $test_phone;
 			return $rowOrder->save();
@@ -51,16 +52,17 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 		}
 	}
 	
-	public static function retrieveOrderByUserId($id)
+	public static function retrieveOrderByUserId($id, $role = null)
 	{
 		$orderModel = new self();
 		
-		// if user is admin
-		if ($id = 1)
+		// If user is admin show all orders
+		if (isset($role) && $role == 'administrator')
 		{
 			$select = $orderModel->select();
 			return $orderModel->fetchAll($select);
 		}
+		// Otherwise show just current user's orders
 		else
 		{	
 			$select = $orderModel->select()
@@ -69,7 +71,7 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 		}
 	}
 	
-	public function updateOrder($id, $customer_id, $sms_content, $test_phone) 
+	public function updateOrder($id, $customer_id, $sms_content, $sms_quantity, $test_phone) 
 	{
 		$rowOrder = $this->find($id)->current();
 		if ($rowOrder)
@@ -78,6 +80,7 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 			
 			$rowOrder->customer_id = $customer_id;
 			$rowOrder->sms_content = $sms_content;
+			$rowOrder->sms_quantity = $sms_quantity;
 			$rowOrder->order_date = $date->getTimestamp();
 			$rowOrder->test_phone = $test_phone;
 			return $rowOrder->save();

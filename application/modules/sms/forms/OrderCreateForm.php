@@ -10,6 +10,11 @@ class Sms_Form_OrderCreateForm extends Zend_Form
 		$id = $this->createElement('hidden', 'id');
 		$id->setDecorators(array('ViewHelper'));
 		$this->addElement($id);
+
+		// create hidden sms_quantity
+		$sms_quantity = $this->createElement('hidden', 'sms_quantity');
+		$sms_quantity->setDecorators(array('ViewHelper'));
+		$this->addElement($sms_quantity);
 		
 		// create customer_id
 		$customer_id = $this->createElement('select', 'customer_id')

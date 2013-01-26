@@ -1,5 +1,66 @@
 <?php $this->layout()->setLayout('page'); ?>
 
+<script type="text/javascript">
+	$(document).ready(function(){
+	
+		// Character Counter
+		var characterCounter = $("<p>", {
+			"id":"message_counter",
+			"text":"<?php echo $this->translate('Message Length:'); ?> -",
+			});
+		$("dd#sms_content-element").append(characterCounter);
+	
+		// SMS Counter
+		var smsCounter = $("<p>", {
+			"id":"sms_counter",
+			"text":"<?php echo $this->translate('SMS Quantity:'); ?> -",
+			});
+		$("dd#sms_content-element").append(smsCounter);
+	
+		// Fire!
+		$("textarea#sms_content").bind("keyup", function(){
+			// Check language
+			var msgText =  $("textarea#sms_content").val();
+			var textLength = msgText.length;     
+			var isEnglish = true;
+			var smsLengthFirst = 160;
+			var smsLengthNext = 153;
+			for (var index = 0; index <= textLength; index = index + 1) 
+			{
+				if (msgText.charCodeAt(index) > 160) {
+					//Not English 
+					isEnglish=false;
+					smsLengthFirst = 70;
+					smsLengthNext = 67;
+					break;
+				}
+			}
+
+			// Show smsLength to user
+			if (textLength > smsLengthFirst) 
+			{ 
+				// This is not first SMS
+				var smsQuantity = Math.ceil(textLength / smsLengthNext);
+				textLengthCountDown = Math.abs(smsQuantity * smsLengthNext - textLength);
+				$("p#message_counter").html("<?php echo $this->translate('Message Length:'); ?> (" + textLengthCountDown + "/" + smsLengthNext + ")");			
+			}
+			else
+			{
+				// This is first SMS
+				var smsQuantity = Math.ceil(textLength / smsLengthFirst);
+				textLengthCountDown = Math.abs(smsQuantity * smsLengthFirst - textLength);
+				$("p#message_counter").html("<?php echo $this->translate('Message Length:'); ?> (" + textLengthCountDown + "/" + smsLengthFirst + ")");			
+			}
+			
+			// Show smsQuantity to user
+			$("p#sms_counter").html("<?php echo $this->translate('SMS Quantity:'); ?> " + smsQuantity);
+			
+			// Fetch sms_quantity hidden input and fill it with smsQuantity
+			$("input#sms_quantity").attr("value", smsQuantity);
+		});	
+	}); 
+</script>
+
 <?php
 	echo $this->form;
 ?>

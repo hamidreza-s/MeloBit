@@ -11,11 +11,12 @@ class Sms_OrderController extends Zend_Controller_Action
 		$this->_authentication = Zend_Auth::getInstance();
 		$this->_userIdentity = $this->_authentication->getIdentity();
 		$this->_userId = $this->_userIdentity->id;		
+		$this->_userRole = $this->_userIdentity->role;		
 	}
 
 	public function indexAction() 
 	{
-		$orders = Sms_Model_OrderModel::retrieveOrderByUserId($this->_userId);
+		$orders = Sms_Model_OrderModel::retrieveOrderByUserId($this->_userId, $this->_userRole);
 		if ($orders->count() > 0)
 		{
 			$this->view->orders = $orders->toArray();
@@ -40,6 +41,7 @@ class Sms_OrderController extends Zend_Controller_Action
 					$data['customer_id'],
 					$this->_userId,
 					$data['sms_content'],
+					$data['sms_quantity'],
 					$data['test_phone']
 				);
 				
@@ -64,6 +66,7 @@ class Sms_OrderController extends Zend_Controller_Action
 					$data['id'],
 					$data['customer_id'],
 					$data['sms_content'],
+					$data['sms_quantity'],
 					$data['test_phone']		
 				);
 				

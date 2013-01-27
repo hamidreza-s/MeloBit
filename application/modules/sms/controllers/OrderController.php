@@ -45,7 +45,7 @@ class Sms_OrderController extends Zend_Controller_Action
 					$data['test_phone']
 				);
 				
-				return $this->_forward('index');
+				return $this->_forward('review-order', 'order', null, array('id' => $id));
 			}
 		}
 		
@@ -126,7 +126,6 @@ class Sms_OrderController extends Zend_Controller_Action
 		$this->view->order_id = $requestedId;
 	}
 	
-	// note: destination quantity has to be calculate (!!)
 	public function createDestinationAction()	
 	{
 		$form = new Sms_Form_OrderDestinationForm;
@@ -210,11 +209,23 @@ class Sms_OrderController extends Zend_Controller_Action
 	
 	public function reviewOrderAction() 
 	{
+		// Order details
 		$requestedId = $this->_request->getParam('id');
 		$orderModel = new Sms_Model_OrderModel;
-		$destinationModel = new Sms_Model_DestinationModel;
 		$this->view->order = $orderModel::retrieveOrder($requestedId);
-		$this->view->destinations = $destinationModel::retrieveDestination($requestedId);
+		
+		// Destination details
+		$destinationModel = new Sms_Model_DestinationModel;
+		$destinations = $destinationModel::retrieveDestination($requestedId);
+		
+		if ($destinations->count() > 0)
+		{
+			$this->view->destinations = $destinations->toArray();
+		}
+		else
+		{
+			$this->view->destinations = null;
+		}
 	}
 	
 	public function confirmOrderAction()

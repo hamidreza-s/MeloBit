@@ -1,5 +1,6 @@
 <?php $this->layout()->setLayout('page'); ?>
 
+<!----- Review Start ----->
 <div class="six columns">
 	<div class="panel" style="height:250px">
 		<h4 class="hide-for-small"><?php echo $this->translate('SMS Content'); ?><hr></h4>
@@ -45,19 +46,35 @@
 					/sms/order/confirm-order/id/<?php echo $this->order['id']; ?>"><?php echo $this->translate('Confirm'); ?></a>
 					
 			<?php endif; ?>
-
-			
+		
 	</div>
 </div>
+<!----- Review End ----->
 
+<!----- Destination Start----->
+<div class="twelve columns">
+	<div class="panel">
+		<h4 class="hide-for-small"><?php echo $this->translate('SMS Destination'); ?><hr></h4>
+		<a href="#">Add Destination</a>
+	</div>
+</div>
+<!----- Destination End----->
 
+<!----- Transaction End----->
+<div class="twelve columns">
+	<div class="panel">
+		<h4 class="hide-for-small"><?php echo $this->translate('SMS Transaction'); ?><hr></h4>
+		<a href="#">Fill Transaction</a>
+	</div>
+</div>
+<!----- Transaction End----->
 
+<p><center>Go Up!</center></p>
 
-
-
-
+<?php /*
+<!----- Destination Start ----->
 <?php if (!$this->destinations): ?>
-<p>There is no destination!</p>
+<p><?php echo $this->translate('There is no destination!') ?></p>
 <?php else: ?>
 
 <?php
@@ -116,3 +133,11 @@
 </table>
 
 <?php endif; ?>
+<!----- Destination End -----> 
+*/ ?>
+
+<script type="text/javascript">
+	jQuery(function($){
+		// !?
+	});
+</script>

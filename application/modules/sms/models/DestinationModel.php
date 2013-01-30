@@ -28,7 +28,7 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 			$rowDestination->destination_start = $destination_start;
 			$rowDestination->destination_end = $destination_end;
 			$rowDestination->dispatch_date = $dateObject->get(Zend_Date::TIMESTAMP);
-			$rowDestination->destinations_quantity 	 = $destinations_quantity 	;
+			$rowDestination->destinations_quantity = $destinations_quantity;
 			return $rowDestination->save();
 		}
 		else
@@ -37,7 +37,7 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 		}
 	}
 	
-	public static function retrieveDestination($order_id)
+	public static function retrieveDestinations($order_id)
 	{
 		$destinationModel = new self();
 		$select = $destinationModel->select()

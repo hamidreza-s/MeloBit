@@ -32,7 +32,7 @@ class Sms_ControlController extends Zend_Controller_Action
 		$controlModel = new Sms_Model_ControlModel;
 		$destinationModel = new Sms_Model_DestinationModel;
 		$this->view->order = $controlModel::retrieveOrder($requestedId);
-		$this->view->destinations = $destinationModel::retrieveDestination($requestedId);
+		$this->view->destinations = $destinationModel::retrieveDestinations($requestedId);
 	}
 	
 	public function confirmControlAction()

@@ -104,9 +104,9 @@ CREATE TABLE IF NOT EXISTS `destinations` (
   `destination_order` varchar(25) NOT NULL,
   `destination_start` int(11) NOT NULL,
   `destination_end` int(11) NOT NULL,
-  `destination_bulk_id` int(11) DEFAULT 0,
   `dispatch_date` int(11) NOT NULL,
   `destinations_quantity` int(11) NOT NULL,
+  `bulk_id` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 

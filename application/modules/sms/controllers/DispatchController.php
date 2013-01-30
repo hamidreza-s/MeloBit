@@ -34,7 +34,7 @@ class Sms_DispatchController extends Zend_Controller_Action
 		$dispatchModel = new Sms_Model_DispatchModel;
 		$destinationModel = new Sms_Model_DestinationModel;
 		$this->view->order = $dispatchModel::retrieveOrder($requestedId);
-		$this->view->destinations = $destinationModel::retrieveDestination($requestedId);
+		$this->view->destinations = $destinationModel::retrieveDestinations($requestedId);
 	}
 	
 	public function confirmDispatchAction()
@@ -64,6 +64,42 @@ class Sms_DispatchController extends Zend_Controller_Action
 		// Connect to SOAP Web Service
         $client = new Zend_Soap_Client($this->_WSDL);
 		
+		// Get order ID from $_GET
+		$requestedId = $this->_request->getParam('id');
+		
+		// Retrieve all possible destinations_value destination_start/end (destinations table)
+		$destinationModel = new Sms_Model_DestinationModel;
+		$destinationRow = $destinationModel->find($requestedId)->current();
+		
+		// Initialize $finalDestinations string
+		$finalDestinations = null;
+	
+		// Calculate destination parameters
+		$value	= $destinationRow->destination_value;
+		$start	= $destinationRow->destination_start;
+		$end	= $destinationRow->destination_end;
+		$date	= $destinationRow->dispatch_date;
+		$until 	= $end - $start;
+		
+		// fetch phone_no in limited area
+		$postalCodeAllModel = Sms_Model_PostalCodeAllModel::retrievePostal($value, $until, $start)->toArray();
+		
+		// compose $finalDestinations
+		for ($i = 0; $i < $until; $i++)
+		{
+			$finalDestinations .= $postalCodeAllModel[$i]['phone_no'] . "\n";
+		}
+
+		// Retrieve sms_content (orders table)
+		// ... ?
+		
+		// Retrieve test_phone (orders table)
+		// ... ?
+		
+		// Save order_bulk_id (order table)
+		// ... ?
+		
+		/*
 		// Sent Bulk
 		$response = $client->SendBulk(array(
 			'username'			 	=> '__username__', 
@@ -72,6 +108,7 @@ class Sms_DispatchController extends Zend_Controller_Action
 			'from' 						=> '_____from____',
 			'text' 						=> '_____body____', 
 			'scheduleDateTime' 	=> '___datetime__'));
+		*/
 	}
 	
 	public function getStatusAction()

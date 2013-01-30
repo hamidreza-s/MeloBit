@@ -112,7 +112,7 @@ class Sms_OrderController extends Zend_Controller_Action
 	{
 		$requestedId = $this->_request->getParam('id');
 		$destinationModel = new Sms_Model_DestinationModel;
-		$destinations = $destinationModel->retrieveDestination($requestedId);
+		$destinations = $destinationModel->retrieveDestinations($requestedId);
 		if ($destinations->count() > 0)
 		{
 			$this->view->destinations = $destinations->toArray();
@@ -216,7 +216,7 @@ class Sms_OrderController extends Zend_Controller_Action
 		
 		// Destination details
 		$destinationModel = new Sms_Model_DestinationModel;
-		$destinations = $destinationModel::retrieveDestination($requestedId);
+		$destinations = $destinationModel::retrieveDestinations($requestedId);
 		
 		if ($destinations->count() > 0)
 		{

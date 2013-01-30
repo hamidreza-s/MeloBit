@@ -1,7 +1,7 @@
 <?php
 class Sms_Model_PostalCodeAllModel extends Zend_Db_Table_Abstract
 {
-	protected $_name = 'postal_code_all';
+	protected $_name = 'postal_code_all_filtered';
 	
 
 	public static function countPostal($pattern = null)	
@@ -27,4 +27,17 @@ class Sms_Model_PostalCodeAllModel extends Zend_Db_Table_Abstract
 		}
 	}
 	
+	public static function retrievePostal($pattern, $until, $start)	
+	{
+		$postalModel = new self();
+
+		$select = $postalModel->select()
+			->from($postalModel, 'phone_no')
+			->where("postal_code LIKE ? ", $pattern . '%')
+			->limit($until, $start);
+		$result = $postalModel->fetchAll($select);
+		
+		return $result;
+
+	}
 }

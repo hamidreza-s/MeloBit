@@ -18,7 +18,7 @@
 			<?php echo $customerName['first_name'] . ' ' .  $customerName['last_name']; ?>
 			<br/>
 		<span class="subheader"><?php echo $this->translate('Order Date:'); ?></span>
-			<?php echo date('m - d - Y', $this->order['order_date']); ?>
+			<?php echo Melobit_Date_Convertor::timestamp_to_jalali($this->order['order_date']); ?>
 			<br/>
 		<span class="subheader"><?php echo $this->translate('Test Phone:'); ?></span>
 			<?php echo $this->order['test_phone']; ?>
@@ -93,9 +93,7 @@
 				<?php echo $destinations['destination_value']; ?>
 			</td>
 			<td>	
-				<?php echo date('m - d - Y', $destinations['dispatch_date']); ?>
-				<br />
-				<?php echo date('H:i:s', $destinations['dispatch_date']); ?>
+				<?php echo Melobit_Date_Convertor::timestamp_to_jalali($destinations['dispatch_date']); ?>
 			</td>
 			<td>
 				<?php echo $destinations['destinations_quantity']; ?>

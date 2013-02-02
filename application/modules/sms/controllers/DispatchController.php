@@ -75,11 +75,12 @@ class Sms_DispatchController extends Zend_Controller_Action
 		$finalDestinations = null;
 	
 		// Calculate destination parameters
+		$orderId = $destinationRow->order_id;
 		$value	= $destinationRow->destination_value;
-		$start	= $destinationRow->destination_start;
-		$end	= $destinationRow->destination_end;
-		$date	= $destinationRow->dispatch_date;
-		$until 	= $end - $start;
+		$start = $destinationRow->destination_start;
+		$end = $destinationRow->destination_end;
+		$datetime = date('c', $destinationRow->dispatch_date);
+		$until = $end - $start;
 		
 		// fetch phone_no in limited area
 		$postalCodeAllModel = Sms_Model_PostalCodeAllModel::retrievePostal($value, $until, $start)->toArray();
@@ -89,47 +90,66 @@ class Sms_DispatchController extends Zend_Controller_Action
 		{
 			$finalDestinations .= $postalCodeAllModel[$i]['phone_no'] . "\n";
 		}
-
+		
 		// Retrieve sms_content (orders table)
-		// ... ?
+		$orderModel = Sms_Model_OrderModel::retrieveOrder($orderId);
+		$smsContent = $orderModel->sms_content;
 		
 		// Retrieve test_phone (orders table)
-		// ... ?
-		
-		// Save order_bulk_id (order table)
-		// ... ?
-		
-		/*
+		$testPhone = $orderModel->test_phone;
+
+
 		// Sent Bulk
-		$response = $client->SendBulk(array(
-			'username'			 	=> '__username__', 
-			'password' 				=> '__password__', 
-			'to' 							=> '______to______', 
-			'from' 						=> '_____from____',
-			'text' 						=> '_____body____', 
-			'scheduleDateTime' 	=> '___datetime__'));
-		*/
+		$bulk_id = $client->SendBulk(array(
+			'username'			 		=> 'bulkarmaghan', 
+			'password' 					=> '___PASSWORD___', 
+			'to' 								=> $testPhone . "\n" . $finalDestinations, 
+			'from' 							=> '54000004',
+			'text' 							=> $smsContent, 
+			'scheduleDateTime' 	=> $datetime));
+
+		// convert bulk_id to string
+		$bulk_id = $bulk_id->SendBulkResult;
+
+		// if succeed
+		if ($bulk_id)
+		{
+			// Save bulk_id (transaction table)
+			$destinationRow->bulk_id = $bulk_id;
+			$result = $destinationRow->save();		
+			
+			return $this->_forward("review-dispatch", "dispatch", "sms", array("id" => $orderId));
+		}
+		else
+		{
+			echo "There was a problem in SMS Gateway!";
+		}
 	}
 	
 	public function getStatusAction()
-	{
-		// Set no view and layout
-		$this->_helper->layout->disableLayout();
-		$this->_helper->viewRenderer->setNoRender(TRUE);
-		
+	{	
 		// Connect to SOAP Web Service
         $client = new Zend_Soap_Client($this->_WSDL);
 
+		// Get destination ID from $_GET
+		$requestedId = $this->_request->getParam('id');
+		
+		// Retrieve destination values (destinations table)
+		$destinationModel = new Sms_Model_DestinationModel;
+		$destinationRow = $destinationModel->find($requestedId)->current();
+		
+		// Send destination information to view
+		$this->view->destination = $destinationRow;
+		
 		// Get Status
-		$response = $client->GetStatus(array(
-			'bulkId' 	=> 16496, 
+		$status = $client->GetStatus(array(
+			'bulkId' 	=> $destinationRow->bulk_id, 
 			'status' 	=> true,
 			'delivered' => true,
 			'sent' 		=> true));
 			
-		echo "<pre>";
-		print_r($response);
-		echo "</pre>";
+		// Send bulk status to view
+		$this->view->status = $status;
 	}
 }
 

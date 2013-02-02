@@ -189,9 +189,10 @@ class Sms_OrderController extends Zend_Controller_Action
 			$requestedDestination = $destinationModel->find($requestedId)->current();
 			$form->populate($requestedDestination->toArray());
 			
-			// meanwhile; format the date field
+			// meanwhile; change timestamp to Jalali Date
 			$timeStampDate = $form->getValue('dispatch_date');
-			$form->getElement('dispatch_date')->setValue(date('Y-m-d H:i:s', $timeStampDate));
+			$jalaliDate = Melobit_Date_Convertor::timestamp_to_jalali($timeStampDate);
+			$form->getElement('dispatch_date')->setValue($jalaliDate);
 		}
 		$this->view->form = $form;		
 	}

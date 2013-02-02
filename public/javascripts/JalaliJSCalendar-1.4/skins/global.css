@@ -1,0 +1,31 @@
+div.calendar table thead tr th, table tfoot tr th, table tbody tr td, table tr td, table tfoot tr td {
+font-size: 10px;
+line-height: 15px;
+width: 2em;
+}
+div.calendar > table {
+margin: 0px;
+}
+div.calendar div {
+font-size: 10px;
+}
+td.button  {
+display: table-cell;
+border: 0px;
+font-family: tahoma;
+font-size: 10px;
+line-height: 15px;
+}
+td.emptycell {
+padding: 2px 4px 2px 2px;
+width: 2em;
+}
+td.title {
+font-family: tahoma;
+}
+td.button > div {
+font-size: 10px;
+}
+tr.daynames {
+font-size: 10px;
+}

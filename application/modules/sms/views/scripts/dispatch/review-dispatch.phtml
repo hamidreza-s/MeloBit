@@ -18,7 +18,7 @@
 			<?php echo $customerName['first_name'] . ' ' .  $customerName['last_name']; ?>
 			<br/>
 		<span class="subheader"><?php echo $this->translate('Order Date:'); ?></span>
-			<?php echo date('m - d - Y', $this->order['order_date']); ?>
+			<?php echo Melobit_Date_Convertor::timestamp_to_jalali($this->order['order_date']); ?>
 			<br/>
 		<span class="subheader"><?php echo $this->translate('Test Phone:'); ?></span>
 			<?php echo $this->order['test_phone']; ?>
@@ -27,7 +27,7 @@
 			<?php if ($this->order['dispatch_status']) : ?>
 			
 				<span class="subheader">
-					<?php echo $this->translate('Control Status:'); ?>
+					<?php echo $this->translate('Dispatch Status:'); ?>
 				</span>
 					<?php echo $this->translate('Confirmed!'); ?><br/>
 				<a class="radius button alert <?php echo $this->translate('right'); ?>" 
@@ -93,9 +93,7 @@
 				<?php echo $destinations['destination_value']; ?>
 			</td>
 			<td>	
-				<?php echo date('m - d - Y', $destinations['dispatch_date']); ?>
-				<br />
-				<?php echo date('H:i:s', $destinations['dispatch_date']); ?>
+				<?php echo Melobit_Date_Convertor::timestamp_to_jalali($destinations['dispatch_date']); ?>
 			</td>
 			<td>
 				<?php echo $destinations['destinations_quantity']; ?>
@@ -104,11 +102,13 @@
 				<?php echo $destinations['destination_end'] - $destinations['destination_start']; ?>
 			</td>
 			<td>
-				<a href="<?php echo $this->translate('/en_US');?>/sms/order/update-destination/id/<?php echo $destinations['id']; ?>">
-					<?php echo $this->translate('Update') ?></a>
-				<br/>
-				<a href="<?php echo $this->translate('/en_US');?>/sms/order/delete-destination/id/<?php echo $destinations['id']; ?>" 
-					onclick="return confirm('<?php echo $confirmMessage; ?>')"><?php echo $this->translate('Delete') ?></a>
+				<?php if ($destinations['bulk_id']): ?>
+				<a href="<?php echo $this->translate('/en_US');?>/sms/dispatch/get-status/id/<?php echo $destinations['id']; ?>">
+					<?php echo $this->translate('Status') ?></a>				
+				<?php else: ?>
+				<a href="<?php echo $this->translate('/en_US');?>/sms/dispatch/send-bulk/id/<?php echo $destinations['id']; ?>">
+					<?php echo $this->translate('Send') ?></a>
+				<?php endif; ?>
 			</td>
 		</tr>
 <?php endforeach; ?>

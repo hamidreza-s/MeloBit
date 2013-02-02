@@ -40,9 +40,7 @@
 				<?php echo $ordererUsername['username']; ?>
 			</td>
 			<td>
-				<?php echo date('m - d - Y', $order['order_date']); ?>
-				<br />
-				<?php echo date('H:i:s', $order['order_date']); ?>
+				<?php echo Melobit_Date_Convertor::timestamp_to_jalali($order['order_date']); ?>
 			</td>
 			<!--
 			<td>

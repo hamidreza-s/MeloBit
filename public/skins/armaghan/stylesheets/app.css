@@ -8,6 +8,17 @@
 :: Page Name 2
 */
 
+/* -----------------------------------------
+   Body Font
+----------------------------------------- */
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, form, p, blockquote, th, td, h1, h2, h3, h4, h5, h6, textarea, select, input[type="search"], input[type="text"], input[type="submit"] {
+	font-family: "Tahoma", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+}
+.button {
+	font-family: "Tahoma", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+	font-size: 12px;
+}
 
 /* -----------------------------------------
    Foundation Icon

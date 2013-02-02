@@ -13,13 +13,13 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 	);
 	
 	public function createDestination($order_id, $destination_type, $destination_value, $destination_order,
-		$destination_start, $destination_end, $dispatch_date, $destinations_quantity)	
+		$destination_start, $destination_end, $jalali_dispatch_date, $destinations_quantity)	
 	{
 		$rowDestination = $this->createRow();
 		if ($rowDestination)
 		{
-			// date object
-			$dateObject = new Zend_Date($dispatch_date);
+			// Convert Jalali to Timestamp
+			$timestamp_dispatch_date = Melobit_Date_Convertor::jalali_to_timestamp($jalali_dispatch_date);
 
 			$rowDestination->order_id = $order_id;
 			$rowDestination->destination_type = $destination_type;
@@ -27,7 +27,7 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 			$rowDestination->destination_order = $destination_order;
 			$rowDestination->destination_start = $destination_start;
 			$rowDestination->destination_end = $destination_end;
-			$rowDestination->dispatch_date = $dateObject->get(Zend_Date::TIMESTAMP);
+			$rowDestination->dispatch_date = $timestamp_dispatch_date;
 			$rowDestination->destinations_quantity = $destinations_quantity;
 			return $rowDestination->save();
 		}
@@ -47,13 +47,13 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 	}
 	
 	public function updateDestination($id, $order_id, $destination_type, $destination_value, $destination_order,
-		$destination_start, $destination_end, $dispatch_date, $destinations_quantity) 
+		$destination_start, $destination_end, $jalali_dispatch_date, $destinations_quantity) 
 	{
 		$rowDestination = $this->find($id)->current();
 		if ($rowDestination)
 		{
-			// date object
-			$dateObject = new Zend_Date($dispatch_date);
+			// Convert Jalali to Timestamp
+			$timestamp_dispatch_date = Melobit_Date_Convertor::jalali_to_timestamp($jalali_dispatch_date);
 			
 			$rowDestination->order_id = $order_id;
 			$rowDestination->destination_type = $destination_type;
@@ -61,8 +61,8 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 			$rowDestination->destination_order = $destination_order;
 			$rowDestination->destination_start = $destination_start;
 			$rowDestination->destination_end = $destination_end;
-			$rowDestination->dispatch_date = $dateObject->get(Zend_Date::TIMESTAMP);
-			$rowDestination->destinations_quantity 	 = $destinations_quantity;
+			$rowDestination->dispatch_date = $timestamp_dispatch_date;
+			$rowDestination->destinations_quantity = $destinations_quantity;
 			return $rowDestination->save();
 		}
 		else

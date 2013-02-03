@@ -7,9 +7,9 @@ if ($this->featuredItems)
 	foreach ($this->featuredItems as $page)
 	{
 		?>
-		<h4><a href="<?php echo $this->translate('/en_US'); ?>/pages/<?php echo $page->id; ?>">
+		<h3><a href="<?php echo $this->translate('/en_US'); ?>/pages/<?php echo $page->id; ?>">
 			<?php echo $page->headline; ?>
-		</a></h4>
+		</a></h3>
 		<img src="<?php echo $page->image; ?>" alt="<?php echo $page->headline; ?>" />
 		<p><?php echo $page->description; ?></p>
 		<br style="clear:left;" />

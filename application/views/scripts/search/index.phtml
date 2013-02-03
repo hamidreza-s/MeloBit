@@ -13,9 +13,9 @@
 			<?php echo count($this->results); ?> 
 				<?php echo $this->translate('result(s)'); ?>.</p>
 	<?php foreach($this->results as $result) { ?>
-	<h4><a href="<?php echo $this->translate('/en_US');?>/pages/<?php echo $result->page_id; ?>/<?php echo $result->page_name; ?>">
+	<h3><a href="<?php echo $this->translate('/en_US');?>/pages/<?php echo $result->page_id; ?>/<?php echo $result->page_name; ?>">
 		<?php echo $result->$page_headline; ?>
-	</a></h4>
+	</a></h3>
 	<p><?php echo $result->$page_description; ?></p>
 	<?php }} else { ?>
 	<p><?php echo $this->translate('Your search for'); ?> 

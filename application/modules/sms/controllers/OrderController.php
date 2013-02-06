@@ -128,6 +128,35 @@ class Sms_OrderController extends Zend_Controller_Action
 		$this->view->order_id = $requestedId;
 	}
 	
+	public function ajaxRetrieveDestinationAction()
+	{
+		// Set no view and layout
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender(TRUE);
+
+		$requestedId = $this->_request->getParam('id');
+		$destinationModel = new Sms_Model_DestinationModel;
+		$destination = $destinationModel->retrieveDestination($requestedId);
+		
+		if ($destination->count() > 0)
+		{
+			$destinationObject = $destination->current();
+			$destinationArray = array(
+				'id'									=> $destinationObject->id,
+				'order_id'						=> $destinationObject->order_id,
+				'destination_type'			=> $destinationObject->destination_type,
+				'destination_value'			=> $destinationObject->destination_value,
+				'dispatch_date'				=> Melobit_Date_Convertor::timestamp_to_jalali($destinationObject->dispatch_date),
+				'destinations_quantity'	=> $destinationObject->destinations_quantity,
+				'requested'						=> $destinationObject->destination_end - $destinationObject->destination_start,
+			);
+
+			header("Content-Type: application/json; charset=utf-8");
+			echo json_encode($destinationArray);
+
+		}		
+	}
+	
 	public function createDestinationAction()	
 	{
 		$form = new Sms_Form_OrderDestinationForm;
@@ -152,6 +181,42 @@ class Sms_OrderController extends Zend_Controller_Action
 				);
 				
 				return $this->_forward('list-destination');
+			}
+		}
+		
+		$this->view->form = $form;			
+	}
+
+	public function ajaxCreateDestinationAction()	
+	{
+		// Set no view and layout
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender(TRUE);
+		
+		$form = new Sms_Form_OrderDestinationForm;
+		
+		if ($this->getRequest()->isPost())
+		{
+			if ($form->isValid($_POST))
+			{
+				$data = $form->getValues();
+				$destinationModel = new Sms_Model_DestinationModel;
+				$countPostal = Sms_Model_PostalCodeAllModel::countPostal($data['destination_value']);	
+				$id = $destinationModel->createDestination(
+					$data['order_id'],
+					$data['destination_type'],
+					$data['destination_value'],
+					$data['destination_order'],
+					$data['destination_start'],
+					$data['destination_end'],
+					$data['dispatch_date'],
+					$countPostal
+				);
+				
+				if ($id)
+				{
+					echo $id;
+				}
 			}
 		}
 		
@@ -229,6 +294,11 @@ class Sms_OrderController extends Zend_Controller_Action
 		{
 			$this->view->destinations = null;
 		}
+		
+		// Send DestinationForm to view
+		$destinationForm = new Sms_Form_OrderDestinationForm;
+		$destinationForm->getElement('order_id')->setValue($requestedId);
+		$this->view->destinationForm = $destinationForm;
 	}
 	
 	public function confirmOrderAction()

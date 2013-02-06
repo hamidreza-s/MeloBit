@@ -4,7 +4,7 @@ class Sms_Form_OrderCreateForm extends Zend_Form
 	public function init()
 	{
 		$this->setMethod('post');
-		$this->setAttrib('id', 'jQueryValidation');
+		$this->setAttrib('class', 'jQueryValidation');
 
 		// create hidden id
 		$id = $this->createElement('hidden', 'id');

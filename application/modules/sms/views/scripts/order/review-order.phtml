@@ -1,15 +1,15 @@
-<?php $this->layout()->setLayout('page'); ?>
+<?php $this->layout()->setLayout('blank'); ?>
 
 <!----- Review Start ----->
 <div class="six columns">
 	<div class="panel" style="height:250px">
-		<h4 class="hide-for-small"><?php echo $this->translate('SMS Content'); ?><hr></h3>
+		<h4 class="hide-for-small"><?php echo $this->translate('SMS Content'); ?><hr></h4>
 		<h5 class="subheader"><?php echo $this->order['sms_content'] ?></h5>
 	</div>
 </div>
 <div class="six columns">
 	<div class="panel" style="height:250px">
-		<h4 class="hide-for-small"><?php echo $this->translate('Order Details'); ?><hr></h3>
+		<h4 class="hide-for-small"><?php echo $this->translate('Order Details'); ?><hr></h4>
 		<span class="subheader"><?php echo $this->translate('Sender Company:'); ?></span>
 			<?php $companyName = Sms_Model_CustomerModel::getCompanyNameByCustomerId($this->order['customer_id']);?>
 			<?php echo $companyName['name']; ?>
@@ -51,91 +51,155 @@
 </div>
 <!----- Review End ----->
 
-<?php /*
-<!----- Destination Start----->
+
 <div class="twelve columns">
-	<div class="panel">
-		<h4 class="hide-for-small"><?php echo $this->translate('SMS Destination'); ?><hr></h3>
-		<a href="#">Add Destination</a>
+	<div class="panel" style="">
+		<h4 class="hide-for-small"><?php echo $this->translate('Destination'); ?><hr></h4>
+		<!----- Destination List Start ----->	
+		<?php if (!$this->destinations): ?>
+		<p><?php echo $this->translate('There is no destination!') ?></p>
+		<?php else: ?>
+
+		<?php
+			$confirmMessage = $this->translate('Are you sure to delete?');
+		?>
+
+		<table>
+			<thead>
+				<tr>
+					<th><?php echo $this->translate('ID') ?></th>
+					<th><?php echo $this->translate('Order ID') ?></th>
+					<th><?php echo $this->translate('Destination Type') ?></th>
+					<th><?php echo $this->translate('Destination Value') ?></th>
+					<th><?php echo $this->translate('Dispatch Date') ?></th>
+					<th><?php echo $this->translate('Quantity') ?></th>
+					<th><?php echo $this->translate('Requested') ?></th>
+					<?php /*<th><?php echo $this->translate('Links') ?></th> */ ?>
+				</tr>
+			</thead>
+			<tbody id="destinationTableBody">
+		<?php foreach ($this->destinations as $destinations): ?>
+				<tr>
+					<td>
+						<?php echo $destinations['id']; ?>
+					</td>
+					<td>
+						<?php echo $destinations['order_id']; ?>
+					</td>
+					<td>
+						<?php echo $destinations['destination_type']; ?>
+					</td>
+					<td>
+						<?php echo $destinations['destination_value']; ?>
+					</td>
+					<td>	
+						<?php echo Melobit_Date_Convertor::timestamp_to_jalali($destinations['dispatch_date']); ?>
+					</td>
+					<td>
+						<?php echo $destinations['destinations_quantity']; ?>
+					</td>
+					<td>
+						<?php echo $destinations['destination_end'] - $destinations['destination_start']; ?>
+					</td>
+					<?php /*
+					<td>
+						<a href="<?php echo $this->translate('/en_US');?>/sms/order/update-destination/id/<?php echo $destinations['id']; ?>">
+							<?php echo $this->translate('Update') ?></a>
+						<br/>
+						<a href="<?php echo $this->translate('/en_US');?>/sms/order/delete-destination/id/<?php echo $destinations['id']; ?>" 
+							onclick="return confirm('<?php echo $confirmMessage; ?>')"><?php echo $this->translate('Delete') ?></a>
+					</td>
+					*/ ?>
+				</tr>
+		<?php endforeach; ?>
+			</tbody>
+		</table>
+		<?php endif; ?>
+		<!----- Destination List End -----> 
+
+		<!----- Destination Form Start -----> 
+		<?php echo $this->destinationForm; ?>
+		<!----- Destination Form End -----> 
 	</div>
 </div>
-<!----- Destination End----->
 
-<!----- Transaction End----->
-<div class="twelve columns">
-	<div class="panel">
-		<h4 class="hide-for-small"><?php echo $this->translate('SMS Transaction'); ?><hr></h3>
-		<a href="#">Fill Transaction</a>
-	</div>
-</div>
-<!----- Transaction End----->
-
-<p><center>Go Up!</center></p>
-*/ ?>
-
-<!----- Destination Start ----->
-<?php if (!$this->destinations): ?>
-<p><?php echo $this->translate('There is no destination!') ?></p>
-<?php else: ?>
-
-<?php
-	$confirmMessage = $this->translate('Are you sure to delete?');
-?>
-
-<table>
-	<thead>
-		<tr>
-			<th><?php echo $this->translate('ID') ?></th>
-			<th><?php echo $this->translate('Order ID') ?></th>
-			<th><?php echo $this->translate('Destination Type') ?></th>
-			<th><?php echo $this->translate('Destination Value') ?></th>
-			<th><?php echo $this->translate('Dispatch Date') ?></th>
-			<th><?php echo $this->translate('Quantity') ?></th>
-			<th><?php echo $this->translate('Requested') ?></th>
-			<th><?php echo $this->translate('Links') ?></th>
-		</tr>
-	</thead>
-	<tbody>
-<?php foreach ($this->destinations as $destinations): ?>
-		<tr>
-			<td>
-				<?php echo $destinations['id']; ?>
-			</td>
-			<td>
-				<?php echo $destinations['order_id']; ?>
-			</td>
-			<td>
-				<?php echo $destinations['destination_type']; ?>
-			</td>
-			<td>
-				<?php echo $destinations['destination_value']; ?>
-			</td>
-			<td>	
-				<?php echo Melobit_Date_Convertor::timestamp_to_jalali($destinations['dispatch_date']); ?>
-			</td>
-			<td>
-				<?php echo $destinations['destinations_quantity']; ?>
-			</td>
-			<td>
-				<?php echo $destinations['destination_end'] - $destinations['destination_start']; ?>
-			</td>
-			<td>
-				<a href="<?php echo $this->translate('/en_US');?>/sms/order/update-destination/id/<?php echo $destinations['id']; ?>">
-					<?php echo $this->translate('Update') ?></a>
-				<br/>
-				<a href="<?php echo $this->translate('/en_US');?>/sms/order/delete-destination/id/<?php echo $destinations['id']; ?>" 
-					onclick="return confirm('<?php echo $confirmMessage; ?>')"><?php echo $this->translate('Delete') ?></a>
-			</td>
-		</tr>
-<?php endforeach; ?>
-	</tbody>
-</table>
-
-<?php endif; ?>
-<!----- Destination End -----> 
-
+<!----- Front-End Logics Start ----->
+<script type="text/javascript" src="/javascripts/jQuery-plugins/jQuery-form.js"></script>
+<script type="text/javascript" src="/javascripts/jQuery-validationEngine-2.6.1/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
+
+	function appendNewDataToDestinationTable(data)
+	{
+		var newTableRow = "<tr><td>" 
+			+ data.id +"</td><td>"
+			+ data.order_id +"</td><td>"
+			+ data.destination_type +"</td><td>"
+			+ data.destination_value +"</td><td>"
+			+ data.dispatch_date +"</td><td>"
+			+ data.destinations_quantity +"</td><td>"
+			+ data.requested +"</td></tr>";		
+		jQuery(newTableRow)
+			.css({
+			 "background":"#2BA6CB",
+			 "display":"none"
+			})
+			.appendTo("tbody#destinationTableBody")
+			.fadeIn("slow", function(){
+				jQuery(this).css({
+				    "display":""
+				    });
+				jQuery(this).animate({
+				    backgroundColor:"#F9F9F9"
+				    },
+				    300,
+				    function(){
+				jQuery(this).css({
+				    "background":""
+				    });	
+				});
+			});  
+	}
+
 	jQuery(function($){
-		// !?
+		jQuery("form#destinationForm").bind("submit", function(event){
+			
+			// Craft ajax loader icon
+			var ajaxIconLoader = "<img id='ajaxIconLoader' src='/images/misc/ajax-loader.gif' style='margin:0 10px; vertical-align: middle;'></img>";
+			jQuery(ajaxIconLoader).appendTo("dd#submit-element");
+			
+			
+			// Fetch form data
+			var destinationFormValidity = jQuery('.jQueryValidation').validationEngine('validate');			
+			var destinationFormValue = jQuery("form#destinationForm").formSerialize();
+			
+			// Fire!
+			if (destinationFormValidity)
+			{
+				jQuery.ajax({
+					type: "POST",
+					url: "/en_US/sms/order/ajax-create-destination/",
+					data: destinationFormValue,
+					success: function(data){
+						var storedDestinationId = data;
+						jQuery.ajax({
+							type: "GET",
+							url: "/en_US/sms/order/ajax-retrieve-destination/id/" + storedDestinationId,
+							success: function(data){
+								var storedDestinationData = data;
+								appendNewDataToDestinationTable(storedDestinationData);
+								jQuery("img#ajaxIconLoader").fadeOut();
+								jQuery("form#destinationForm").clearForm();
+							}
+						});
+					}
+				});
+			}
+			
+			// Prevent default action
+			event.preventDefault();
+			return false;
+
+		});
 	});
 </script>
+<!----- Front-End Logics End ----->

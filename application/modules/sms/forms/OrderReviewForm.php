@@ -4,7 +4,7 @@ class Sms_Form_OrderReviewForm extends Zend_Form
 	public function init()
 	{
 		$this->setMethod('post');
-		$this->setAttrib('id', 'jQueryValidation');
+		$this->setAttrib('class', 'jQueryValidation');
 
 		// create hidden order_id
 		$order_id = $this->createElement('hidden', 'order_id');

@@ -4,7 +4,8 @@ class Sms_Form_OrderDestinationForm extends Zend_Form
 	public function init()
 	{
 		$this->setMethod('post');
-		$this->setAttrib('id', 'jQueryValidation');
+		$this->setAttrib('class', 'jQueryValidation');
+		$this->setAttrib('id', 'destinationForm');
 
 		// create hidden id
 		$id = $this->createElement('hidden', 'id');
@@ -76,7 +77,8 @@ class Sms_Form_OrderDestinationForm extends Zend_Form
 		
 		// create submit
 		$submit = $this->createElement('submit', 'submit');
-		$submit->setLabel('Submit Form');
+		$submit->setLabel('Submit Form')
+			->setAttrib('id', 'destinationSubmit');
 		$this->addElement($submit);
 	}
 	

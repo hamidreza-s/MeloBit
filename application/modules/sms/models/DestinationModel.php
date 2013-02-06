@@ -36,6 +36,15 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 			throw new Zend_Exception("Could not create new destination!");
 		}
 	}
+
+	public static function retrieveDestination($destination_id)
+	{
+		$destinationModel = new self();
+		$select = $destinationModel->select()
+			->where("id = ?", $destination_id);
+
+		return $destinationModel->fetchAll($select);
+	}
 	
 	public static function retrieveDestinations($order_id)
 	{

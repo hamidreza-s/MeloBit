@@ -1,0 +1,33 @@
+<?php 
+	$this->content = $this->layout()->content;
+	$this->nav = $this->action('render', 'menu');
+	$this->userForm = $this->action('index', 'user');
+	$this->userNav = $this->action('nav', 'user');
+	$this->searchForm = new Form_SearchForm();
+	$this->flags = $this->partial('layout-partials/locale-flags.phtml');
+	
+	// set db profiler
+	$this->addScriptPath(APPLICATION_PATH . '/views/scripts');
+	$this->profiler = $this->render('util/profiler.phtml');
+	
+	// fetch current language
+	$this->currentLang = $this->translate('/en_US');
+	
+	/*	
+	// add a link to the site style sheet
+	// "skin" is initialized in bootstap
+	// "loadSkin()" is a custom view helper
+	$this->loadSkin($this->skin);
+	
+	// echo head links
+	echo $this->headTitle();
+	echo $this->headScript();
+	echo $this->headLink();
+	*/
+
+	// render layout body from skin folder
+	// "skin" is initialized in bootstrap
+	// "loadBody()" is custom view helper
+	$this->loadBody($this->skin, basename(__FILE__), $this->currentLang);
+?>
+

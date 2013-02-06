@@ -4,7 +4,7 @@ class Form_BugReportForm extends Zend_Form
 {
 	public function init()
 	{
-		$this->setAttrib('id', 'jQueryValidation');
+		$this->setAttrib('class', 'jQueryValidation');
 		
 		// add element: hidden id
 		$id = $this->createElement('hidden', 'id');

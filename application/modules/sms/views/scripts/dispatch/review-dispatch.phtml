@@ -2,13 +2,13 @@
 
 <div class="six columns">
 	<div class="panel" style="height:250px">
-		<h4 class="hide-for-small"><?php echo $this->translate('SMS Content'); ?><hr></h3>
+		<h4 class="hide-for-small"><?php echo $this->translate('SMS Content'); ?><hr></h4>
 		<h5 class="subheader"><?php echo $this->order['sms_content'] ?></h5>
 	</div>
 </div>
 <div class="six columns">
 	<div class="panel" style="height:250px">
-		<h4 class="hide-for-small"><?php echo $this->translate('Order Details'); ?><hr></h3>
+		<h4 class="hide-for-small"><?php echo $this->translate('Order Details'); ?><hr></h4>
 		<span class="subheader"><?php echo $this->translate('Sender Company:'); ?></span>
 			<?php $companyName = Sms_Model_CustomerModel::getCompanyNameByCustomerId($this->order['customer_id']);?>
 			<?php echo $companyName['name']; ?>

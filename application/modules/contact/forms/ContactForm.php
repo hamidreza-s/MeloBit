@@ -4,7 +4,7 @@ class Contact_Form_ContactForm extends Zend_Form
 	public function init()
 	{
 		$this->setMethod('post');
-		$this->setAttrib('id', 'jQueryValidation');
+		$this->setAttrib('class', 'jQueryValidation');
 	
 		// create name element
 		$name = $this->createElement('text', 'name');

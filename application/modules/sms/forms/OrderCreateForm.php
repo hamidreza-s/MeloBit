@@ -43,6 +43,15 @@ class Sms_Form_OrderCreateForm extends Zend_Form
 			->setAttrib('class', 'validate[required]');
 		$this->addElement($test_phone);
 
+		// create sms_fee
+		$sms_fee = $this->createElement('text', 'sms_fee')
+			->setLabel('SMS Fee:')
+			->setRequired(true)
+			->setAttrib('size', 30)
+			->setAttrib('class', 'validate[required]');
+		$this->addElement($sms_fee);
+		
+		
 		// create submit
 		$submit = $this->createElement('submit', 'submit');
 		$submit->setLabel('Submit Form');

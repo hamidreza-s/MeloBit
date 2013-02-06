@@ -42,7 +42,8 @@ class Sms_OrderController extends Zend_Controller_Action
 					$this->_userId,
 					$data['sms_content'],
 					$data['sms_quantity'],
-					$data['test_phone']
+					$data['test_phone'],
+					$data['sms_fee']
 				);
 				
 				return $this->_forward('review-order', 'order', null, array('id' => $id));
@@ -67,7 +68,8 @@ class Sms_OrderController extends Zend_Controller_Action
 					$data['customer_id'],
 					$data['sms_content'],
 					$data['sms_quantity'],
-					$data['test_phone']		
+					$data['test_phone'],
+					$data['sms_fee']
 				);
 				
 				return $this->_forward('index');

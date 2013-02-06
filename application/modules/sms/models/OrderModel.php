@@ -16,7 +16,7 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 		)
 	);
 	
-	public function createOrder($customer_id, $user_id, $sms_content, $sms_quantity, $test_phone)	
+	public function createOrder($customer_id, $user_id, $sms_content, $sms_quantity, $test_phone, $sms_fee)	
 	{
 		$rowOrder = $this->createRow();
 		if ($rowOrder)
@@ -29,6 +29,7 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 			$rowOrder->sms_quantity = $sms_quantity;
 			$rowOrder->order_date = $date->getTimestamp();
 			$rowOrder->test_phone = $test_phone;
+			$rowOrder->sms_fee = $sms_fee;
 			return $rowOrder->save();
 		}
 		else
@@ -71,7 +72,7 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 		}
 	}
 	
-	public function updateOrder($id, $customer_id, $sms_content, $sms_quantity, $test_phone) 
+	public function updateOrder($id, $customer_id, $sms_content, $sms_quantity, $test_phone, $sms_fee) 
 	{
 		$rowOrder = $this->find($id)->current();
 		if ($rowOrder)
@@ -83,6 +84,7 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 			$rowOrder->sms_quantity = $sms_quantity;
 			$rowOrder->order_date = $date->getTimestamp();
 			$rowOrder->test_phone = $test_phone;
+			$rowOrder->sms_fee = $sms_fee;
 			return $rowOrder->save();
 		}
 		else

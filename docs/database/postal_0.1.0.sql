@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS `postal_code_tehran` (
 `phone_no` varchar(10) NOT NULL, 
 `postal_code` varchar(10) NOT NULL, 
 PRIMARY KEY (`id`),
-INDEX name (`phone_no`, `postal_code`)
+INDEX postal_phone (`postal_code`, `phone_no`)
+INDEX postal (`postal_code`)
 ) ENGINE=MyISAM  DEFAULT CHARSET = ascii COLLATE = ascii_general_ci; 
 
 load data local infile '/home/hamidrezas/Desktop/SMS_Postal/tehran.csv' into table `postal_code_tehran` 
@@ -17,7 +18,8 @@ CREATE TABLE IF NOT EXISTS `postal_code_iran` (
 `phone_no` varchar(10) NOT NULL, 
 `postal_code` varchar(10) NOT NULL, 
 PRIMARY KEY (`id`),
-INDEX name (`phone_no`, `postal_code`)
+INDEX postal_phone (`postal_code`, `phone_no`)
+INDEX postal (`postal_code`)
 ) ENGINE=MyISAM  DEFAULT CHARSET = ascii COLLATE = ascii_general_ci; 
 
 load data local infile '/home/hamidrezas/Desktop/SMS_Postal/iran.csv' into table `postal_code_iran` 

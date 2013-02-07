@@ -1,5 +1,19 @@
 <?php $this->layout()->setLayout('blank'); ?>
 
+<?php
+	// append necessary files
+	$this->headLink()->appendStylesheet('/javascripts/JalaliJSCalendar-1.4/skins/calendar-blue.css');
+	$this->headLink()->appendStylesheet('/javascripts/JalaliJSCalendar-1.4/skins/global.css');
+	echo $this->headLink();
+	$this->headScript()->appendFile('/javascripts/jQuery-plugins/jQuery-form.js');
+	$this->headScript()->appendFile('/javascripts/jQuery-validationEngine-2.6.1/js/jquery-ui.min.js');
+	$this->headScript()->appendFile('/javascripts/JalaliJSCalendar-1.4/jalali.js');
+	$this->headScript()->appendFile('/javascripts/JalaliJSCalendar-1.4/calendar.js');
+	$this->headScript()->appendFile('/javascripts/JalaliJSCalendar-1.4/lang/calendar-fa.js');
+	$this->headScript()->appendFile('/javascripts/JalaliJSCalendar-1.4/calendar-setup.js');
+	echo $this->headScript();
+?>
+
 <!----- Review Start ----->
 <div class="six columns">
 	<div class="panel" style="height:250px">
@@ -56,9 +70,7 @@
 	<div class="panel" style="">
 		<h4 class="hide-for-small"><?php echo $this->translate('Destination'); ?><hr></h4>
 		<!----- Destination List Start ----->	
-		<?php if (!$this->destinations): ?>
-		<p><?php echo $this->translate('There is no destination!') ?></p>
-		<?php else: ?>
+
 
 		<?php
 			$confirmMessage = $this->translate('Are you sure to delete?');
@@ -78,6 +90,7 @@
 				</tr>
 			</thead>
 			<tbody id="destinationTableBody">
+		<?php if ($this->destinations): ?>
 		<?php foreach ($this->destinations as $destinations): ?>
 				<tr>
 					<td>
@@ -112,22 +125,50 @@
 					*/ ?>
 				</tr>
 		<?php endforeach; ?>
+		<?php endif; ?>
 			</tbody>
 		</table>
-		<?php endif; ?>
 		<!----- Destination List End -----> 
 
 		<!----- Destination Form Start -----> 
-		<?php echo $this->destinationForm; ?>
+		<div class="panel">
+			<div style="margin:10px 0 10px 10px">
+				<img src="/images/misc/plus-icon-green-small.png" style="margin: 0 10px">
+					<a href="#" id="destinationFormToggle"><?php echo $this->translate('Create a new destination'); ?></a>
+				</img>
+			</div>
+			<?php echo $this->destinationForm; ?>
+		</div>
 		<!----- Destination Form End -----> 
 	</div>
 </div>
 
 <!----- Front-End Logics Start ----->
-<script type="text/javascript" src="/javascripts/jQuery-plugins/jQuery-form.js"></script>
-<script type="text/javascript" src="/javascripts/jQuery-validationEngine-2.6.1/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
+	// Calendar
+	Calendar.setup({
+		inputField			: "dispatch_date",	// id of the input field
+		button					: "date_btn_2",	// trigger for the calendar (button ID)
+		ifFormat				: "%Y-%m-%d %H:%M",	// format of the input field
+		showsTime			: true,
+		dateType				: 'jalali',
+		timeFormat			: "24",
+		weekNumbers	: false
+	});
+</script>
 
+<script type="text/javascript">
+	// Toggle destination form
+	jQuery("form#destinationForm").css("display", "none");
+	jQuery(function($){		
+		jQuery("a#destinationFormToggle").bind("click", function(event){
+			jQuery("form#destinationForm").toggle("slow");				
+			// Prevent default action
+			event.preventDefault();
+		});
+	});
+
+	// Push new destination row
 	function appendNewDataToDestinationTable(data)
 	{
 		var newTableRow = "<tr><td>" 
@@ -160,14 +201,10 @@
 			});  
 	}
 
+	// Ajax create destination
 	jQuery(function($){
 		jQuery("form#destinationForm").bind("submit", function(event){
-			
-			// Craft ajax loader icon
-			var ajaxIconLoader = "<img id='ajaxIconLoader' src='/images/misc/ajax-loader.gif' style='margin:0 10px; vertical-align: middle;'></img>";
-			jQuery(ajaxIconLoader).appendTo("dd#submit-element");
-			
-			
+
 			// Fetch form data
 			var destinationFormValidity = jQuery('.jQueryValidation').validationEngine('validate');			
 			var destinationFormValue = jQuery("form#destinationForm").formSerialize();
@@ -175,6 +212,11 @@
 			// Fire!
 			if (destinationFormValidity)
 			{
+				// Craft ajax loader icon
+				var ajaxIconLoader = "<img id='ajaxIconLoader' src='/images/misc/ajax-loader.gif' style='margin:0 10px; vertical-align: middle;'></img>";
+				jQuery(ajaxIconLoader).appendTo("dd#submit-element");
+			
+				// Ajax
 				jQuery.ajax({
 					type: "POST",
 					url: "/en_US/sms/order/ajax-create-destination/",

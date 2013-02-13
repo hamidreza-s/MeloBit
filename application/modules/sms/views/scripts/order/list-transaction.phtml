@@ -1,0 +1,66 @@
+<?php $this->layout()->setLayout('page'); ?>
+
+<h3><?php echo $this->translate('List of Transactions'); ?></h3><br />
+
+<?php if (!$this->transactions): ?>
+<p><?php echo $this->translate('There is no transaction!'); ?></p>
+<?php else: ?>
+
+<?php
+	$confirmMessage = $this->translate('Are you sure to delete?');
+?>
+
+<table>
+	<thead>
+		<tr>
+			<th><?php echo $this->translate('ID') ?></th>
+			<th><?php echo $this->translate('Order ID') ?></th>
+			<th><?php echo $this->translate('Receipt Number') ?></th>
+			<th><?php echo $this->translate('Bank Account') ?></th>
+			<th><?php echo $this->translate('Deposit Date') ?></th>
+			<th><?php echo $this->translate('Depositor Name') ?></th>
+			<th><?php echo $this->translate('Deposit Fee') ?></th>
+			<th><?php echo $this->translate('Links') ?></th>
+		</tr>
+	</thead>
+	<tbody>
+<?php foreach ($this->transactions as $transactions): ?>
+		<tr>
+			<td>
+				<?php echo $transactions['id']; ?>
+			</td>
+			<td>
+				<?php echo $transactions['order_id']; ?>
+			</td>
+			<td>
+				<?php echo $transactions['receipt_number']; ?>
+			</td>
+			<td>
+				<?php echo $transactions['bank_account']; ?>
+			</td>
+			<td>
+				<?php echo Melobit_Date_Convertor::timestamp_to_jalali($transactions['deposit_date']); ?>
+			</td>
+			<td>
+				<?php echo $transactions['depositor_name']; ?>
+			</td>
+			<td>
+				<?php echo $transactions['deposit_fee']; ?>
+			</td>
+			<td>
+				<a href="<?php echo $this->translate('/en_US');?>/sms/order/update-transaction/id/<?php echo $transactions['id']; ?>">
+					<?php echo $this->translate('Update') ?></a>
+				<br/>
+				<a href="<?php echo $this->translate('/en_US');?>/sms/order/delete-transaction/id/<?php echo $transactions['id']; ?>" 
+					onclick="return confirm('<?php echo $confirmMessage; ?>')"><?php echo $this->translate('Delete') ?></a>
+			</td>
+		</tr>
+<?php endforeach; ?>
+	</tbody>
+</table>
+
+<?php endif; ?>
+
+<p><a href="<?php echo $this->translate('/en_US'); ?>
+	/sms/order/create-transaction/id/<?php echo $this->order_id; ?>">
+	<?php echo $this->translate('Create a new Transaction'); ?></a></p>

@@ -28,11 +28,26 @@ class Sms_ControlController extends Zend_Controller_Action
 	
 	public function reviewControlAction() 
 	{
+		// Order details
 		$requestedId = $this->_request->getParam('id');
 		$controlModel = new Sms_Model_ControlModel;
-		$destinationModel = new Sms_Model_DestinationModel;
 		$this->view->order = $controlModel::retrieveOrder($requestedId);
+		
+		// Destination details
+		$destinationModel = new Sms_Model_DestinationModel;	
 		$this->view->destinations = $destinationModel::retrieveDestinations($requestedId);
+		
+		// Transaction details
+		$transactionModel = new Sms_Model_TransactionModel;
+		$transactions = $transactionModel::retrieveTransactions($requestedId);
+		if ($transactions->count() > 0)
+		{
+			$this->view->transactions = $transactions->toArray();
+		}
+		else
+		{
+			$this->view->transactions = null;
+		}
 	}
 	
 	public function confirmControlAction()

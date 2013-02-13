@@ -1,4 +1,4 @@
-<?php $this->layout()->setLayout('page'); ?>
+<?php $this->layout()->setLayout('blank'); ?>
 
 <div class="six columns">
 	<div class="panel" style="height:250px">
@@ -53,66 +53,72 @@
 
 
 
+<!----- Destination HTML Start ----->
+<div class="twelve columns">
+	<div class="panel" style="">
+		<h4 class="hide-for-small"><?php echo $this->translate('Destination'); ?><hr></h4>
 
+		<!----- Destination List Start ----->
+		<?php
+			$confirmMessage = $this->translate('Are you sure to delete?');
+		?>
 
-
-<?php if (!$this->destinations): ?>
-<p>There is no destination!</p>
-<?php else: ?>
-
-<?php
-	$confirmMessage = $this->translate('Are you sure to delete?');
-?>
-
-<table>
-	<thead>
-		<tr>
-			<th><?php echo $this->translate('ID') ?></th>
-			<th><?php echo $this->translate('Order ID') ?></th>
-			<th><?php echo $this->translate('Destination Type') ?></th>
-			<th><?php echo $this->translate('Destination Value') ?></th>
-			<th><?php echo $this->translate('Dispatch Date') ?></th>
-			<th><?php echo $this->translate('Quantity') ?></th>
-			<th><?php echo $this->translate('Requested') ?></th>
-			<th><?php echo $this->translate('Links') ?></th>
-		</tr>
-	</thead>
-	<tbody>
-<?php foreach ($this->destinations as $destinations): ?>
-		<tr>
-			<td>
-				<?php echo $destinations['id']; ?>
-			</td>
-			<td>
-				<?php echo $destinations['order_id']; ?>
-			</td>
-			<td>
-				<?php echo $destinations['destination_type']; ?>
-			</td>
-			<td>
-				<?php echo $destinations['destination_value']; ?>
-			</td>
-			<td>	
-				<?php echo Melobit_Date_Convertor::timestamp_to_jalali($destinations['dispatch_date']); ?>
-			</td>
-			<td>
-				<?php echo $destinations['destinations_quantity']; ?>
-			</td>
-			<td>
-				<?php echo $destinations['destination_end'] - $destinations['destination_start']; ?>
-			</td>
-			<td>
-				<?php if ($destinations['bulk_id']): ?>
-				<a href="<?php echo $this->translate('/en_US');?>/sms/dispatch/get-status/id/<?php echo $destinations['id']; ?>">
-					<?php echo $this->translate('Status') ?></a>				
-				<?php else: ?>
-				<a href="<?php echo $this->translate('/en_US');?>/sms/dispatch/send-bulk/id/<?php echo $destinations['id']; ?>">
-					<?php echo $this->translate('Send') ?></a>
-				<?php endif; ?>
-			</td>
-		</tr>
-<?php endforeach; ?>
-	</tbody>
-</table>
-
-<?php endif; ?>
+		<table>
+			<thead>
+				<tr>
+					<th><?php echo $this->translate('ID') ?></th>
+					<th><?php echo $this->translate('Order ID') ?></th>
+					<th><?php echo $this->translate('Destination Type') ?></th>
+					<th><?php echo $this->translate('Destination Value') ?></th>
+					<th><?php echo $this->translate('Dispatch Date') ?></th>
+					<th><?php echo $this->translate('Quantity') ?></th>
+					<th><?php echo $this->translate('Requested') ?></th>
+					<th><?php echo $this->translate('Links') ?></th>
+				</tr>
+			</thead>
+			<tbody>			
+		<?php if (!$this->destinations): ?>
+		<p>There is no destination!</p>
+		<?php else: ?>			
+		<?php foreach ($this->destinations as $destinations): ?>
+				<tr>
+					<td>
+						<?php echo $destinations['id']; ?>
+					</td>
+					<td>
+						<?php echo $destinations['order_id']; ?>
+					</td>
+					<td>
+						<?php echo $destinations['destination_type']; ?>
+					</td>
+					<td>
+						<?php echo $destinations['destination_value']; ?>
+					</td>
+					<td>	
+						<?php echo Melobit_Date_Convertor::timestamp_to_jalali($destinations['dispatch_date']); ?>
+					</td>
+					<td>
+						<?php echo $destinations['destinations_quantity']; ?>
+					</td>
+					<td>
+						<?php echo $destinations['destination_end'] - $destinations['destination_start'] + 1; ?>
+					</td>
+					<td>
+						<?php if ($destinations['bulk_id']): ?>
+						<a href="<?php echo $this->translate('/en_US');?>/sms/dispatch/get-status/id/<?php echo $destinations['id']; ?>">
+							<?php echo $this->translate('Status') ?></a>				
+						<?php else: ?>
+						<a href="<?php echo $this->translate('/en_US');?>/sms/dispatch/send-bulk/id/<?php echo $destinations['id']; ?>">
+							<?php echo $this->translate('Send') ?></a>
+						<?php endif; ?>
+					</td>
+				</tr>
+		<?php endforeach; ?>
+		<?php endif; ?>
+			</tbody>
+		</table>
+		<!----- Destination List End -----> 
+		
+	</div>
+</div>
+<!----- Destination HTML End ----->

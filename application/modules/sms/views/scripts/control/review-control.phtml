@@ -1,4 +1,4 @@
-<?php $this->layout()->setLayout('page'); ?>
+<?php $this->layout()->setLayout('blank'); ?>
 
 <div class="six columns">
 	<div class="panel" style="height:250px">
@@ -55,62 +55,151 @@
 
 
 
+<!----- Destination HTML Start ----->
+<div class="twelve columns">
+	<div class="panel" style="">
+		<h4 class="hide-for-small"><?php echo $this->translate('Destination'); ?><hr></h4>
+		
+		<!----- Destination List Start ----->	
+		<?php
+			$confirmMessage = $this->translate('Are you sure to delete?');
+			$language = $this->translate('/en_US');
+			$deleteLink = $this->translate('/en_US') . "/sms/order/delete-destination/id/";
+			$updateLink = $this->translate('/en_US') . "/sms/order/update-destination/id/";
+		?>
 
-<?php if (!$this->destinations): ?>
-<p>There is no destination!</p>
-<?php else: ?>
+		<table>
+			<thead>
+				<tr>
+					<th><?php echo $this->translate('ID') ?></th>
+					<th><?php echo $this->translate('Order ID') ?></th>
+					<th><?php echo $this->translate('Destination Type') ?></th>
+					<th><?php echo $this->translate('Destination Value') ?></th>
+					<th><?php echo $this->translate('Dispatch Date') ?></th>
+					<th><?php echo $this->translate('Quantity') ?></th>
+					<th><?php echo $this->translate('Requested') ?></th>
+					<?php /* <th><?php echo $this->translate('Links') ?></th> */ ?>
+				</tr>
+			</thead>
+			<tbody id="destinationTableBody">
+		<?php if ($this->destinations): ?>
+		<?php foreach ($this->destinations as $destinations): ?>
+				<tr>
+					<td>
+						<?php echo $destinations['id']; ?>
+					</td>
+					<td>
+						<?php echo $destinations['order_id']; ?>
+					</td>
+					<td>
+						<?php echo $destinations['destination_type']; ?>
+					</td>
+					<td>
+						<?php echo $destinations['destination_value']; ?>
+					</td>
+					<td>	
+						<?php echo Melobit_Date_Convertor::timestamp_to_jalali($destinations['dispatch_date']); ?>
+					</td>
+					<td>
+						<?php echo $destinations['destinations_quantity']; ?>
+					</td>
+					<td>
+						<?php echo $destinations['destination_end'] - $destinations['destination_start'] + 1; ?>
+					</td>
+					<?php /*
+					<td>
+						<a href="<?php echo $updateLink .  $destinations['id']; ?>">
+							<img src="/images/misc/edit-icon-white-micro.png" style="margin: 0 10px; vertical-align: middle"></img>
+						</a>
+						<br/>
+						<a href="<?php echo $deleteLink .  $destinations['id']; ?>" 
+							onclick="return confirm('<?php echo $confirmMessage; ?>')">
+							<img src="/images/misc/delete-icon-white-micro.png" style="margin: 0 10px; vertical-align: middle"></img>
+						</a>
+					</td>
+					*/ ?>
+				</tr>
+		<?php endforeach; ?>
+		<?php endif; ?>
+			</tbody>
+		</table>
+		<!----- Destination List End -----> 
+		
+	</div>
+</div>
+<!----- Destination HTML End ----->
 
-<?php
-	$confirmMessage = $this->translate('Are you sure to delete?');
-?>
 
-<table>
-	<thead>
-		<tr>
-			<th><?php echo $this->translate('ID') ?></th>
-			<th><?php echo $this->translate('Order ID') ?></th>
-			<th><?php echo $this->translate('Destination Type') ?></th>
-			<th><?php echo $this->translate('Destination Value') ?></th>
-			<th><?php echo $this->translate('Dispatch Date') ?></th>
-			<th><?php echo $this->translate('Quantity') ?></th>
-			<th><?php echo $this->translate('Requested') ?></th>
-			<th><?php echo $this->translate('Links') ?></th>
-		</tr>
-	</thead>
-	<tbody>
-<?php foreach ($this->destinations as $destinations): ?>
-		<tr>
-			<td>
-				<?php echo $destinations['id']; ?>
-			</td>
-			<td>
-				<?php echo $destinations['order_id']; ?>
-			</td>
-			<td>
-				<?php echo $destinations['destination_type']; ?>
-			</td>
-			<td>
-				<?php echo $destinations['destination_value']; ?>
-			</td>
-			<td>	
-				<?php echo Melobit_Date_Convertor::timestamp_to_jalali($destinations['dispatch_date']); ?>
-			</td>
-			<td>
-				<?php echo $destinations['destinations_quantity']; ?>
-			</td>
-			<td>
-				<?php echo $destinations['destination_end'] - $destinations['destination_start']; ?>
-			</td>
-			<td>
-				<a href="<?php echo $this->translate('/en_US');?>/sms/order/update-destination/id/<?php echo $destinations['id']; ?>">
-					<?php echo $this->translate('Update') ?></a>
-				<br/>
-				<a href="<?php echo $this->translate('/en_US');?>/sms/order/delete-destination/id/<?php echo $destinations['id']; ?>" 
-					onclick="return confirm('<?php echo $confirmMessage; ?>')"><?php echo $this->translate('Delete') ?></a>
-			</td>
-		</tr>
-<?php endforeach; ?>
-	</tbody>
-</table>
+<!----- Transaction HTML Start ----->
+<div class="twelve columns">
+	<div class="panel" style="">
+		<h4 class="hide-for-small"><?php echo $this->translate('Transaction'); ?><hr></h4>
+		
+		<!----- Transaction List Start ----->	
+		<?php
+			$confirmMessage = $this->translate('Are you sure to delete?');
+			$language = $this->translate('/en_US');
+			$deleteLink = $this->translate('/en_US') . "/sms/order/delete-transaction/id/";
+			$updateLink = $this->translate('/en_US') . "/sms/order/update-transaction/id/";
+		?>
 
-<?php endif; ?>
+		<table>
+			<thead>
+				<tr>			
+					<th><?php echo $this->translate('ID') ?></th>
+					<th><?php echo $this->translate('Order ID') ?></th>
+					<th><?php echo $this->translate('Receipt Number') ?></th>
+					<th><?php echo $this->translate('Bank Account') ?></th>
+					<th><?php echo $this->translate('Deposit Date') ?></th>
+					<th><?php echo $this->translate('Depositor Name') ?></th>
+					<th><?php echo $this->translate('Deposit Fee') ?></th>
+					<?php /*<th><?php echo $this->translate('Links') ?></th> */ ?>
+				</tr>
+			</thead>
+			<tbody id="transactionTableBody">
+		<?php if ($this->transactions): ?>
+			<?php foreach ($this->transactions as $transactions): ?>
+					<tr>
+						<td>
+							<?php echo $transactions['id']; ?>
+						</td>
+						<td>
+							<?php echo $transactions['order_id']; ?>
+						</td>
+						<td>
+							<?php echo $transactions['receipt_number']; ?>
+						</td>
+						<td>
+							<?php echo $transactions['bank_account']; ?>
+						</td>
+						<td>
+							<?php echo Melobit_Date_Convertor::timestamp_to_jalali($transactions['deposit_date']); ?>
+						</td>
+						<td>
+							<?php echo $transactions['depositor_name']; ?>
+						</td>
+						<td>
+							<?php echo $transactions['deposit_fee']; ?>
+						</td>
+						<?php /*
+						<td>
+						<a href="<?php echo $updateLink .  $transactions['id']; ?>">
+							<img src="/images/misc/edit-icon-white-micro.png" style="margin: 0 10px; vertical-align: middle"></img>
+						</a>
+						<br/>
+						<a href="<?php echo $deleteLink .  $transactions['id']; ?>" 
+							onclick="return confirm('<?php echo $confirmMessage; ?>')">
+							<img src="/images/misc/delete-icon-white-micro.png" style="margin: 0 10px; vertical-align: middle"></img>
+						</a>
+						</td>
+						*/ ?>
+					</tr>
+			<?php endforeach; ?>
+		<?php endif; ?>
+			</tbody>
+		</table>
+		<!----- Transaction List End -----> 
+		
+	</div>
+</div>
+<!----- Transaction HTML End ----->

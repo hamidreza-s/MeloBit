@@ -18,7 +18,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			// if not set, en_US is default
 			else
 			{
-				$this->lang = 'en_US';
+				$this->lang = 'fa_IR';
 			}
 	}
 	
@@ -130,7 +130,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		      $langRoute = new Zend_Controller_Router_Route(
 		          ':lang/',
 		          array(
-		              'lang' => 'en_US',
+		              'lang' => 'fa_IR',
 		          )
 		      );
 					$moduleRoute = new Zend_Controller_Router_Route(

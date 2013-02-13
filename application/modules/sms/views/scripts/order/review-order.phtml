@@ -16,13 +16,37 @@
 
 <!----- Review Start ----->
 <div class="six columns">
-	<div class="panel" style="height:250px">
+	<div class="panel" style="height:350px">
 		<h4 class="hide-for-small"><?php echo $this->translate('SMS Content'); ?><hr></h4>
 		<h5 class="subheader"><?php echo $this->order['sms_content'] ?></h5>
 	</div>
 </div>
+
+	<?php 
+		// Calculate destinations fee
+		$totalDestinationsFee = null;
+		if ($this->destinations)
+		{
+			foreach ($this->destinations as $destinations)
+			{
+				$totalDestinationsFee += $destinations['destination_end'] - $destinations['destination_start'] +1;
+			}
+		}
+		$totalDestinationsFee = $totalDestinationsFee * $this->order['sms_quantity'] * $this->order['sms_fee'];
+
+		// Calculate transactions fee
+		$totalTransactionsFee = null;
+		if ($this->transactions)
+		{
+			foreach ($this->transactions as $transactions)
+			{
+				$totalTransactionsFee += $transactions['deposit_fee'];
+			}
+		}
+	?>
+	
 <div class="six columns">
-	<div class="panel" style="height:250px">
+	<div class="panel" style="height:350px">
 		<h4 class="hide-for-small"><?php echo $this->translate('Order Details'); ?><hr></h4>
 		<span class="subheader"><?php echo $this->translate('Sender Company:'); ?></span>
 			<?php $companyName = Sms_Model_CustomerModel::getCompanyNameByCustomerId($this->order['customer_id']);?>
@@ -37,6 +61,18 @@
 			<br/>
 		<span class="subheader"><?php echo $this->translate('Test Phone:'); ?></span>
 			<?php echo $this->order['test_phone']; ?>
+			<br/>
+		<span class="subheader"><?php echo $this->translate('SMS Fee:'); ?></span>
+			<span  id="smsFee"><?php echo $this->order['sms_fee']; ?></span>
+			<br/>
+		<span class="subheader"><?php echo $this->translate('SMS Quantity:'); ?></span>
+			<span id="smsQuantity"><?php echo $this->order['sms_quantity']; ?></span>
+			<br/>
+		<span class="subheader"><?php echo $this->translate('Total Destinations Fee:'); ?></span>
+			<span id="totalDestinationsFee"><?php echo $totalDestinationsFee; ?></span>
+			<br/>
+		<span class="subheader"><?php echo $this->translate('Total Transaction Fee:'); ?></span>
+			<span id="totalTransactionsFee"><?php echo $totalTransactionsFee; ?></span>
 			<br/>
 			
 			<?php if ($this->order['order_status']) : ?>
@@ -65,15 +101,17 @@
 </div>
 <!----- Review End ----->
 
-
+<!----- Destination HTML Start ----->
 <div class="twelve columns">
 	<div class="panel" style="">
 		<h4 class="hide-for-small"><?php echo $this->translate('Destination'); ?><hr></h4>
+		
 		<!----- Destination List Start ----->	
-
-
 		<?php
 			$confirmMessage = $this->translate('Are you sure to delete?');
+			$language = $this->translate('/en_US');
+			$deleteLink = $this->translate('/en_US') . "/sms/order/delete-destination/id/";
+			$updateLink = $this->translate('/en_US') . "/sms/order/update-destination/id/";
 		?>
 
 		<table>
@@ -86,7 +124,7 @@
 					<th><?php echo $this->translate('Dispatch Date') ?></th>
 					<th><?php echo $this->translate('Quantity') ?></th>
 					<th><?php echo $this->translate('Requested') ?></th>
-					<?php /*<th><?php echo $this->translate('Links') ?></th> */ ?>
+					<th><?php echo $this->translate('Links') ?></th>
 				</tr>
 			</thead>
 			<tbody id="destinationTableBody">
@@ -112,17 +150,18 @@
 						<?php echo $destinations['destinations_quantity']; ?>
 					</td>
 					<td>
-						<?php echo $destinations['destination_end'] - $destinations['destination_start']; ?>
+						<?php echo $destinations['destination_end'] - $destinations['destination_start'] +1; ?>
 					</td>
-					<?php /*
 					<td>
-						<a href="<?php echo $this->translate('/en_US');?>/sms/order/update-destination/id/<?php echo $destinations['id']; ?>">
-							<?php echo $this->translate('Update') ?></a>
+						<a href="<?php echo $updateLink .  $destinations['id']; ?>">
+							<img src="/images/misc/edit-icon-white-micro.png" style="margin: 0 10px; vertical-align: middle"></img>
+						</a>
 						<br/>
-						<a href="<?php echo $this->translate('/en_US');?>/sms/order/delete-destination/id/<?php echo $destinations['id']; ?>" 
-							onclick="return confirm('<?php echo $confirmMessage; ?>')"><?php echo $this->translate('Delete') ?></a>
+						<a href="<?php echo $deleteLink .  $destinations['id']; ?>" 
+							onclick="return confirm('<?php echo $confirmMessage; ?>')">
+							<img src="/images/misc/delete-icon-white-micro.png" style="margin: 0 10px; vertical-align: middle"></img>
+						</a>
 					</td>
-					*/ ?>
 				</tr>
 		<?php endforeach; ?>
 		<?php endif; ?>
@@ -133,17 +172,19 @@
 		<!----- Destination Form Start -----> 
 		<div class="panel">
 			<div style="margin:10px 0 10px 10px">
-				<img src="/images/misc/plus-icon-green-small.png" style="margin: 0 10px">
-					<a href="#" id="destinationFormToggle"><?php echo $this->translate('Create a new destination'); ?></a>
+				<img src="/images/misc/plus-icon-green-small.png" style="margin: 0 10px; vertical-align: middle">
+					<a href="#" id="destinationFormToggle" style="vertical-align: middle"><?php echo $this->translate('Create a new destination'); ?></a>
 				</img>
 			</div>
 			<?php echo $this->destinationForm; ?>
 		</div>
 		<!----- Destination Form End -----> 
+		
 	</div>
 </div>
+<!----- Destination HTML End ----->
 
-<!----- Front-End Logics Start ----->
+<!----- Destination JavaScript Start ----->
 <script type="text/javascript">
 	// Calendar
 	Calendar.setup({
@@ -178,7 +219,15 @@
 			+ data.destination_value +"</td><td>"
 			+ data.dispatch_date +"</td><td>"
 			+ data.destinations_quantity +"</td><td>"
-			+ data.requested +"</td></tr>";		
+			+ data.requested +"</td><td>"
+			+ "<a href='<?php echo $updateLink ?>" + data.id + "'>"
+			+ "<img src='/images/misc/edit-icon-white-micro.png' style='margin: 0 10px; vertical-align: middle'></img>"
+			+ "</a>"
+			+ "<br/>"
+			+ "<a href='<?php echo $updateLink ?>" + data.id +  "'>"
+			+ "<img src='/images/misc/delete-icon-white-micro.png' style='margin: 0 10px; vertical-align: middle'></img>"
+			+ "</a>"
+			+ "</td></tr>";		
 		jQuery(newTableRow)
 			.css({
 			 "background":"#2BA6CB",
@@ -201,12 +250,26 @@
 			});  
 	}
 
+	// Push new Destinations fee
+	function appendNewFeeToDestinationSpan(data)
+	{
+		// Fetch current and new SMS data
+		var currentTotalDestinationsFee = parseInt(jQuery("span#totalDestinationsFee").text());
+		var smsFee = parseInt(jQuery("span#smsFee").text());
+		var smsQuantity = parseInt(jQuery("span#smsQuantity").text());
+		var newSmsDestinationRequested = parseInt(data.requested);
+		var newTotalDestinationsFee = (smsFee * smsQuantity * newSmsDestinationRequested) + currentTotalDestinationsFee;
+		
+		// Fire!
+		jQuery("span#totalDestinationsFee").text(newTotalDestinationsFee);
+	}
+	
 	// Ajax create destination
 	jQuery(function($){
 		jQuery("form#destinationForm").bind("submit", function(event){
 
 			// Fetch form data
-			var destinationFormValidity = jQuery('.jQueryValidation').validationEngine('validate');			
+			var destinationFormValidity = jQuery('form#destinationForm').validationEngine('validate');			
 			var destinationFormValue = jQuery("form#destinationForm").formSerialize();
 			
 			// Fire!
@@ -214,7 +277,7 @@
 			{
 				// Craft ajax loader icon
 				var ajaxIconLoader = "<img id='ajaxIconLoader' src='/images/misc/ajax-loader.gif' style='margin:0 10px; vertical-align: middle;'></img>";
-				jQuery(ajaxIconLoader).appendTo("dd#submit-element");
+				jQuery(ajaxIconLoader).appendTo(jQuery("input#destinationSubmit").parent());
 			
 				// Ajax
 				jQuery.ajax({
@@ -229,6 +292,7 @@
 							success: function(data){
 								var storedDestinationData = data;
 								appendNewDataToDestinationTable(storedDestinationData);
+								appendNewFeeToDestinationSpan(storedDestinationData);
 								jQuery("img#ajaxIconLoader").fadeOut();
 								jQuery("form#destinationForm").clearForm();
 							}
@@ -244,4 +308,198 @@
 		});
 	});
 </script>
-<!----- Front-End Logics End ----->
+<!----- Destination JavaScript End ----->
+
+<!----- Transaction HTML Start ----->
+<div class="twelve columns">
+	<div class="panel" style="">
+		<h4 class="hide-for-small"><?php echo $this->translate('Transaction'); ?><hr></h4>
+		
+		<!----- Transaction List Start ----->	
+		<?php
+			$confirmMessage = $this->translate('Are you sure to delete?');
+			$language = $this->translate('/en_US');
+			$deleteLink = $this->translate('/en_US') . "/sms/order/delete-transaction/id/";
+			$updateLink = $this->translate('/en_US') . "/sms/order/update-transaction/id/";
+		?>
+
+		<table>
+			<thead>
+				<tr>			
+					<th><?php echo $this->translate('ID') ?></th>
+					<th><?php echo $this->translate('Order ID') ?></th>
+					<th><?php echo $this->translate('Receipt Number') ?></th>
+					<th><?php echo $this->translate('Bank Account') ?></th>
+					<th><?php echo $this->translate('Deposit Date') ?></th>
+					<th><?php echo $this->translate('Depositor Name') ?></th>
+					<th><?php echo $this->translate('Deposit Fee') ?></th>
+					<th><?php echo $this->translate('Links') ?></th>				
+				</tr>
+			</thead>
+			<tbody id="transactionTableBody">
+		<?php if ($this->transactions): ?>
+			<?php foreach ($this->transactions as $transactions): ?>
+					<tr>
+						<td>
+							<?php echo $transactions['id']; ?>
+						</td>
+						<td>
+							<?php echo $transactions['order_id']; ?>
+						</td>
+						<td>
+							<?php echo $transactions['receipt_number']; ?>
+						</td>
+						<td>
+							<?php echo $transactions['bank_account']; ?>
+						</td>
+						<td>
+							<?php echo Melobit_Date_Convertor::timestamp_to_jalali($transactions['deposit_date']); ?>
+						</td>
+						<td>
+							<?php echo $transactions['depositor_name']; ?>
+						</td>
+						<td>
+							<?php echo $transactions['deposit_fee']; ?>
+						</td>
+						<td>
+						<a href="<?php echo $updateLink .  $transactions['id']; ?>">
+							<img src="/images/misc/edit-icon-white-micro.png" style="margin: 0 10px; vertical-align: middle"></img>
+						</a>
+						<br/>
+						<a href="<?php echo $deleteLink .  $transactions['id']; ?>" 
+							onclick="return confirm('<?php echo $confirmMessage; ?>')">
+							<img src="/images/misc/delete-icon-white-micro.png" style="margin: 0 10px; vertical-align: middle"></img>
+						</a>
+						</td>
+					</tr>
+			<?php endforeach; ?>
+		<?php endif; ?>
+			</tbody>
+		</table>
+		<!----- Transaction List End -----> 
+
+		<!----- Transaction Form Start -----> 
+		<div class="panel">
+			<div style="margin:10px 0 10px 10px">
+				<img src="/images/misc/plus-icon-green-small.png" style="margin: 0 10px; vertical-align: middle">
+					<a href="#" id="transactionFormToggle" style="vertical-align: middle"><?php echo $this->translate('Create a new Transaction'); ?></a>
+				</img>
+			</div>
+			<?php echo $this->transactionForm; ?>
+		</div>
+		<!----- Transaction Form End -----> 
+		
+	</div>
+</div>
+<!----- Transaction HTML End ----->
+
+<!----- Transaction JavaScript Start ----->
+<script type="text/javascript">
+	// Calendar
+	Calendar.setup({
+		inputField			: "deposit_date",	// id of the input field
+		button					: "date_btn_2",	// trigger for the calendar (button ID)
+		ifFormat				: "%Y-%m-%d %H:%M",	// format of the input field
+		showsTime			: true,
+		dateType				: 'jalali',
+		timeFormat			: "24",
+		weekNumbers	: false
+	});
+</script>
+
+<script type="text/javascript">
+	// Toggle transaction form
+	jQuery("form#transactionForm").css("display", "none");
+	jQuery(function($){		
+		jQuery("a#transactionFormToggle").bind("click", function(event){
+			jQuery("form#transactionForm").toggle("slow");				
+			// Prevent default action
+			event.preventDefault();
+		});
+	});
+
+	// Push new transaction row
+	function appendNewDataToTransactionTable(data)
+	{
+		var newTableRow = "<tr><td>" 
+			+ data.id +"</td><td>"
+			+ data.order_id +"</td><td>"
+			+ data.receipt_number +"</td><td>"
+			+ data.bank_account +"</td><td>"
+			+ data.deposit_date +"</td><td>"
+			+ data.depositor_name +"</td><td>"
+			+ data.deposit_fee +"</td><td>"
+			+ "<a href='<?php echo $updateLink ?>" + data.id + "'>"
+			+ "<img src='/images/misc/edit-icon-white-micro.png' style='margin: 0 10px; vertical-align: middle'></img>"
+			+ "</a>"
+			+ "<br/>"
+			+ "<a href='<?php echo $updateLink ?>" + data.id +  "'>"
+			+ "<img src='/images/misc/delete-icon-white-micro.png' style='margin: 0 10px; vertical-align: middle'></img>"
+			+ "</a>"
+			+ "</td></tr>";		
+		jQuery(newTableRow)
+			.css({
+			 "background":"#2BA6CB",
+			 "display":"none"
+			})
+			.appendTo("tbody#transactionTableBody")
+			.fadeIn("slow", function(){
+				jQuery(this).css({
+				    "display":""
+				    });
+				jQuery(this).animate({
+				    backgroundColor:"#F9F9F9"
+				    },
+				    300,
+				    function(){
+				jQuery(this).css({
+				    "background":""
+				    });	
+				});
+			});  
+	}
+
+	// Ajax create transaction
+	jQuery(function($){
+		jQuery("form#transactionForm").bind("submit", function(event){
+
+			// Fetch form data
+			var transactionFormValidity = jQuery('form#transactionForm').validationEngine('validate');			
+			var transactionFormValue = jQuery("form#transactionForm").formSerialize();
+			
+			// Fire!
+			if (transactionFormValidity)
+			{
+				// Craft ajax loader icon
+				var ajaxIconLoader = "<img id='ajaxIconLoader' src='/images/misc/ajax-loader.gif' style='margin:0 10px; vertical-align: middle;'></img>";
+				jQuery(ajaxIconLoader).appendTo(jQuery("input#transactionSubmit").parent());
+			
+				// Ajax
+				jQuery.ajax({
+					type: "POST",
+					url: "/en_US/sms/order/ajax-create-transaction/",
+					data: transactionFormValue,
+					success: function(data){
+						var storedTransactionId = data;
+						jQuery.ajax({
+							type: "GET",
+							url: "/en_US/sms/order/ajax-retrieve-transaction/id/" + storedTransactionId,
+							success: function(data){
+								var storedTransactionData = data;
+								appendNewDataToTransactionTable(storedTransactionData);
+								jQuery("img#ajaxIconLoader").fadeOut();
+								jQuery("form#transactionForm").clearForm();
+							}
+						});
+					}
+				});
+			}
+			
+			// Prevent default action
+			event.preventDefault();
+			return false;
+
+		});
+	});
+</script>
+<!----- Transaction JavaScript End ----->

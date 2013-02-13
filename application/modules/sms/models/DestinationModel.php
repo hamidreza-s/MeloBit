@@ -12,8 +12,7 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 		)
 	);
 	
-	public function createDestination($order_id, $destination_type, $destination_value, $destination_order,
-		$destination_start, $destination_end, $jalali_dispatch_date, $destinations_quantity)	
+	public function createDestination($order_id, $destination_type, $destination_value, $destination_order, $destination_start, $destination_end, $jalali_dispatch_date, $destinations_quantity)	
 	{
 		$rowDestination = $this->createRow();
 		if ($rowDestination)
@@ -76,7 +75,7 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 		}
 		else
 		{
-			throw new Zend_Exception("Could not update the order!");
+			throw new Zend_Exception("Could not update the order destination!");
 		}			
 	}
 	
@@ -93,7 +92,7 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 		}
 		else
 		{
-			throw new Zend_Exception("Could not delete the customer!");
+			throw new Zend_Exception("Could not delete the order destination!");
 		}			
 	}
 	

@@ -45,7 +45,7 @@
 				<?php echo $destinations['destinations_quantity']; ?>
 			</td>
 			<td>
-				<?php echo $destinations['destination_end'] - $destinations['destination_start']; ?>
+				<?php echo $destinations['destination_end'] - $destinations['destination_start'] + 1; ?>
 			</td>
 			<td>
 				<a href="<?php echo $this->translate('/en_US');?>/sms/order/update-destination/id/<?php echo $destinations['id']; ?>">

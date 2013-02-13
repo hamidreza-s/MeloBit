@@ -401,7 +401,10 @@ class Melobit_Date_Convertor
 		$gregorianTime = substr($gregorianDateTime, 11, 5);
 		$gregorianDateArray = explode('-', $gregorianDate);
 		$jalaliDateArray = $convertor->gregorian_to_jalali($gregorianDateArray[0], $gregorianDateArray[1], $gregorianDateArray[2]);
-		return $jalaliDateArray[0] . '-' . $jalaliDateArray[1] . '-' . $jalaliDateArray[2] . ' ' . $gregorianTime;
+		$jalaliDateYear = sprintf("%04u", $jalaliDateArray[0]); // Force to be 4 digits
+		$jalaliDateMonth = sprintf("%02u", $jalaliDateArray[1]); // Force to be 2 digits
+		$jalaliDateDay =  sprintf("%02u", $jalaliDateArray[2]); // Force to be 2 digits
+		return $jalaliDateYear . '-' . $jalaliDateMonth . '-' . $jalaliDateDay . ' ' . $gregorianTime;
 	}
  }
  

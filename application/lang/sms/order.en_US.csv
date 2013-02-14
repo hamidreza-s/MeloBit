@@ -67,3 +67,8 @@
 "Deposit Date";"Deposit Date"
 "Depositor Name";"Depositor Name"
 "Deposit Fee";"Deposit Fee"
+"Your destinations fee is not equal to transactions fee!";"Your destinations fee is not equal to transactions fee!"
+"Total Destinations Fee:";"Total Destinations Fee:"
+"Total Transaction Fee:";"Total Transaction Fee:"
+"Total Destinations Fee (without Tax):";"Total Destinations Fee (without Tax):"
+"Total Destinations Fee (with Tax):";"Total Destinations Fee (with Tax):"

@@ -69,3 +69,8 @@
 "Deposit Date";"تاریخ واریز"
 "Depositor Name";"نام پرداخت کننده"
 "Deposit Fee";"مبلغ واریز شده"
+"Your destinations fee is not equal to transactions fee!";"هزینه نهایی پیامک ها با مبلغ واریز شده توسط مشتری برابر نیست!"
+"Total Destinations Fee:";"مبلغ قابل پرداخت:"
+"Total Transaction Fee:";"مبلغ پرداخت شده:"
+"Total Destinations Fee (without Tax):";"مجموع قابل پرداخت (بدون مالیات):"
+"Total Destinations Fee (with Tax):";"مجموع قابل پرداخت (با مالیات):"

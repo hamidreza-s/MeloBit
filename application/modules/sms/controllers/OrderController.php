@@ -80,10 +80,9 @@ class Sms_OrderController extends Zend_Controller_Action
 			$requestedId = $this->_request->getParam('id');
 			$requestedOrder = $orderModel->find($requestedId)->current();
 			
-			// If "current user" is not the same as "orderer user", go to error controller
-			if ($requestedOrder->user_id !== $this->_userId) 
+			// If "current user" is not the same as "orderer user" or admin, go to error controller
+			if ($requestedOrder->user_id != $this->_userId && $this->_userRole != "administrator") 
 			{
-				// return $this->_forward($action, $controller = null, $module = null, array($params = null))
 				return $this->_forward('noauth', 'error', 'default', null);
 			}
 			
@@ -98,10 +97,9 @@ class Sms_OrderController extends Zend_Controller_Action
 		$orderModel = new Sms_Model_OrderModel;
 		$requestedOrder = $orderModel->find($requestedId)->current();
 		
-		// If "current user" is not the same as "orderer user", go to error controller
-		if ($requestedOrder->user_id !== $this->_userId) 
+		// If "current user" is not the same as "orderer user" or admin, go to error controller
+		if ($requestedOrder->user_id != $this->_userId && $this->_userRole != "administrator") 
 		{
-			// return $this->_forward($action, $controller = null, $module = null, array($params = null))
 			return $this->_forward('noauth', 'error', 'default', null);
 		}
 		
@@ -155,6 +153,16 @@ class Sms_OrderController extends Zend_Controller_Action
 			echo json_encode($destinationArray);
 
 		}		
+	}
+	
+	public function ajaxCalculateDestinationsAction()
+	{
+		// Set no view and layout
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender(TRUE);
+
+		$requestedPlace = $this->_request->getParam('where');
+		echo Sms_Model_PostalCodeAllModel::countPostal($requestedPlace);
 	}
 	
 	public function createDestinationAction()	

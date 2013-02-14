@@ -14,8 +14,9 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 	
 	public function createDestination($order_id, $destination_type, $destination_value, $destination_order, $destination_start, $destination_end, $jalali_dispatch_date, $destinations_quantity)	
 	{
+		$orderStatus = Sms_Model_OrderModel::retrieveOrderStatusByOrderId($order_id);
 		$rowDestination = $this->createRow();
-		if ($rowDestination)
+		if ($rowDestination && $orderStatus['order_status'] != 1)
 		{
 			// Convert Jalali to Timestamp
 			$timestamp_dispatch_date = Melobit_Date_Convertor::jalali_to_timestamp($jalali_dispatch_date);
@@ -57,8 +58,9 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 	public function updateDestination($id, $order_id, $destination_type, $destination_value, $destination_order,
 		$destination_start, $destination_end, $jalali_dispatch_date, $destinations_quantity) 
 	{
+		$orderStatus = Sms_Model_OrderModel::retrieveOrderStatusByOrderId($order_id);	
 		$rowDestination = $this->find($id)->current();
-		if ($rowDestination)
+		if ($rowDestination && $orderStatus['order_status'] != 1)
 		{
 			// Convert Jalali to Timestamp
 			$timestamp_dispatch_date = Melobit_Date_Convertor::jalali_to_timestamp($jalali_dispatch_date);
@@ -82,7 +84,8 @@ class Sms_Model_DestinationModel extends Zend_Db_Table_Abstract
 	public function deleteDestination($id) 
 	{
 		$rowDestination = $this->find($id)->current();
-		if ($rowDestination)
+		$orderStatus = Sms_Model_OrderModel::retrieveOrderStatusByOrderId($rowDestination->order_id);	
+		if ($rowDestination && $orderStatus['order_status'] != 1)
 		{
 			$returnValue = array(
 				'order_id' => $rowDestination->order_id,

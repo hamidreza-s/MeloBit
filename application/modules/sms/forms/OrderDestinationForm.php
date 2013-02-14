@@ -32,7 +32,8 @@ class Sms_Form_OrderDestinationForm extends Zend_Form
 			->setLabel('Destination Value:')
 			->setRequired(true)
 			->setAttrib('class', 'validate[required]')
-			->setAttrib('size', 30);
+			->setAttrib('size', 30)
+			->setAttrib('style', 'display: inline');
 		$this->addElement($destination_value);	
 
 		// create dispatch_date

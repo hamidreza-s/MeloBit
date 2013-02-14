@@ -14,8 +14,9 @@ class Sms_Model_TransactionModel extends Zend_Db_Table_Abstract
 	
 	public function createTransaction($order_id, $receipt_number, $bank_account, $jalali_deposit_date, $depositor_name, $deposit_fee)
 	{
+		$orderStatus = Sms_Model_OrderModel::retrieveOrderStatusByOrderId($order_id);
 		$rowTransaction = $this->createRow();
-		if ($rowTransaction)
+		if ($rowTransaction && $orderStatus['order_status'] != 1)
 		{
 			// Convert Jalali to Timestamp
 			$timestamp_dispatch_date = Melobit_Date_Convertor::jalali_to_timestamp($jalali_deposit_date);
@@ -45,8 +46,9 @@ class Sms_Model_TransactionModel extends Zend_Db_Table_Abstract
 	
 	public function updateTransaction($id, $order_id, $receipt_number, $bank_account, $jalali_deposit_date, $depositor_name, $deposit_fee) 
 	{
+		$orderStatus = Sms_Model_OrderModel::retrieveOrderStatusByOrderId($order_id);
 		$rowTransaction = $this->find($id)->current();
-		if ($rowTransaction)
+		if ($rowTransaction && $orderStatus['order_status'] != 1)
 		{
 			// Convert Jalali to Timestamp
 			$timestamp_dispatch_date = Melobit_Date_Convertor::jalali_to_timestamp($jalali_deposit_date);
@@ -78,7 +80,8 @@ class Sms_Model_TransactionModel extends Zend_Db_Table_Abstract
 	public function deleteTransaction($id) 
 	{
 		$rowTransaction = $this->find($id)->current();
-		if ($rowTransaction)
+		$orderStatus = Sms_Model_OrderModel::retrieveOrderStatusByOrderId($rowTransaction->order_id);
+		if ($rowTransaction && $orderStatus['order_status'] != 1)
 		{
 			$returnValue = array(
 				'order_id' => $rowTransaction->order_id,

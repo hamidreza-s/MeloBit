@@ -14,9 +14,9 @@
 	echo $this->headScript();
 ?>
 
-<!----- Review Start ----->
+<!----- Review HTML Start ----->
 <div class="six columns">
-	<div class="panel" style="height:350px">
+	<div class="panel" style="height:310px">
 		<h4 class="hide-for-small"><?php echo $this->translate('SMS Content'); ?><hr></h4>
 		<h5 class="subheader"><?php echo $this->order['sms_content'] ?></h5>
 	</div>
@@ -24,7 +24,7 @@
 
 	<?php 
 		// Calculate destinations fee
-		$totalDestinationsFee = null;
+		$totalDestinationsFee = 0;
 		if ($this->destinations)
 		{
 			foreach ($this->destinations as $destinations)
@@ -32,10 +32,11 @@
 				$totalDestinationsFee += $destinations['destination_end'] - $destinations['destination_start'] +1;
 			}
 		}
-		$totalDestinationsFee = $totalDestinationsFee * $this->order['sms_quantity'] * $this->order['sms_fee'];
+		$totalDestinationsFeeWithoutTax = $totalDestinationsFee * $this->order['sms_quantity'] * $this->order['sms_fee'];
+		$totalDestinationsFeeWithTax = ($totalDestinationsFee * $this->order['sms_quantity'] * $this->order['sms_fee']) * 1.05;
 
 		// Calculate transactions fee
-		$totalTransactionsFee = null;
+		$totalTransactionsFee = 0;
 		if ($this->transactions)
 		{
 			foreach ($this->transactions as $transactions)
@@ -46,7 +47,7 @@
 	?>
 	
 <div class="six columns">
-	<div class="panel" style="height:350px">
+	<div class="panel" style="height:310px">
 		<h4 class="hide-for-small"><?php echo $this->translate('Order Details'); ?><hr></h4>
 		<span class="subheader"><?php echo $this->translate('Sender Company:'); ?></span>
 			<?php $companyName = Sms_Model_CustomerModel::getCompanyNameByCustomerId($this->order['customer_id']);?>
@@ -68,14 +69,17 @@
 		<span class="subheader"><?php echo $this->translate('SMS Quantity:'); ?></span>
 			<span id="smsQuantity"><?php echo $this->order['sms_quantity']; ?></span>
 			<br/>
-		<span class="subheader"><?php echo $this->translate('Total Destinations Fee:'); ?></span>
-			<span id="totalDestinationsFee"><?php echo $totalDestinationsFee; ?></span>
+		<span class="subheader"><?php echo $this->translate('Total Destinations Fee (without Tax):'); ?></span>
+			<span id="totalDestinationsFeeWithoutTax"><?php echo $totalDestinationsFeeWithoutTax; ?></span>
+			<br/>
+		<span class="subheader"><?php echo $this->translate('Total Destinations Fee (with Tax):'); ?></span>
+			<span id="totalDestinationsFeeWithTax"><?php echo $totalDestinationsFeeWithTax; ?></span>
 			<br/>
 		<span class="subheader"><?php echo $this->translate('Total Transaction Fee:'); ?></span>
 			<span id="totalTransactionsFee"><?php echo $totalTransactionsFee; ?></span>
 			<br/>
 			
-			<?php if ($this->order['order_status']) : ?>
+			<?php if ($this->order['order_status']): ?>
 			
 				<span class="subheader">
 					<?php echo $this->translate('Order Status:'); ?>
@@ -91,7 +95,8 @@
 					<?php echo $this->translate('Order Status:'); ?>
 				</span>
 					<?php echo $this->translate('Ready to confirm!'); ?><br/>
-				<a class="radius button success <?php echo $this->translate('right'); ?>" 
+				<a class="radius button success <?php echo $this->translate('right'); ?>"
+					onclick="return compareDestinationAndTransactionFee()"
 					href="<?php echo $this->translate('/en_US'); ?>
 					/sms/order/confirm-order/id/<?php echo $this->order['id']; ?>"><?php echo $this->translate('Confirm'); ?></a>
 					
@@ -99,7 +104,24 @@
 		
 	</div>
 </div>
-<!----- Review End ----->
+<!----- Review HTML End ----->
+
+<!----- Review JavaScript Start ----->
+<script type="text/javascript">
+	// Compare destinations and transactions fee
+	function compareDestinationAndTransactionFee()
+	{
+		var destinationsFee = parseInt(jQuery("span#totalDestinationsFee").text());
+		var transactionsFee = parseInt(jQuery("span#totalTransactionsFee").text());
+
+		if (destinationsFee != transactionsFee)
+		{
+			alert("<?php echo $this->translate('Your destinations fee is not equal to transactions fee!'); ?>");
+			return false;
+		}
+	}
+</script>
+<!----- Review JavaScript End ----->
 
 <!----- Destination HTML Start ----->
 <div class="twelve columns">
@@ -124,7 +146,9 @@
 					<th><?php echo $this->translate('Dispatch Date') ?></th>
 					<th><?php echo $this->translate('Quantity') ?></th>
 					<th><?php echo $this->translate('Requested') ?></th>
-					<th><?php echo $this->translate('Links') ?></th>
+					<?php if (!$this->order['order_status']): ?>
+						<th><?php echo $this->translate('Links') ?></th>
+					<?php endif; ?>
 				</tr>
 			</thead>
 			<tbody id="destinationTableBody">
@@ -152,16 +176,18 @@
 					<td>
 						<?php echo $destinations['destination_end'] - $destinations['destination_start'] +1; ?>
 					</td>
-					<td>
-						<a href="<?php echo $updateLink .  $destinations['id']; ?>">
-							<img src="/images/misc/edit-icon-white-micro.png" style="margin: 0 10px; vertical-align: middle"></img>
-						</a>
-						<br/>
-						<a href="<?php echo $deleteLink .  $destinations['id']; ?>" 
-							onclick="return confirm('<?php echo $confirmMessage; ?>')">
-							<img src="/images/misc/delete-icon-white-micro.png" style="margin: 0 10px; vertical-align: middle"></img>
-						</a>
-					</td>
+					<?php if (!$this->order['order_status']): ?>
+						<td>
+							<a href="<?php echo $updateLink .  $destinations['id']; ?>">
+								<img src="/images/misc/edit-icon-white-micro.png" style="margin: 0 10px; vertical-align: middle"></img>
+							</a>
+							<br/>
+							<a href="<?php echo $deleteLink .  $destinations['id']; ?>" 
+								onclick="return confirm('<?php echo $confirmMessage; ?>')">
+								<img src="/images/misc/delete-icon-white-micro.png" style="margin: 0 10px; vertical-align: middle"></img>
+							</a>
+						</td>
+					<?php endif; ?>
 				</tr>
 		<?php endforeach; ?>
 		<?php endif; ?>
@@ -170,6 +196,7 @@
 		<!----- Destination List End -----> 
 
 		<!----- Destination Form Start -----> 
+		<?php if (!$this->order['order_status']): ?>
 		<div class="panel">
 			<div style="margin:10px 0 10px 10px">
 				<img src="/images/misc/plus-icon-green-small.png" style="margin: 0 10px; vertical-align: middle">
@@ -178,6 +205,7 @@
 			</div>
 			<?php echo $this->destinationForm; ?>
 		</div>
+		<?php endif; ?>
 		<!----- Destination Form End -----> 
 		
 	</div>
@@ -185,6 +213,7 @@
 <!----- Destination HTML End ----->
 
 <!----- Destination JavaScript Start ----->
+<?php if (!$this->order['order_status']): ?>
 <script type="text/javascript">
 	// Calendar
 	Calendar.setup({
@@ -197,6 +226,7 @@
 		weekNumbers	: false
 	});
 </script>
+<?php endif; ?>
 
 <script type="text/javascript">
 	// Toggle destination form
@@ -206,6 +236,25 @@
 			jQuery("form#destinationForm").toggle("slow");				
 			// Prevent default action
 			event.preventDefault();
+		});
+	});
+	
+	// Find potential destinations
+	jQuery(function($){
+		var calculatorIcon = "<img id='calculatorIcon' src='/images/misc/calculator-icon.png' style='margin: 0 10px; vertical-align: middle'></img>";
+		var calculateResult = "<span id='calculateResult'></span>";
+		jQuery(calculatorIcon).appendTo(jQuery("input#destination_value").parent());
+		jQuery(calculateResult).appendTo(jQuery("input#destination_value").parent());
+		jQuery("img#calculatorIcon").bind("click", function(event){
+			var calculateWhere = jQuery("input#destination_value").val();
+			jQuery.ajax({
+				type: "GET",
+				url: "/en_US/sms/order/ajax-calculate-destinations/where/" + calculateWhere,
+				success: function(data){
+					var returnedResult = data;
+					jQuery("span#calculateResult").text(returnedResult);
+				}
+			});			
 		});
 	});
 
@@ -250,20 +299,30 @@
 			});  
 	}
 
-	// Push new Destinations fee
-	function appendNewFeeToDestinationSpan(data)
+	// Push new destinations fee (without tax)
+	function appendNewFeeToDestinationWithoutTaxSpan(data)
 	{
 		// Fetch current and new SMS data
-		var currentTotalDestinationsFee = parseInt(jQuery("span#totalDestinationsFee").text());
+		var currentTotalDestinationsFee = parseInt(jQuery("span#totalDestinationsFeeWithoutTax").text());
 		var smsFee = parseInt(jQuery("span#smsFee").text());
 		var smsQuantity = parseInt(jQuery("span#smsQuantity").text());
 		var newSmsDestinationRequested = parseInt(data.requested);
 		var newTotalDestinationsFee = (smsFee * smsQuantity * newSmsDestinationRequested) + currentTotalDestinationsFee;
 		
 		// Fire!
-		jQuery("span#totalDestinationsFee").text(newTotalDestinationsFee);
+		jQuery("span#totalDestinationsFeeWithoutTax").text(newTotalDestinationsFee);
 	}
 	
+	// Push new destinations fee (with tax)
+	function appendNewFeeToDestinationWithTaxSpan(data)
+	{
+		// Fetch current and new SMS data
+		var currentTotalDestinationsFeeWithoutTax = parseInt(jQuery("span#totalDestinationsFeeWithoutTax").text());
+		var newTotalDestinationsFeeWithTax = currentTotalDestinationsFeeWithoutTax * 1.05;
+		
+		// Fire!
+		jQuery("span#totalDestinationsFeeWithTax").text(newTotalDestinationsFeeWithTax);
+	}	
 	// Ajax create destination
 	jQuery(function($){
 		jQuery("form#destinationForm").bind("submit", function(event){
@@ -292,7 +351,8 @@
 							success: function(data){
 								var storedDestinationData = data;
 								appendNewDataToDestinationTable(storedDestinationData);
-								appendNewFeeToDestinationSpan(storedDestinationData);
+								appendNewFeeToDestinationWithoutTaxSpan(storedDestinationData);
+								appendNewFeeToDestinationWithTaxSpan(storedDestinationData);
 								jQuery("img#ajaxIconLoader").fadeOut();
 								jQuery("form#destinationForm").clearForm();
 							}
@@ -333,7 +393,9 @@
 					<th><?php echo $this->translate('Deposit Date') ?></th>
 					<th><?php echo $this->translate('Depositor Name') ?></th>
 					<th><?php echo $this->translate('Deposit Fee') ?></th>
-					<th><?php echo $this->translate('Links') ?></th>				
+					<?php if (!$this->order['order_status']): ?>
+						<th><?php echo $this->translate('Links') ?></th>
+					<?php endif; ?>
 				</tr>
 			</thead>
 			<tbody id="transactionTableBody">
@@ -361,16 +423,18 @@
 						<td>
 							<?php echo $transactions['deposit_fee']; ?>
 						</td>
-						<td>
-						<a href="<?php echo $updateLink .  $transactions['id']; ?>">
-							<img src="/images/misc/edit-icon-white-micro.png" style="margin: 0 10px; vertical-align: middle"></img>
-						</a>
-						<br/>
-						<a href="<?php echo $deleteLink .  $transactions['id']; ?>" 
-							onclick="return confirm('<?php echo $confirmMessage; ?>')">
-							<img src="/images/misc/delete-icon-white-micro.png" style="margin: 0 10px; vertical-align: middle"></img>
-						</a>
-						</td>
+						<?php if (!$this->order['order_status']): ?>
+							<td>
+							<a href="<?php echo $updateLink .  $transactions['id']; ?>">
+								<img src="/images/misc/edit-icon-white-micro.png" style="margin: 0 10px; vertical-align: middle"></img>
+							</a>
+							<br/>
+							<a href="<?php echo $deleteLink .  $transactions['id']; ?>" 
+								onclick="return confirm('<?php echo $confirmMessage; ?>')">
+								<img src="/images/misc/delete-icon-white-micro.png" style="margin: 0 10px; vertical-align: middle"></img>
+							</a>
+							</td>
+						<?php endif; ?>
 					</tr>
 			<?php endforeach; ?>
 		<?php endif; ?>
@@ -378,7 +442,8 @@
 		</table>
 		<!----- Transaction List End -----> 
 
-		<!----- Transaction Form Start -----> 
+		<!----- Transaction Form Start ----->
+		<?php if (!$this->order['order_status']): ?>
 		<div class="panel">
 			<div style="margin:10px 0 10px 10px">
 				<img src="/images/misc/plus-icon-green-small.png" style="margin: 0 10px; vertical-align: middle">
@@ -387,6 +452,7 @@
 			</div>
 			<?php echo $this->transactionForm; ?>
 		</div>
+		<?php endif; ?>
 		<!----- Transaction Form End -----> 
 		
 	</div>
@@ -394,6 +460,7 @@
 <!----- Transaction HTML End ----->
 
 <!----- Transaction JavaScript Start ----->
+<?php if (!$this->order['order_status']): ?>
 <script type="text/javascript">
 	// Calendar
 	Calendar.setup({
@@ -406,6 +473,7 @@
 		weekNumbers	: false
 	});
 </script>
+<?php endif; ?>
 
 <script type="text/javascript">
 	// Toggle transaction form
@@ -417,7 +485,7 @@
 			event.preventDefault();
 		});
 	});
-
+	
 	// Push new transaction row
 	function appendNewDataToTransactionTable(data)
 	{
@@ -459,6 +527,18 @@
 			});  
 	}
 
+	// Push new transaction fee
+	function appendNewFeeToTransactionSpan(data)
+	{
+		// Fetch current and new SMS data
+		var currentTotalTransactionsFee = parseInt(jQuery("span#totalTransactionsFee").text());
+		var newTransactionFee = parseInt(data.deposit_fee);
+		var newTotalTransactionsFee = currentTotalTransactionsFee + newTransactionFee;
+		
+		// Fire!
+		jQuery("span#totalTransactionsFee").text(newTotalTransactionsFee);
+	}	
+	
 	// Ajax create transaction
 	jQuery(function($){
 		jQuery("form#transactionForm").bind("submit", function(event){
@@ -487,6 +567,7 @@
 							success: function(data){
 								var storedTransactionData = data;
 								appendNewDataToTransactionTable(storedTransactionData);
+								appendNewFeeToTransactionSpan(storedTransactionData);
 								jQuery("img#ajaxIconLoader").fadeOut();
 								jQuery("form#transactionForm").clearForm();
 							}

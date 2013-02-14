@@ -72,10 +72,18 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 		}
 	}
 	
+	public static function retrieveOrderStatusByOrderId($order_id)
+	{
+		$orderModel = new self();
+		$select = $orderModel->select()->from($orderModel, array('order_status'))->where('id = ?', $order_id);
+		$result = $orderModel->fetchRow($select)->toArray();
+		return $result;
+	}
+	
 	public function updateOrder($id, $customer_id, $sms_content, $sms_quantity, $test_phone, $sms_fee) 
 	{
 		$rowOrder = $this->find($id)->current();
-		if ($rowOrder)
+		if ($rowOrder && $rowOrder->order_status != 1)
 		{
 			$date = new DateTime();
 			
@@ -96,13 +104,13 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 	public function deleteOrder($id) 
 	{
 		$rowOrder = $this->find($id)->current();
-		if ($rowOrder)
+		if ($rowOrder && $rowOrder->order_status != 1)
 		{
 			return $rowOrder->delete();
 		}
 		else
 		{
-			throw new Zend_Exception("Could not delete the customer!");
+			throw new Zend_Exception("Could not delete the order!");
 		}	
 	}
 		
@@ -116,7 +124,7 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 		}
 		else
 		{
-			throw new Zend_Exception("Could not update the order!");
+			throw new Zend_Exception("Could not confirm the order!");
 		}		
 	}
 	
@@ -130,7 +138,7 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 		}
 		else
 		{
-			throw new Zend_Exception("Could not update the order!");
+			throw new Zend_Exception("Could not suspend the order!");
 		}			
 	}
 	

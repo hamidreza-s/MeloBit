@@ -57,7 +57,7 @@ class Sms_Model_ControlModel extends Zend_Db_Table_Abstract
 	public function suspendOrder($id)	
 	{
 		$rowOrder = $this->find($id)->current();
-		if ($rowOrder)
+		if ($rowOrder && $rowOrder->dispatch_status == 0)
 		{
 			$rowOrder->control_status = 0;
 			return $rowOrder->save();

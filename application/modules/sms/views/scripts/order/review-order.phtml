@@ -111,10 +111,14 @@
 	// Compare destinations and transactions fee
 	function compareDestinationAndTransactionFee()
 	{
-		var destinationsFee = parseInt(jQuery("span#totalDestinationsFee").text());
-		var transactionsFee = parseInt(jQuery("span#totalTransactionsFee").text());
+		var destinationsFee = parseFloat(jQuery("span#totalDestinationsFeeWithTax").text());
+		var transactionsFee = parseFloat(jQuery("span#totalTransactionsFee").text());
 
-		if (destinationsFee != transactionsFee)
+		if (destinationsFee <= transactionsFee)
+		{
+				return true;
+		}
+		else
 		{
 			alert("<?php echo $this->translate('Your destinations fee is not equal to transactions fee!'); ?>");
 			return false;
@@ -303,10 +307,10 @@
 	function appendNewFeeToDestinationWithoutTaxSpan(data)
 	{
 		// Fetch current and new SMS data
-		var currentTotalDestinationsFee = parseInt(jQuery("span#totalDestinationsFeeWithoutTax").text());
-		var smsFee = parseInt(jQuery("span#smsFee").text());
-		var smsQuantity = parseInt(jQuery("span#smsQuantity").text());
-		var newSmsDestinationRequested = parseInt(data.requested);
+		var currentTotalDestinationsFee = parseFloat(jQuery("span#totalDestinationsFeeWithoutTax").text());
+		var smsFee = parseFloat(jQuery("span#smsFee").text());
+		var smsQuantity = parseFloat(jQuery("span#smsQuantity").text());
+		var newSmsDestinationRequested = parseFloat(data.requested);
 		var newTotalDestinationsFee = (smsFee * smsQuantity * newSmsDestinationRequested) + currentTotalDestinationsFee;
 		
 		// Fire!
@@ -317,7 +321,7 @@
 	function appendNewFeeToDestinationWithTaxSpan(data)
 	{
 		// Fetch current and new SMS data
-		var currentTotalDestinationsFeeWithoutTax = parseInt(jQuery("span#totalDestinationsFeeWithoutTax").text());
+		var currentTotalDestinationsFeeWithoutTax = parseFloat(jQuery("span#totalDestinationsFeeWithoutTax").text());
 		var newTotalDestinationsFeeWithTax = currentTotalDestinationsFeeWithoutTax * 1.05;
 		
 		// Fire!
@@ -531,8 +535,8 @@
 	function appendNewFeeToTransactionSpan(data)
 	{
 		// Fetch current and new SMS data
-		var currentTotalTransactionsFee = parseInt(jQuery("span#totalTransactionsFee").text());
-		var newTransactionFee = parseInt(data.deposit_fee);
+		var currentTotalTransactionsFee = parseFloat(jQuery("span#totalTransactionsFee").text());
+		var newTransactionFee = parseFloat(data.deposit_fee);
 		var newTotalTransactionsFee = currentTotalTransactionsFee + newTransactionFee;
 		
 		// Fire!

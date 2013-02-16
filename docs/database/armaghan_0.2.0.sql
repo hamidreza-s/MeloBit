@@ -247,7 +247,7 @@ CREATE TABLE IF NOT EXISTS `transactions` (
   `bank_account` varchar(25) NOT NULL,
   `deposit_date` int(11) NOT NULL,
   `depositor_name` varchar(50) NOT NULL,
-  `deposit_fee` int(15) NOT NULL,
+  `deposit_fee` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 

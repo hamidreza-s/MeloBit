@@ -233,6 +233,75 @@
 <?php endif; ?>
 
 <script type="text/javascript">
+	// Default destination city and range to hide
+	jQuery("dt#destination_province-label, dt#destination_range-label, dd#destination_province-element, dd#destination_range-element")
+		.css("display", "none");
+	
+	// Toggle destination city and range visibility
+	jQuery(function($){
+		jQuery("select#destination_type").bind("change", function(){
+			var destinationType = jQuery(this).val();
+			if (destinationType == 'Province Name')
+			{
+				// And create city list depends on selected province if not exists
+				if (!jQuery("select#destination_city").length)
+				{
+					var selectedProvinceId = jQuery("select#destination_province").val();
+					var selectedRange = jQuery("select#destination_range").val();
+					jQuery.ajax({
+						type: "GET",
+						url: "/en_US/sms/order/ajax-retrieve-city-list/province/" + selectedProvinceId + "/range/" + selectedRange,
+						success: function(data){
+							var destinationCityOptionsJson = data;
+							var destinationCityOptionsHtml = '<select id="destination_city" name="destination_city">\n';
+							$.each(destinationCityOptionsJson, function(cityCode, cityName){
+								destinationCityOptionsHtml += '\t<option label="' + cityName + '" value="' + cityCode + '">' + cityName + "</option>\n";
+							});
+							destinationCityOptionsHtml += "</select>\n<br/>\n";
+							jQuery("dt#destination_province-label, dt#destination_range-label, dd#destination_province-element, dd#destination_range-element").toggle("slow");					
+							jQuery(destinationCityOptionsHtml).insertAfter("select#destination_province");
+							
+							// Populate destination value according to city
+							jQuery("select#destination_city").bind("change", function(){
+								jQuery("input#destination_value").val($(this).val());
+							});							
+						}
+					});				
+				}
+				else
+				{
+					jQuery("dt#destination_province-label, dt#destination_range-label, dd#destination_province-element, dd#destination_range-element")
+						.toggle("slow");						
+				}
+			}
+			else
+			{
+				jQuery("dt#destination_province-label, dt#destination_range-label, dd#destination_province-element, dd#destination_range-element")
+					.toggle("slow");
+			}
+		});
+		
+		// Update cites according to selected province
+		jQuery("select#destination_province").bind("change", function(){
+			if (jQuery("select#destination_city").length) { jQuery("select#destination_city").empty(); }
+			var selectedProvinceId = jQuery("select#destination_province").val();
+			var selectedRange = jQuery("select#destination_range").val();
+			jQuery.ajax({
+				type: "GET",
+				url: "/en_US/sms/order/ajax-retrieve-city-list/province/" + selectedProvinceId + '/range/' + selectedRange,
+				success: function(data){
+					var destinationCityOptionsJson = data;
+					var destinationCityOptionsHtml = '';
+					$.each(destinationCityOptionsJson, function(cityCode, cityName){
+						destinationCityOptionsHtml += '<option label="' + cityName + '" value="' + cityCode + '">' + cityName + "</option>\n";
+					});
+					jQuery(destinationCityOptionsHtml).appendTo("select#destination_city");
+				}
+			});	
+		});
+	});
+	
+
 	// Toggle destination form
 	jQuery("form#destinationForm").css("display", "none");
 	jQuery(function($){		

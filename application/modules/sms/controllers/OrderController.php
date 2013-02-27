@@ -497,6 +497,68 @@ class Sms_OrderController extends Zend_Controller_Action
 			}
 		}
 	}
+	
+	public function ajaxRetrieveCityListAction()
+	{
+		// Set no view and layout
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender(true);
+		
+		$requestedProvince = $this->_request->getParam('province');	
+		$requestedRange = $this->_request->getParam('range');	
+		// retrieve data from database
+		// ... ? 
+		$cityListArray101 = array(
+			'101001' => 'City Name 1 - 1', 
+			'101002' => 'City Name 1 - 2', 
+			'101003' => 'City Name 1 - 3',
+			'101004' => 'City Name 1 - 4'
+		);
+		$cityListArray102 = array(
+			'102001' => 'City Name 2 - 1', 
+			'102002' => 'City Name 2 - 2', 
+			'102003' => 'City Name 2 - 3',
+			'102004' => 'City Name 2 - 4'
+		);
+		$cityListArray201 = array(
+			'201001' => 'City Name 1 - 1', 
+			'201002' => 'City Name 1 - 2', 
+			'201003' => 'City Name 1 - 3',
+			'201004' => 'City Name 1 - 4'
+		);
+		$cityListArray202 = array(
+			'202001' => 'City Name 2 - 1', 
+			'202002' => 'City Name 2 - 2', 
+			'202003' => 'City Name 2 - 3',
+			'202004' => 'City Name 2 - 4'
+		);		
+		if ($requestedProvince == 01)
+		{
+			if ($requestedRange == 1)
+			{
+				header("Content-Type: application/json; charset=utf-8");
+				echo json_encode($cityListArray101);			
+			}
+			if ($requestedRange == 2)
+			{
+				header("Content-Type: application/json; charset=utf-8");
+				echo json_encode($cityListArray201);			
+			}			
+		}
+		if ($requestedProvince == 02)
+		{
+			if ($requestedRange == 1)
+			{
+				header("Content-Type: application/json; charset=utf-8");
+				echo json_encode($cityListArray102);
+			}
+			if ($requestedRange == 2)
+			{
+				header("Content-Type: application/json; charset=utf-8");
+				echo json_encode($cityListArray202);			
+			}	
+		}
+	}
 
 }
 

@@ -26,6 +26,24 @@ class Sms_Form_OrderDestinationForm extends Zend_Form
 			$destination_type->addMultiOption($key, $value);
 		}
 		$this->addElement($destination_type);
+
+		// create destination_range
+		$destination_range = $this->createElement('select', 'destination_range')
+			->setLabel('Destination Range:')
+			->setRequired(false)
+			->addMultiOption(1, 'Etebari')
+			->addMultiOption(2, 'Daemi');
+		$this->addElement($destination_range);
+		
+		// create destination_province
+		$destination_province = $this->createElement('select', 'destination_province')
+			->setLabel('Destination Province:')
+			->setRequired(false);
+		foreach ($this->getDestinationProvince() as $key => $value)
+		{
+			$destination_province->addMultiOption($key, $value);
+		}
+		$this->addElement($destination_province);
 		
 		// create destination_value
 		$destination_value = $this->createElement('text', 'destination_value')
@@ -34,7 +52,7 @@ class Sms_Form_OrderDestinationForm extends Zend_Form
 			->setAttrib('class', 'validate[required]')
 			->setAttrib('size', 30)
 			->setAttrib('style', 'display: inline');
-		$this->addElement($destination_value);	
+		$this->addElement($destination_value);
 
 		// create dispatch_date
 		$dispatch_date = $this->createElement('text', 'dispatch_date')
@@ -86,9 +104,19 @@ class Sms_Form_OrderDestinationForm extends Zend_Form
 	public function getDestinationTypes()
 	{
 		$types['Postal Code'] = 'Postal Code';
+		$types['Province Name'] = 'Province Name';
 		
 		return $types;
 	}
+	
+	public function getDestinationProvince()
+	{
+		$provinces['01'] = 'Azarbaijan Sharghi';
+		$provinces['02'] = 'Azarbaijan Gharbi';
+		
+		return $provinces;
+	}
+	
 }
 
 

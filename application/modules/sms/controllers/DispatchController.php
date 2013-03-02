@@ -79,7 +79,7 @@ class Sms_DispatchController extends Zend_Controller_Action
 		$value	= $destinationRow->destination_value;
 		$start = $destinationRow->destination_start;
 		$end = $destinationRow->destination_end;
-		$datetime = date('c', $destinationRow->dispatch_date);
+		$datetime = date('o-m-d\TH:i:s', $destinationRow->dispatch_date);
 		$until = $end - $start;
 		
 		// fetch phone_no in limited area

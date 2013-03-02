@@ -31,6 +31,7 @@ class Sms_Form_OrderDestinationForm extends Zend_Form
 		$destination_range = $this->createElement('select', 'destination_range')
 			->setLabel('Destination Range:')
 			->setRequired(false)
+			->addMultiOption(0, 'Etebari + Daeimi')
 			->addMultiOption(1, 'Etebari')
 			->addMultiOption(2, 'Daemi');
 		$this->addElement($destination_range);

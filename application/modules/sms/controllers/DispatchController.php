@@ -71,6 +71,12 @@ class Sms_DispatchController extends Zend_Controller_Action
 		$destinationModel = new Sms_Model_DestinationModel;
 		$destinationRow = $destinationModel->find($requestedId)->current();
 		
+		// Check if this was not sent
+		if ($destinationRow->bulk_id > 0)
+		{
+			throw new Zend_Exception("You cannot send an envelope two times!");
+		}
+
 		// Initialize $finalDestinations string
 		$finalDestinations = null;
 	
@@ -122,7 +128,7 @@ class Sms_DispatchController extends Zend_Controller_Action
 		}
 		else
 		{
-			echo "There was a problem in SMS Gateway!";
+			throw new Zend_Exception("There was a problem in SMS Gateway!");
 		}
 	}
 	

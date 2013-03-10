@@ -88,10 +88,19 @@ class Sms_DispatchController extends Zend_Controller_Action
 		$datetime = date('o-m-d\TH:i:s', $destinationRow->dispatch_date);
 		$until = $end - $start;
 		
-		// fetch phone_no in limited area
-		$postalCodeAllModel = Sms_Model_PostalCodeAllModel::retrievePostal($value, $until, $start)->toArray();
+		// Check destination type
+		if ($destinationRow->destination_type == 'postal')
+		{		
+			// Fetch phone_no in limited area from postal database tabld
+			$postalCodeAllModel = Sms_Model_PostalCodeAllModel::retrievePostal($value, $until, $start)->toArray();
+		}
+		else if ($destinationRow->destination_type == 'province')
+		{
+			// Fetch phone_no in limited area from province database table
+			$postalCodeAllModel = Sms_Model_ProvinceCodeAllModel::retrieveProvince($value, $until, $start)->toArray();
+		}
 		
-		// compose $finalDestinations
+		// Fompose $finalDestinations
 		for ($i = 0; $i < $until; $i++)
 		{
 			$finalDestinations .= $postalCodeAllModel[$i]['phone_no'] . "\n";

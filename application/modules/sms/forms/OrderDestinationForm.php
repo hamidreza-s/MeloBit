@@ -31,7 +31,6 @@ class Sms_Form_OrderDestinationForm extends Zend_Form
 		$destination_range = $this->createElement('select', 'destination_range')
 			->setLabel('Destination Range:')
 			->setRequired(false)
-			->addMultiOption(0, 'Etebari + Daeimi')
 			->addMultiOption(1, 'Etebari')
 			->addMultiOption(2, 'Daemi');
 		$this->addElement($destination_range);
@@ -104,16 +103,22 @@ class Sms_Form_OrderDestinationForm extends Zend_Form
 	
 	public function getDestinationTypes()
 	{
-		$types['Postal Code'] = 'Postal Code';
-		$types['Province Name'] = 'Province Name';
+		$types['postal'] = 'Postal Code';
+		$types['province'] = 'Province Name';
 		
 		return $types;
 	}
 	
 	public function getDestinationProvince()
 	{
-		$provinces['01'] = 'Azarbaijan Sharghi';
-		$provinces['02'] = 'Azarbaijan Gharbi';
+		$provinceList = Sms_Model_ProvinceNameListModel::retrieveProvinceList();
+		
+		foreach($provinceList as $province)
+		{
+			$provinceName = $province['province_name'];
+			$provinceCode = $province['province_code'];
+			$provinces[$provinceCode] = $provinceName;
+		}
 		
 		return $provinces;
 	}

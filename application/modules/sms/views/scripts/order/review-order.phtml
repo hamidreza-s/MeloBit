@@ -241,7 +241,7 @@
 	jQuery(function($){
 		jQuery("select#destination_type").bind("change", function(){
 			var destinationType = jQuery(this).val();
-			if (destinationType == 'Province Name')
+			if (destinationType == 'province')
 			{
 				// And create city list depends on selected province if not exists
 				if (!jQuery("select#destination_city").length)
@@ -262,23 +262,56 @@
 							jQuery(destinationCityOptionsHtml).insertAfter("select#destination_province");
 							
 							// Populate destination value according to city
+							jQuery("input#destination_value").val($("select#destination_city").val());		
+					
+							// Update destination value after changing city
 							jQuery("select#destination_city").bind("change", function(){
-								jQuery("input#destination_value").val($(this).val());
+								jQuery("input#destination_value").val(jQuery(this).val());
 							});							
 						}
 					});				
 				}
 				else
 				{
+					// Becuase cities information has been loaded, just show them
 					jQuery("dt#destination_province-label, dt#destination_range-label, dd#destination_province-element, dd#destination_range-element")
-						.toggle("slow");						
-				}
+						.toggle("slow");	
+
+					// Populate destination value according to city
+					jQuery("input#destination_value").val($("select#destination_city").val());		
+				}		
 			}
 			else
 			{
+				// Close province fields if exist
 				jQuery("dt#destination_province-label, dt#destination_range-label, dd#destination_province-element, dd#destination_range-element")
 					.toggle("slow");
+					
+				// Clean destination value
+				jQuery("input#destination_value").val('');
 			}
+		});
+
+		// Update cites according to selected range
+		jQuery("select#destination_range").bind("change", function(){
+			if (jQuery("select#destination_city").length) { jQuery("select#destination_city").empty(); }
+			var selectedProvinceId = jQuery("select#destination_province").val();
+			var selectedRange = jQuery("select#destination_range").val();
+			jQuery.ajax({
+				type: "GET",
+				url: "/en_US/sms/order/ajax-retrieve-city-list/province/" + selectedProvinceId + '/range/' + selectedRange,
+				success: function(data){
+					var destinationCityOptionsJson = data;
+					var destinationCityOptionsHtml = '';
+					$.each(destinationCityOptionsJson, function(cityCode, cityName){
+						destinationCityOptionsHtml += '<option label="' + cityName + '" value="' + cityCode + '">' + cityName + "</option>\n";
+					});
+					// Append updated city list
+					jQuery(destinationCityOptionsHtml).appendTo("select#destination_city");					
+					// Populate destination value according to city
+					jQuery("input#destination_value").val($("select#destination_city").val());					
+				}
+			});	
 		});
 		
 		// Update cites according to selected province
@@ -295,7 +328,10 @@
 					$.each(destinationCityOptionsJson, function(cityCode, cityName){
 						destinationCityOptionsHtml += '<option label="' + cityName + '" value="' + cityCode + '">' + cityName + "</option>\n";
 					});
-					jQuery(destinationCityOptionsHtml).appendTo("select#destination_city");
+					// Append updated city list
+					jQuery(destinationCityOptionsHtml).appendTo("select#destination_city");					
+					// Populate destination value according to city
+					jQuery("input#destination_value").val($("select#destination_city").val());		
 				}
 			});	
 		});
@@ -319,10 +355,11 @@
 		jQuery(calculatorIcon).appendTo(jQuery("input#destination_value").parent());
 		jQuery(calculateResult).appendTo(jQuery("input#destination_value").parent());
 		jQuery("img#calculatorIcon").bind("click", function(event){
-			var calculateWhere = jQuery("input#destination_value").val();
+			var calculateCode = jQuery("input#destination_value").val();
+			var calculateType = jQuery("select#destination_type").val();
 			jQuery.ajax({
 				type: "GET",
-				url: "/en_US/sms/order/ajax-calculate-destinations/where/" + calculateWhere,
+				url: "/en_US/sms/order/ajax-calculate-destinations/code/" + calculateCode + "/type/" + calculateType,
 				success: function(data){
 					var returnedResult = data;
 					jQuery("span#calculateResult").text(returnedResult);

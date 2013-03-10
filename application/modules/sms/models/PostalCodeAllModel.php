@@ -4,7 +4,7 @@ class Sms_Model_PostalCodeAllModel extends Zend_Db_Table_Abstract
 	protected $_name = 'postal_code_all_filtered';
 	
 
-	public static function countPostal($pattern = null)	
+	public static function countByPostal($pattern = null)	
 	{
 		$postalModel = new self();
 		

@@ -2,7 +2,7 @@
 
 <h3><?php echo $this->translate('List of Orders'); ?></h3><br />
 
-<?php if (!$this->orders): ?>
+<?php if (!$this->ordersArray): ?>
 <p><?php echo $this->translate('There is no order!'); ?></p>
 <?php else: ?>
 
@@ -27,7 +27,7 @@
 		</tr>
 	</thead>
 	<tbody>
-<?php foreach ($this->orders as $order): ?>
+<?php foreach ($this->ordersArray as $order): ?>
 		<tr>
 			<td>
 				<?php echo $order['id']; ?>
@@ -83,7 +83,12 @@
 <?php endforeach; ?>
 	</tbody>
 </table>
-
+	<?php
+		// Pagination control
+		echo $this->paginationControl($this->ordersObject,
+			'Sliding',
+			'partials/pagination-control.phtml'); 
+		?>
 <?php endif; ?>
 
 <p><a href="<?php echo $this->translate('/en_US'); ?>

@@ -48,7 +48,24 @@ class Sms_Form_OrderTransactionForm extends Zend_Form
 				)
 			))
 			->setAttrib('size', 30)
-			->setAttrib('class', 'validate[required,custom[dateTime24]]');
+			->setAttrib('style', 'display: inline')			
+			->setAttrib('class', 'validate[required,custom[dateTime24]]')
+			->setDecorators(array(
+				'ViewHelper',
+				'Description',
+				'Errors',
+				array('Label', array('tag' => 'dt')),	
+				array(
+					array('CalcImage' => 'HtmlTag'), 
+					array(
+						'tag' => 'img', 
+						'src' =>'/images/misc/calendar-icon.png', 
+						'placement' => 'append', 
+						'class' => 'textInputImage',
+						'id' => 'depositDateChooserImge'
+					),
+				),
+			));;
 		$this->addElement($deposit_date);
 	
 		// create depositor_name 	

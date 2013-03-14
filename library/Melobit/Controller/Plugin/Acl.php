@@ -60,7 +60,9 @@ class Melobit_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 		$acl->allow('user', 'default>bug', array('index', 'create', 'success'));
 	
 		// access for sms module roles
-		$acl->allow('orderer', array('sms>order', 'sms>company', 'sms>customer'), null);
+		$acl->allow('orderer', array('sms>order', 'sms>company', 'sms>customer'));
+		$acl->deny('orderer', array('sms>company'), array('delete'));
+		$acl->deny('orderer', array('sms>customer'), array('delete'));
 		$acl->allow('controller', 'sms>control', null);
 		$acl->allow('dispatcher', 'sms>dispatch', null);
 	

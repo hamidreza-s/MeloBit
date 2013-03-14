@@ -35,7 +35,7 @@ class Sms_Model_ProvinceCodeAllModel extends Zend_Db_Table_Abstract
 			->from($provinceModel, 'phone_no')
 			->where("province_code LIKE ? ", $pattern . '%')
 			->limit($until, $start);
-		$result = $postalModel->fetchAll($select);
+		$result = $provinceModel->fetchAll($select);
 		
 		return $result;
 	}

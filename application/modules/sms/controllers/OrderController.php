@@ -16,14 +16,20 @@ class Sms_OrderController extends Zend_Controller_Action
 
 	public function indexAction() 
 	{
-		$orders = Sms_Model_OrderModel::retrieveOrderByUserId($this->_userId, $this->_userRole);
-		if ($orders->count() > 0)
+		$whichPage = $this->_getParam('page');
+		$rowPerPage = 2;
+		$ordersPaginatorObject = Sms_Model_OrderModel::retrieveOrderByUserIdAndPage($this->_userId, $this->_userRole, $whichPage, $rowPerPage);
+		$ordersPaginatorArray = json_decode($ordersPaginatorObject->toJson(), true); // Conver JSON to Array
+
+		if (count($ordersPaginatorArray) > 0)
 		{
-			$this->view->orders = $orders->toArray();
+			$this->view->ordersObject = $ordersPaginatorObject;
+			$this->view->ordersArray = $ordersPaginatorArray;
 		}
 		else
 		{
-			$this->view->orders = null;
+			$this->view->ordersObject = null;
+			$this->view->ordersArray = null;
 		}
 	}
 	
@@ -217,7 +223,16 @@ class Sms_OrderController extends Zend_Controller_Action
 			{
 				$data = $form->getValues();
 				$destinationModel = new Sms_Model_DestinationModel;
-				$countPostal = Sms_Model_PostalCodeAllModel::countPostal($data['destination_value']);	
+				
+				if ($data['destination_type'] == 'postal')
+				{
+					$countPhoneNo = Sms_Model_PostalCodeAllModel::countByPostal($data['destination_value']);	
+				}
+				elseif ($data['destination_type'] == 'province')
+				{
+					$countPhoneNo = Sms_Model_ProvinceCodeAllModel::countByProvince($data['destination_value']);	
+				}
+							
 				$id = $destinationModel->createDestination(
 					$data['order_id'],
 					$data['destination_type'],
@@ -226,7 +241,7 @@ class Sms_OrderController extends Zend_Controller_Action
 					$data['destination_start'],
 					$data['destination_end'],
 					$data['dispatch_date'],
-					$countPostal
+					$countPhoneNo
 				);
 				
 				if ($id)
@@ -247,7 +262,16 @@ class Sms_OrderController extends Zend_Controller_Action
 			if ($form->isValid($_POST))
 			{
 				$data = $form->getValues();
-				$countPostal = Sms_Model_PostalCodeAllModel::countPostal($data['destination_value']);
+				
+				if ($data['destination_type'] == 'postal')
+				{
+					$countPhoneNo = Sms_Model_PostalCodeAllModel::countByPostal($data['destination_value']);	
+				}
+				elseif ($data['destination_type'] == 'province')
+				{
+					$countPhoneNo = Sms_Model_ProvinceCodeAllModel::countByProvince($data['destination_value']);	
+				}
+				
 				$id = $destinationModel->updateDestination(
 					$data['id'],
 					$data['order_id'],
@@ -257,7 +281,7 @@ class Sms_OrderController extends Zend_Controller_Action
 					$data['destination_start'],
 					$data['destination_end'],
 					$data['dispatch_date'],
-					$countPostal				
+					$countPhoneNo				
 				);
 				
 				// return $this->_forward($action, $controller = null, $module = null, array($params = null))

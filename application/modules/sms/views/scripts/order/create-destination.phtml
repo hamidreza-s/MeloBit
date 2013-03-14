@@ -16,13 +16,19 @@
 ?>
 
 <script type="text/javascript">
+	// Calendar
 	Calendar.setup({
-		inputField			: "dispatch_date",	// id of the input field
-		button					: "date_btn_2",	// trigger for the calendar (button ID)
-		ifFormat				: "%Y-%m-%d %H:%M",	// format of the input field
-		showsTime			: true,
-		dateType				: 'jalali',
-		timeFormat			: "24",
-		weekNumbers	: false
+		inputField				: "dispatch_date",	// id of the input field
+		displayArea			: "dispatch_date", // id of displayArea field
+		button						: "dispatchDateChooserImge",	// trigger for the calendar (button ID)
+		ifFormat					: "%Y-%m-%d %H:%M",	// format of the input field
+		showsTime				: true,
+		dateType					: 'jalali',
+		timeFormat				: "24",
+		weekNumbers		: false,
+        showOthers			: true,
+		singleClick				: false,
+		autoShowOnFocus	: false,
+		langNumbers			: false,
 	});
 </script>

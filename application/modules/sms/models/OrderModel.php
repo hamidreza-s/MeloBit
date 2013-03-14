@@ -72,6 +72,33 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 		}
 	}
 	
+	public static function retrieveOrderByUserIdAndPage($id, $role = null, $whichPage = 1, $rowPerPage = 5)
+	{
+		$orderModel = new self();
+		
+		// If user is admin show all orders
+		if (isset($role) && $role == 'administrator')
+		{
+			$select = $orderModel->select();
+			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
+			$paginator = new Zend_Paginator($adapter);
+			$paginator->setItemCountPerPage($rowPerPage);
+			$paginator->setCurrentPageNumber($whichPage);
+			return $paginator;
+		}
+		// Otherwise show just current user's orders
+		else
+		{	
+			$select = $orderModel->select()
+				->where('user_id = ?', $id);
+			$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
+			$paginator = new Zend_Paginator($adapter);
+			$paginator->setItemCountPerPage($rowPerPage);
+			$paginator->setCurrentPageNumber($whichPage);
+			return $paginator;
+		}
+	}
+	
 	public static function retrieveOrderStatusByOrderId($order_id)
 	{
 		$orderModel = new self();

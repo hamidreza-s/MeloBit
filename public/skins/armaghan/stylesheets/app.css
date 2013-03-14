@@ -153,4 +153,19 @@ input[type=search]:focus {
 	box-shadow: 0 0 5px rgba(13,116,135,.5);
 }
 
+/* -----------------------------------------
+		Image inside Form
+----------------------------------------- */
+.textInputImage
+{
+	margin: 0 10px;
+	vertical-align: middle;
+}
 
+/* -----------------------------------------
+		Pagination Control
+----------------------------------------- */
+.paginationControl
+{
+	text-align: center;
+}

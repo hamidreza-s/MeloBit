@@ -67,9 +67,26 @@ class Sms_Form_OrderDestinationForm extends Zend_Form
 				)
 			))
 			->setAttrib('size', 30)
-			->setAttrib('class', 'validate[required,custom[dateTime24]]');
+			->setAttrib('style', 'display: inline')
+			->setAttrib('class', 'validate[required,custom[dateTime24]]')
+			->setDecorators(array(
+				'ViewHelper',
+				'Description',
+				'Errors',
+				array('Label', array('tag' => 'dt')),	
+				array(
+					array('CalcImage' => 'HtmlTag'), 
+					array(
+						'tag' => 'img', 
+						'src' =>'/images/misc/calendar-icon.png', 
+						'placement' => 'append', 
+						'class' => 'textInputImage',
+						'id' => 'dispatchDateChooserImge'
+					),
+				),
+			));
 		$this->addElement($dispatch_date);
-		
+			
 		// create destination_order
 		$destination_order = $this->createElement('select', 'destination_order')
 			->setLabel('Destination Order:')

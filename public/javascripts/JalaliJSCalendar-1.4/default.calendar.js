@@ -929,12 +929,9 @@ Calendar.prototype.create = function (_par) {
 			else
 				cell.innerHTML = "&nbsp;";
 
-			// Hamidrezas: If you want to have UTC time, set
-			// getUTCHours() and getUTCMinutes() here
-			// Have fun! ;)
 			cal.onSetTime = function() {
-				var pm, hrs = this.date.getHours(),
-					mins = this.date.getMinutes();
+				var pm, hrs = this.date.getUTCHours(),
+					mins = this.date.getUTCMinutes();
 				if (t12) {
 					pm = (hrs >= 12);
 					if (pm) hrs -= 12;

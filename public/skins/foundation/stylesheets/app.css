@@ -143,3 +143,19 @@ input[type=search]:focus {
 }
 
 
+/* -----------------------------------------
+		Image inside Form
+----------------------------------------- */
+.textInputImage
+{
+	margin: 0 10px;
+	vertical-align: middle;
+}
+
+/* -----------------------------------------
+		Pagination Control
+----------------------------------------- */
+.paginationControl
+{
+	text-align: center;
+}

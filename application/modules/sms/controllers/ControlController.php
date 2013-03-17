@@ -15,14 +15,22 @@ class Sms_ControlController extends Zend_Controller_Action
 
 	public function indexAction()
 	{
-		$orders = Sms_Model_ControlModel::retrieveOrder();
-		if ($orders->count() > 0)
+		$whichPage = $this->_getParam('page');
+		$rowPerPage = 7;
+		$ordersPaginatorObject = Sms_Model_ControlModel::retrieveOrderByPage($whichPage, $rowPerPage);
+		$ordersPaginatorArray = json_decode($ordersPaginatorObject->toJson(), true); // Convert JSON to Array
+		
+		
+		//$orders = Sms_Model_ControlModel::retrieveOrder();
+		if (count($ordersPaginatorArray) > 0)
 		{
-			$this->view->orders = $orders->toArray();
+			$this->view->ordersObject = $ordersPaginatorObject;
+			$this->view->ordersArray = $ordersPaginatorArray;
 		}
 		else
 		{
-			$this->view->orders = null;
+			$this->view->ordersObject = null;
+			$this->view->ordersArray = null;
 		}
 	}
 	

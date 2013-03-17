@@ -23,13 +23,25 @@ class Sms_Model_DispatchModel extends Zend_Db_Table_Abstract
 		if (is_null($id))
 		{
 			$select = $dispatchModel->select()
-				->where('control_status = ?', 1);;
+				->where('control_status = ?', 1);
 			return $dispatchModel->fetchAll($select);
 		}
 		else
 		{
 			return $dispatchModel->find($id)->current();
 		}
+	}
+	
+	public static function retrieveOrderByPage($whichPage = 1, $rowPerPage = 5)
+	{
+		$dispatchModel = new self();
+		$select = $dispatchModel->select()
+			->where('control_status = ?', 1);
+		$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
+		$paginator = new Zend_Paginator($adapter);
+		$paginator->setItemCountPerPage($rowPerPage);
+		$paginator->setCurrentPageNumber($whichPage);
+		return $paginator;
 	}
 	
 	public static function retrieveOrderByUserId($id)

@@ -31,6 +31,18 @@ class Sms_Model_ControlModel extends Zend_Db_Table_Abstract
 			return $controlModel->find($id)->current();
 		}
 	}
+
+	public static function retrieveOrderByPage($whichPage = 1, $rowPerPage = 5)
+	{
+		$controlModel = new self();
+		$select = $controlModel->select()
+			->where('order_status = ?', 1);
+		$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
+		$paginator = new Zend_Paginator($adapter);
+		$paginator->setItemCountPerPage($rowPerPage);
+		$paginator->setCurrentPageNumber($whichPage);
+		return $paginator;
+	}
 	
 	public static function retrieveOrderByUserId($id)
 	{

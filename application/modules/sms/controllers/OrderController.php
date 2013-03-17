@@ -17,7 +17,7 @@ class Sms_OrderController extends Zend_Controller_Action
 	public function indexAction() 
 	{
 		$whichPage = $this->_getParam('page');
-		$rowPerPage = 2;
+		$rowPerPage = 3;
 		$ordersPaginatorObject = Sms_Model_OrderModel::retrieveOrderByUserIdAndPage($this->_userId, $this->_userRole, $whichPage, $rowPerPage);
 		$ordersPaginatorArray = json_decode($ordersPaginatorObject->toJson(), true); // Conver JSON to Array
 

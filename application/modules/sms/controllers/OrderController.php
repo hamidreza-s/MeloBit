@@ -11,14 +11,32 @@ class Sms_OrderController extends Zend_Controller_Action
 		$this->_authentication = Zend_Auth::getInstance();
 		$this->_userIdentity = $this->_authentication->getIdentity();
 		$this->_userId = $this->_userIdentity->id;		
-		$this->_userRole = $this->_userIdentity->role;		
+		$this->_userRole = $this->_userIdentity->role;
+		$this->_lang = $this->_getParam('lang');
 	}
 
 	public function indexAction() 
 	{
+		// Filter value
+		$startDate = $this->_getParam('start_date', null);
+		$endDate = $this->_getParam('end_date', null);
+		$companyId = $this->_getParam('company_id', null);
+		$allFilterStatus = $this->_getParam('filter_status', null);
+		
+		// Filter form
+		$orderFilterForm = new Sms_Form_OrderFilterForm();
+		$orderFilterForm->getElement('start_date')->setValue($startDate);
+		$orderFilterForm->getElement('end_date')->setValue($endDate);
+		$orderFilterForm->getElement('company_id')->setValue($companyId);
+		$orderFilterForm->getElement('filter_status')->setValue($allFilterStatus);
+		$orderFilterForm->setAction('/' . $this->_lang . '/sms/order/index');
+		$this->view->OrderFilterForm = $orderFilterForm;
+		
 		$whichPage = $this->_getParam('page');
 		$rowPerPage = 3;
-		$ordersPaginatorObject = Sms_Model_OrderModel::retrieveOrderByUserIdAndPage($this->_userId, $this->_userRole, $whichPage, $rowPerPage);
+		$ordersPaginatorObject = Sms_Model_OrderModel::retrieveOrderByUserIdAndPage(
+			$this->_userId, $this->_userRole, $whichPage, $rowPerPage, $startDate, $endDate, $companyId, $allFilterStatus
+		);
 		$ordersPaginatorArray = json_decode($ordersPaginatorObject->toJson(), true); // Conver JSON to Array
 
 		if (count($ordersPaginatorArray) > 0)

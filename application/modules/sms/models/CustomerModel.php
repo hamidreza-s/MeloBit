@@ -101,4 +101,11 @@ class Sms_Model_CustomerModel extends Zend_Db_Table_Abstract
 		$companyName = Sms_Model_CompanyModel::listCompany($rowCustomer['company_id']);
 		return $companyName;
 	}
+	
+	public static function getCustomerIdByCompanyId($id)
+	{
+		$customerModel = new self();
+		$select = $customerModel->select()->where('company_id = ?', $id);
+		return $customerModel->fetchAll($select);
+	}
 }

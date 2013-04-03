@@ -1,5 +1,54 @@
 <?php $this->layout()->setLayout('page'); ?>
 
+<?php
+	// append necessary files
+	$this->headLink()->appendStylesheet('/javascripts/JalaliJSCalendar-1.4/skins/calendar-blue.css');
+	$this->headLink()->appendStylesheet('/javascripts/JalaliJSCalendar-1.4/skins/global.css');
+	echo $this->headLink();
+	$this->headScript()->appendFile('/javascripts/jQuery-plugins/jQuery-form.js');
+	$this->headScript()->appendFile('/javascripts/jQuery-validationEngine-2.6.1/js/jquery-ui.min.js');
+	$this->headScript()->appendFile('/javascripts/JalaliJSCalendar-1.4/jalali.js');
+	$this->headScript()->appendFile('/javascripts/JalaliJSCalendar-1.4/calendar.js');
+	$this->headScript()->appendFile('/javascripts/JalaliJSCalendar-1.4/lang/calendar-fa.js');
+	$this->headScript()->appendFile('/javascripts/JalaliJSCalendar-1.4/calendar-setup.js');
+	echo $this->headScript();
+?>
+
+<script type="text/javascript">
+	jQuery(function($){
+		// Calendar for start_date
+		Calendar.setup({
+			inputField				: "start_date",	// id of the input field
+			displayArea			: "start_date", // id of displayArea field
+			button					: "startDateChooserImge",	// trigger for the calendar (button ID)
+			ifFormat					: "%Y-%m-%d %H:%M",	// format of the input field
+			showsTime				: true,
+			dateType				: 'jalali',
+			timeFormat			: "24",
+			weekNumbers		: false,
+			showOthers			: true,
+			singleClick				: false,
+			autoShowOnFocus	: false,
+			langNumbers			: false,
+		});
+		// Calendar for end_date
+		Calendar.setup({
+			inputField				: "end_date",	// id of the input field
+			displayArea			: "end_date", // id of displayArea field
+			button					: "endDateChooserImge",	// trigger for the calendar (button ID)
+			ifFormat					: "%Y-%m-%d %H:%M",	// format of the input field
+			showsTime				: true,
+			dateType				: 'jalali',
+			timeFormat			: "24",
+			weekNumbers		: false,
+			showOthers			: true,
+			singleClick				: false,
+			autoShowOnFocus	: false,
+			langNumbers			: false,
+		});
+	});
+</script>
+
 <h3><?php echo $this->translate('List of Orders'); ?></h3><br />
 
 <?php if (!$this->ordersArray): ?>
@@ -90,6 +139,11 @@
 			'partials/pagination-control.phtml'); 
 		?>
 <?php endif; ?>
+
+<?php
+	// Order filter form
+	echo $this->OrderFilterForm;
+?>
 
 <p><a href="<?php echo $this->translate('/en_US'); ?>
 	/sms/order/create-order"><?php echo $this->translate('Create a new order'); ?></a></p>

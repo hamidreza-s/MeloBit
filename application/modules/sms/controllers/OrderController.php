@@ -17,12 +17,24 @@ class Sms_OrderController extends Zend_Controller_Action
 
 	public function indexAction() 
 	{
-		// Filter value
+		// Filter Start Date, End Date and Company
 		$startDate = $this->_getParam('start_date', null);
 		$endDate = $this->_getParam('end_date', null);
 		$companyId = $this->_getParam('company_id', null);
-		$allFilterStatus = $this->_getParam('filter_status', null);
 		
+		// Filter Order Status
+		if ($this->getRequest()->isPost())
+		{
+			$allFilterStatus = $this->_getParam('filter_status', null);
+		}
+		else
+		{
+			if ($this->_getParam('order_status', null)) $allFilterStatus[] = 'order_status';
+			if ($this->_getParam('control_status', null)) $allFilterStatus[] = 'control_status';
+			if ($this->_getParam('dispatch_status', null)) $allFilterStatus[] = 'dispatch_status';	
+			if (empty($allFilterStatus)) $allFilterStatus = null;			
+		}
+	
 		// Filter form
 		$orderFilterForm = new Sms_Form_OrderFilterForm();
 		$orderFilterForm->getElement('start_date')->setValue($startDate);
@@ -32,6 +44,7 @@ class Sms_OrderController extends Zend_Controller_Action
 		$orderFilterForm->setAction('/' . $this->_lang . '/sms/order/index');
 		$this->view->OrderFilterForm = $orderFilterForm;
 		
+		// Filter Pages
 		$whichPage = $this->_getParam('page');
 		$rowPerPage = 3;
 		$ordersPaginatorObject = Sms_Model_OrderModel::retrieveOrderByUserIdAndPage(
@@ -39,6 +52,7 @@ class Sms_OrderController extends Zend_Controller_Action
 		);
 		$ordersPaginatorArray = json_decode($ordersPaginatorObject->toJson(), true); // Conver JSON to Array
 
+		// Send to View
 		if (count($ordersPaginatorArray) > 0)
 		{
 			$this->view->ordersObject = $ordersPaginatorObject;

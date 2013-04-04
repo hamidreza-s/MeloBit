@@ -1,10 +1,22 @@
 <?php 
 	if ($this->pageCount)
 	{
-		// you need to add each of the request parameters to url
+		// You need to add each of the request parameters to url
 		$params = Zend_Controller_Front::getInstance()->getRequest()->getParams();
+
+		// Flatten parameters array
+		// How: change url parameters scheme if there is "filter_status"
+		if(isset($params["filter_status"]))
+		{
+			$orderStatusSearchFilters = $params["filter_status"];
+			unset($params["filter_status"]);
+			foreach($orderStatusSearchFilters as  $orderStatusSearchFilter)
+			{
+				$params[$orderStatusSearchFilter] = 1;
+			}
+		}
 		
-		// remove the system parameters
+		// Remove the system parameters
 		unset($params['module']);
 		unset($params['controller']);
 		unset($params['action']);

@@ -33,7 +33,7 @@
 			}
 		}
 		$totalDestinationsFeeWithoutTax = $totalDestinationsQuantity * $this->order['sms_quantity'] * $this->order['sms_fee'];
-		$totalDestinationsFeeWithTax = ($totalDestinationsQuantity * $this->order['sms_quantity'] * $this->order['sms_fee']) * 1.05;
+		$totalDestinationsFeeWithTax = ($totalDestinationsQuantity * $this->order['sms_quantity'] * $this->order['sms_fee']) * 1.06;
 
 		// Calculate transactions fee
 		$totalTransactionsFee = 0;
@@ -449,7 +449,7 @@
 	{
 		// Fetch current and new SMS data
 		var currentTotalDestinationsFeeWithoutTax = parseFloat(jQuery("span#totalDestinationsFeeWithoutTax").text());
-		var newTotalDestinationsFeeWithTax = currentTotalDestinationsFeeWithoutTax * 1.05;
+		var newTotalDestinationsFeeWithTax = currentTotalDestinationsFeeWithoutTax * 1.06;
 		
 		// Fire!
 		jQuery("span#totalDestinationsFeeWithTax").text(newTotalDestinationsFeeWithTax);

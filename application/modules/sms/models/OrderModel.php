@@ -77,7 +77,7 @@ class Sms_Model_OrderModel extends Zend_Db_Table_Abstract
 	)
 	{
 		$orderModel = new self();
-		$select = $orderModel->select();
+		$select = $orderModel->select()->order('id DESC');
 		
 		// 1 --- Filter status fields
 		if ($allFilterStatus != null)

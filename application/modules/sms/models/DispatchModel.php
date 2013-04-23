@@ -36,6 +36,7 @@ class Sms_Model_DispatchModel extends Zend_Db_Table_Abstract
 	{
 		$dispatchModel = new self();
 		$select = $dispatchModel->select()
+			->order('id DESC')
 			->where('control_status = ?', 1);
 		$adapter = new Zend_Paginator_Adapter_DbTableSelect($select);
 		$paginator = new Zend_Paginator($adapter);

@@ -5,21 +5,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	public $uri;
 	public $lang;
 	
-	protected function _initGetUri()
+	protected function _initParam()
 	{
-			// retrieve uri and store in $this->uri
-		  $this->uri = ltrim($_SERVER["REQUEST_URI"], '/');
-		  
-		  // retrive lang and store in $this->lang
-		  if($this->uri)
-			{
-		  	$this->lang = substr($this->uri, 0, 5);
-			}
-			// if not set, en_US is default
-			else
-			{
-				$this->lang = 'fa_IR';
-			}
+		Zend_Controller_Front::getInstance()->setParam('Bootstrap', $this);
 	}
 	
 	protected function _initDb()
@@ -50,16 +38,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$adminConfig = new Zend_Config_Ini($configResource['adminConfig']);	
 		$skin = $adminConfig->global->skin;
 		
-		// load language specific configuration from config.lang.ini
-		$langConfig = new Zend_Config_Ini(APPLICATION_PATH . '/configs/lang/config.' . $this->lang . '.ini');
-		$headTitle = $langConfig->global->headTitle;
-		$siteTitle = $langConfig->global->siteTitle;
-		$siteDescription = $langConfig->global->siteDescription;
-
 		// Initialize view
 		$view = new Zend_View();
+		$view->skin = $skin;
 		
-		/*
+		/*			
 		// Set Dojo
 		// add helper path to view
 		Zend_Dojo::enableView($view);
@@ -69,20 +52,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			->disable();
 		*/
 		
-		// Set HTML properties
-    $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
-    $view->setEncoding('UTF-8');
-    $view->doctype('XHTML1_STRICT');
-		$view->headTitle($headTitle)->setSeparator(' - ');
-		$view->siteTitle = $siteTitle;
-		$view->siteDescription = $siteDescription;
-		$view->skin = $skin;
-		
 		// Add it to the ViewRenderer
 		$viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper(
 			'ViewRenderer'
 		);
-		$viewRenderer->setView($view);
+		$viewRenderer->setView($view);		
 		
 		// Return it, so that it can be stored by the bootstarp
 		return $view;

@@ -1,4 +1,5 @@
 ![MeloBit](http://melobit.com/images/misc/logo.png "MeloBit")
+> *Code is a Melody of Bits ...*
 
 MeloBit is a free and open source Content Management System (CMS) by which you can easily build an enterprise web site or even a weblog.
 
